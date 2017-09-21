@@ -2,11 +2,9 @@
 **/.vscode
 **/bin
 **/build
-**/.gradle/
 **/temp/
 **/Debug
 **/Release
-**/gradle
 
 *.classpath
 *.class
