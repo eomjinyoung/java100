@@ -1,0 +1,16 @@
+**/node_modules
+**/.vscode
+**/bin
+**/build
+**/.gradle/
+**/temp/
+**/Debug
+**/Release
+**/gradle
+
+*.classpath
+*.class
+*.log
+*.project
+*.DS_Store
+!build.gradle
