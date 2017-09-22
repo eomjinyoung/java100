@@ -151,3 +151,12 @@ gradlew를 실행하면 명시된 버전의 gradle을 자동으로 다운로드 
 c:\workspace\test> gradlew [작업명]
 ```
  
+## Gradle 설정
+
+### **compileJava** Task 설정
+자바 소스를 컴파일할 때 참고할 정보를 설정한다.
+```
+compileJava {
+    options.encoding = 'UTF-8'
+}
+```
