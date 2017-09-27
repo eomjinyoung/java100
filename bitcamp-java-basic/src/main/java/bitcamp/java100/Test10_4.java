@@ -13,6 +13,7 @@ public class Test10_4 {
 
 // => conversion 사용법
 //    %s, %S : 문자열
+//    %c, %C : 문자 
 //    %d : 10진수(decimal) 숫자
 //    %o : 8진수(octal) 숫자
 //    %x, %X : 16진수(hexadecimal) 숫자
@@ -21,8 +22,8 @@ public class Test10_4 {
 //    %b, %B : boolean 값 
 //    %t, %T : Date/Time 값
 //    %n : 줄바꿈. \n 과 같다. 
-        System.out.printf("%s,%d,%o,%x,%h,%f,%b,%tY\n", 
-            "홍길동", 100, 100, 100, 100, 
+        System.out.printf("%s,%c,%d,%o,%x,%h,%f,%b,%tY\n", 
+            "홍길동",'가',100, 100, 100, 100, 
             3.14, true, new java.util.Date());
 
 // => [.precision]
