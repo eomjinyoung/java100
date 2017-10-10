@@ -160,3 +160,17 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 ```
+
+## Eclipse 프로젝트 만들기
+1) 프로젝트 기본 폴더 및 Gradle 설정 파일 생성
+- "gradle init --type java-application"
+ 
+2) 이클립스 관련 설정 파일 만들기
+- build.gradle 파일에 설정 정보를 추가한다.
+- 직접 코드를 작성하지 말고, 기존 프로젝트에서 사용하던 설정을 복사해서 넣어라.
+- "gradlew cleanEclipse"
+- "gradlew eclipse"
+
+3) 프로젝트를 이클립스로 가져오기
+- File > import... 실행
+    
