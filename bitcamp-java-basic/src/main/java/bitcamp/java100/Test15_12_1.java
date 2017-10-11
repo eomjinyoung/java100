@@ -1,10 +1,10 @@
-// ## 연산자 - 비트 이동 연산자 (>>, >>>, <<) 응용
+// ## 연산자 - 비트 이동 연산자 (>>, >>>, <<)
 // - 비트 이동 연산자의 사용법을 알아보자!
 //
 
 package bitcamp.java100;
  
-public class Test15_12 {
+public class Test15_12_1 {
 
     public static void main(String[] args) {
         int v = 87; //0000_0000_0000_0000_0000_0000_0101_0111
@@ -44,6 +44,8 @@ public class Test15_12 {
         // - 왼쪽으로 비트를 이동시킨다. 왼쪽 경계를 넘어간 비트는 짤린다.
         // - 오른쪽 빈자리는 무조건 0으로 채운다.
         // - 값에 2를 곱한 효과가 있다.
+        // - 음수의 경우 맨 왼쪽 비트가 0으로 바뀔 수 있다. 즉 이동하면서 양수가 될 수 있다. 
+        //  
         v = 5; // 0000_0000_0000_0000_0000_0000_0000_0101
         System.out.println(v << 1); // v * 2**1 = 0000_0000_0000_0000_0000_0000_0000_1010
         System.out.println(v << 2); // v * 2**2 = 0000_0000_0000_0000_0000_0000_0001_0100
@@ -56,6 +58,9 @@ public class Test15_12 {
         System.out.println(v << 3); // v * 2**3 
         System.out.println(v << 4); // v * 2**4
         
+        for (int i = 0; i < 40; i++) {
+            System.out.printf("%32s, %d\n", Integer.toBinaryString(v << i), v << i); 
+        }        
     }
 }
 
