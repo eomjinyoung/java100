@@ -1,5 +1,5 @@
-// ## 문장(Statement) - 분기문 if
-// - 분기문의 용도와 if 문 사용법을 알아보자!
+// ## 문장(Statement) - 조건문 if
+// - 조건문의 용도와 if 문 사용법을 알아보자!
 //
 
 package bitcamp.java100;
