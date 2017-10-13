@@ -1,5 +1,6 @@
-//: ## ver 05
-//: - 클래스 문법 응용
+//: ## ver 07
+//: - 배열 응용 II
+//: ver-06에서 Score 객체를 배열에 저장하라!
 //: 
 //: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
 //:
@@ -17,46 +18,55 @@ public class App {
         //: > '사용자 정의 데이터 타입'은 데이터를 저장할 *메모리를 설계*하는 것이다.
         class Score {
             String name;
-            int kor;
-            int eng;
-            int math;
+            int[] subjects = new int[3];
             int sum;
             float aver;
         }
         
         //: 학생의 성적을 저장할 메모리를 준비한다.
-        Score s1 = new Score();
-        s1.name = "홍길동";
-        s1.kor = 100;
-        s1.eng = 90;
-        s1.math = 80;
-        s1.sum = s1.kor + s1.eng + s1.math;
-        s1.aver = s1.sum / 3f;
+        /*
+        Score[] scores = new Score[3];
+        scores[0] = new Score();
+        scores[1] = new Score();
+        scores[2] = new Score();
+        */
         
-        Score s2 = new Score();
-        s2.name = "임꺽정";
-        s2.kor = 80;
-        s2.eng = 80;
-        s2.math = 80;
-        s2.sum = s2.kor + s2.eng + s2.math;
-        s2.aver = s2.sum / 3f;
+        Score[] scores = {new Score(), new Score(), new Score()};
         
-        Score s3 = new Score();
-        s3.name = "유관순";
-        s3.kor = 100;
-        s3.eng = 100;
-        s3.math = 100;
-        s3.sum = s3.kor + s3.eng + s3.math;
-        s3.aver = s3.sum / 3f;
+        scores[0].name = "홍길동";
+        scores[0].subjects[0] = 100;
+        scores[0].subjects[1] = 90;
+        scores[0].subjects[2] = 80;
+        for (int sub : scores[0].subjects) {
+            scores[0].sum += sub;
+        }
+        scores[0].aver = scores[0].sum / 3f;
         
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-            s1.name, s1.kor, s1.eng, s1.math, s1.sum, s1.aver);
+        scores[1].name = "임꺽정";
+        scores[1].subjects[0] = 80;
+        scores[1].subjects[1] = 80;
+        scores[1].subjects[2] = 80;
+        for (int sub : scores[1].subjects) {
+            scores[1].sum += sub;
+        }
+        scores[1].aver = scores[1].sum / 3f;
         
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                s2.name, s2.kor, s2.eng, s2.math, s2.sum, s2.aver);
+        scores[2].name = "유관순";
+        scores[2].subjects[0] = 100;
+        scores[2].subjects[1] = 100;
+        scores[2].subjects[2] = 100;
+        for (int sub : scores[2].subjects) {
+            scores[2].sum += sub;
+        }
+        scores[2].aver = scores[2].sum / 3f;
         
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                s3.name, s3.kor, s3.eng, s3.math, s3.sum, s3.aver);
+        //: 학생 성적을 출력한다.
+        for (Score s : scores) {
+            System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+                    s.name, s.subjects[0], s.subjects[1], s.subjects[2], s.sum, s.aver);
+        }
+        
+        
     }
 }
 
