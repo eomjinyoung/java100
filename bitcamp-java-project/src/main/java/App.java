@@ -12,49 +12,22 @@
 //: ```
  
 public class App {
-    
-    //: 합계와 평균을 계산하는 코드를 다음과 같이 별도의 메서드로 분리한다.
-    static void compute(Score score) {
-        for (int sub : score.subjects) {
-            score.sum += sub;
-        }
-        score.aver = score.sum / 3f;
-    }
-    
-    //: 성적 데이터를 출력하는 코드를 별도의 메서드로 분리한다.
-    static void print(Score score) {
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                score.name, 
-                score.subjects[0], 
-                score.subjects[1], 
-                score.subjects[2], 
-                score.sum, 
-                score.aver);
-    }
-    
-    //: 성적 데이터를 메모리에 저장하는 코드를 별도의 메서드로 분리한다.
-    static void init(Score score, String name, int kor, int eng, int math) {
-        score.name = name;
-        score.subjects[0] = kor;
-        score.subjects[1] = eng;
-        score.subjects[2] = math;
-        
-        //: 성적 데이터를 저장한 김에 바로 계산을 수행하자! 
-        compute(score);
-    }
-    
 
     public static void main(String[] args) {
-        
+        // Score 설계도에 따라 메모리를 준비한다.
         Score[] scores = {new Score(), new Score(), new Score()};
         
-        init(scores[0], "홍길동", 100, 90, 80);
-        init(scores[1], "임꺽정", 80, 80, 80);
-        init(scores[2], "유관순", 100, 100, 100);
+        // Score 클래스에 따로 분류된 메서드를 호출한다.
+        // - Score 클래스에 소속된 메서드를 호출할 때는
+        //   반드시 클래스명을 지정해야 한다.
+        // - 단, Score 클래스는 현재 App 클래스와 같은 패키지에 있기 때문에
+        //   전체 패키지명을 적을 필요는 없다.
+        Score.init(scores[0], "홍길동", 100, 90, 80);
+        Score.init(scores[1], "임꺽정", 80, 80, 80);
+        Score.init(scores[2], "유관순", 100, 100, 100);
         
-        //: 학생 성적을 출력한다.
         for (Score s : scores) {
-            print(s);
+            Score.print(s);
         }
         
         
