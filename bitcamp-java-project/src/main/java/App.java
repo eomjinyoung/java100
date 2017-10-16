@@ -31,28 +31,26 @@ public class App {
                 score.sum, 
                 score.aver);
     }
+    
+    //: 성적 데이터를 메모리에 저장하는 코드를 별도의 메서드로 분리한다.
+    static void init(Score score, String name, int kor, int eng, int math) {
+        score.name = name;
+        score.subjects[0] = kor;
+        score.subjects[1] = eng;
+        score.subjects[2] = math;
+        
+        //: 성적 데이터를 저장한 김에 바로 계산을 수행하자! 
+        compute(score);
+    }
+    
 
     public static void main(String[] args) {
         
         Score[] scores = {new Score(), new Score(), new Score()};
         
-        scores[0].name = "홍길동";
-        scores[0].subjects[0] = 100;
-        scores[0].subjects[1] = 90;
-        scores[0].subjects[2] = 80;
-        compute(scores[0]);
-        
-        scores[1].name = "임꺽정";
-        scores[1].subjects[0] = 80;
-        scores[1].subjects[1] = 80;
-        scores[1].subjects[2] = 80;
-        compute(scores[1]);
-        
-        scores[2].name = "유관순";
-        scores[2].subjects[0] = 100;
-        scores[2].subjects[1] = 100;
-        scores[2].subjects[2] = 100;
-        compute(scores[2]);
+        init(scores[0], "홍길동", 100, 90, 80);
+        init(scores[1], "임꺽정", 80, 80, 80);
+        init(scores[2], "유관순", 100, 100, 100);
         
         //: 학생 성적을 출력한다.
         for (Score s : scores) {
