@@ -10,24 +10,21 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-public class Test21_7 {
-    
-    static Console console = System.console();
-    
-    static void prepareConsole() {
-        console = System.console();
 
+// 1단계: 문제 해결
+public class Test21_7_1 {
+
+    public static void main(String[] args) {
+        // 콘솔 객체를 준비한다.
+        Console console = System.console();
+        
         if (console == null) {
             System.err.println("콘솔을 지원하지 않습니다.");
-            System.exit(1); 
+            System.exit(1); // JVM을 종료한다.
         }
-    }
-    
-    static String inputString() {
-        return console.readLine("문자열? ");
-    }
-    
-    static String reverseString(String str) {
+        
+        String str = console.readLine("문자열? ");
+        
         StringBuffer buf = new StringBuffer();
         buf.append(str);
         
@@ -38,18 +35,9 @@ public class Test21_7 {
             buf.setCharAt(left, buf.charAt(right));
             buf.setCharAt(right, ch);
         }
-        return buf.toString();
-    }
-    
-    public static void main(String[] args) {
-        prepareConsole();
-        
-        String str = inputString();
-        String str2 = reverseString(str);
-        
         
         System.out.printf("입력 문자열: %s\n", str);
-        System.out.printf("변경 문자열: %s\n", str2);
+        System.out.printf("변경 문자열: %s\n", buf);
     }
     
    
