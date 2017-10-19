@@ -20,36 +20,51 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-// 2단계: 종료 조건은 if ~ else로, 주 작업은 기본 블록에서 한다.
-//        즉 들여쓰기를 최소화 한다.
+// 3단계: 메서드 분리
 public class Test21_5_3 {
-
-    public static void main(String[] args) {
-        // 콘솔 객체를 준비한다.
-        Console console = System.console();
+    
+    // 클래스 변수
+    // => 클래스를 실행하기 위해 HDD에서 메모리로 로딩할 때 생성되는 변수이다.
+    // => new 명령으로 생성되는 변수가 아니다.
+    static Console console;
+    
+    static void prepareInput() {
+        console = System.console();
         
         if (console == null) {
             System.err.println("콘솔을 지원하지 않습니다.");
             System.exit(1); // JVM을 종료한다.
         }
-        
-        int i, j;
-        
-        i = Integer.parseInt(console.readLine("구구단? => "));
+    }
+    
+    static int promptGugudan() {
+        int i = Integer.parseInt(console.readLine("구구단? "));
         
         if (i >= 10 || i == 1) {
             System.out.println("2에서 9단까지만 가능합니다!");
-            return;
-            
+            System.exit(1);
+
         } else if (i == 0) {
             System.out.println("다음에 또 봐요!");
-            return;
-            
-        } 
+            System.exit(1);
+        }
         
-        for (j = 1; j < 10; j++) {
+        return i;
+    }
+    
+    static void printGugudan(int i) {
+        for (int j = 1; j < 10; j++) {
             System.out.printf("%d * %d = %d\n", i, j, i*j);
         }
+    }
+    
+    public static void main(String[] args) {
+        
+        prepareInput();
+        
+        int i = promptGugudan();
+        
+        printGugudan(i);
     }
 }
 
