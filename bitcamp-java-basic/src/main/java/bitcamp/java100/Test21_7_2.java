@@ -10,7 +10,8 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-public class Test21_7 {
+// 2단계: 기능 별로 코드를 메서드로 분리한다.
+public class Test21_7_2 {
     
     static Console console = System.console();
     
