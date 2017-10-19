@@ -18,6 +18,7 @@ package bitcamp.java100;
 
 import java.io.Console;
 
+// 1단계: 문제 해결
 public class Test21_6_1 {
 
     public static void main(String[] args) {

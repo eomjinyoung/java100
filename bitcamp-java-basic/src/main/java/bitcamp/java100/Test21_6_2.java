@@ -19,7 +19,7 @@ package bitcamp.java100;
 import java.io.Console;
 
 // 2단계: 메서드를 도입하여 기능에 따라 코드 분리
-public class Test21_6 {
+public class Test21_6_2 {
     
     static Console console;
 
