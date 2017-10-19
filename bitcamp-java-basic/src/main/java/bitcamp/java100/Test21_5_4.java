@@ -20,8 +20,8 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-// 5단계: 정교하게 예외처리 하기
-public class Test21_5 {
+// 4단계: 예외처리 추가
+public class Test21_5_4 {
     
     // 클래스 변수
     // => 클래스를 실행하기 위해 HDD에서 메모리로 로딩할 때 생성되는 변수이다.
@@ -40,9 +40,13 @@ public class Test21_5 {
     static int promptGugudan() {
         int i = Integer.parseInt(console.readLine("구구단? "));
         
-        if (i >= 10 || i == 1 || i < 0) {
+        if (i >= 10 || i == 1) {
             // 예외 상황을 만나면 호출자에게 알린다.
             throw new RuntimeException("구구단의 범위를 초과했습니다.");
+
+        } else if (i == 0) {
+            System.out.println("다음에 또 봐요!");
+            System.exit(1);
         }
         
         return i;
@@ -58,23 +62,14 @@ public class Test21_5 {
         // 메서드를 실행하다가 예외 상황을 보고하면 처리한다.
         try {
             prepareInput();
-        } catch (RuntimeException e) {
-            System.err.println("콘솔 입력을 지원하지 않습니다.");
-            System.exit(1);
-        }
-        
-        while (true) {
-            int i = 0;
-            try {
-                i = promptGugudan();
-                if (i == 0) break;
-                printGugudan(i);
-            } catch (RuntimeException e) {
-                System.err.println("구구단의 범위가 아닙니다.");
-            }
-        }
             
-        System.out.println("다시 또 오세요!");
+            int i = promptGugudan();
+            
+            printGugudan(i);
+            
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
 
