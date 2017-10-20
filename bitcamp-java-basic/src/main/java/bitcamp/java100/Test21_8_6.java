@@ -35,8 +35,8 @@ package bitcamp.java100;
 
 import java.io.Console;
 
-// 7단계: 배열에 객체의 주소를 저장하고 꺼내는 부분을 메서드로 분리한다.  
-public class Test21_8 {
+// 6단계: 코드를 기능별로 분리하여 메서드 안에 묶어 두기 
+public class Test21_8_6 {
     
     // 콘솔 객체를 준비한다.
     static Console console;
@@ -56,12 +56,11 @@ public class Test21_8 {
     
     static void printContacts() {
         // 배열에 저장된 값을 출력한다.
-        for (int i = 0; i < size(); i++) {
-            Contact contact = get(i);
+        for (int i = 0; i < cursor; i++) {
             System.out.printf("%s, %s, %s\n", 
-                    contact.name, 
-                    contact.email, 
-                    contact.tel);
+                    contacts[i].name, 
+                    contacts[i].email, 
+                    contacts[i].tel);
         }
     }
     
@@ -84,19 +83,6 @@ public class Test21_8 {
         
         return contact;
     }
-    
-    static void add(Contact contact) {
-        contacts[cursor] = contact;
-        cursor++;
-    }
-    
-    static Contact get(int index) {
-        return contacts[index];
-    }
-    
-    static int size() {
-        return cursor;
-    }
 
     public static void main(String[] args) {
         
@@ -113,7 +99,9 @@ public class Test21_8 {
             Contact contact = inputContact();
             
             if (confirm("저장하시겠습니까?")) {
-                add(contact);
+                // 이름, 이메일, 전화 데이터가 들어있는 인스턴스 주소를 배열에 저장.
+                contacts[cursor] = contact;
+                cursor++;
             }
             
             if (!confirm("계속 입력하시겠습니까?"))

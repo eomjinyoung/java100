@@ -36,7 +36,7 @@ package bitcamp.java100;
 import java.io.Console;
 
 // 7단계: 배열에 객체의 주소를 저장하고 꺼내는 부분을 메서드로 분리한다.  
-public class Test21_8 {
+public class Test21_8_7 {
     
     // 콘솔 객체를 준비한다.
     static Console console;
