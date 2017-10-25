@@ -4,7 +4,7 @@ import java.util.Scanner;
 //: - init() 메서드 대신 생성자를 이용하여 인스턴스를 초기화시킨다.
 //: - print() 메서드는 인스턴스 데이터를 다루기 때문에 스태틱 메서드 대신
 //:   인스턴스 메서드로 전환한다. 
-public class Score { 
+public class Score {
     
     String name;
     int[] subjects; 
@@ -39,7 +39,7 @@ public class Score {
     void compute() {
         for (int sub : this.subjects) {
             this.sum += sub;
-        } 
+        }
         this.aver = (float)this.sum / this.subjects.length;
     }
     
