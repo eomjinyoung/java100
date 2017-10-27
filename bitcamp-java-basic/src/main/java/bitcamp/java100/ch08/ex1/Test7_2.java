@@ -53,6 +53,7 @@ class Member2 {
     public void setWeight(float weight) {
         if (weight <= 0 || weight > 200)
             return;
+        
         this.weight = weight;
     }
     
@@ -63,6 +64,7 @@ class Member2 {
     public void setHeight(float height) {
         if (height <= 0 || height > 250)
             return;
+        
         this.height = height;
     }
     
