@@ -4,10 +4,11 @@ apply plugin: 'eclipse'
 
 eclipse {
   jdt {
-    sourceCompatibility = 9
-    targetCompatibility = 9
-    javaRuntimeName = "JavaSE-9"
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    javaRuntimeName = "JavaSE-1.8"
 
+    /*
     file {
       whenMerged { jdt
       }
@@ -19,6 +20,7 @@ eclipse {
         properties["org.eclipse.jdt.core.compiler.compliance"] = "9"
       }
     }
+    */
   }
 }
 
