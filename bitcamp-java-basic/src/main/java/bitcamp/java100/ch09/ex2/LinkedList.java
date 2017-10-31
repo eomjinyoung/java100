@@ -78,7 +78,35 @@ public class LinkedList {
     }
     
     public Object remove(int index) {
-        return null;
+        if (index < 0 || index >= len)
+            return null;
+        
+        len--;
+        Box removedBox;
+        
+        if (index == 0) {
+            removedBox = head;
+            head = head.next;
+            return removedBox.value;
+        }
+        
+        Box pre = head;
+        
+        // 삭제할 박스의 바로 전 박스를 알아낸다. 
+        for (int count = 1; count < index; count++) {
+            pre = pre.next;
+        }
+        
+        // 삭제할 
+        removedBox = pre.next;
+        pre.next = pre.next.next;
+        
+        // 마지막 상자를 제거했다면, tail을 이전 상자로 이동한다.
+        if (index == len - 1) {
+            tail = pre;
+        }
+        
+        return removedBox.value;
     }
 }
 
