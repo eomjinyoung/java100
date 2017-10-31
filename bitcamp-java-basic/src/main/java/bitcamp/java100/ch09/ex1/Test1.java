@@ -1,4 +1,4 @@
-// 컬렉션(collection) API - 배열 사용하기
+// 컬렉션(collection) - 배열 사용하기
 package bitcamp.java100.ch09.ex1;
 
 public class Test1 {
