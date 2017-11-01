@@ -44,7 +44,9 @@ public class Test2 {
         
         printList(list);
         
-        
+        list.add("홍길동");
+        list.add("임꺽정");
+        printList(list);
     }
 
 }

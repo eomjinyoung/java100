@@ -81,8 +81,17 @@ public class LinkedList {
         if (index < 0 || index >= len)
             return null;
         
-        len--;
         Box removedBox;
+
+        len--;
+        
+        if (len == 0) {
+            removedBox = tail;
+            head = null;
+            tail = null;
+            return removedBox.value;
+        }
+        
         
         if (index == 0) {
             removedBox = head;
@@ -97,12 +106,12 @@ public class LinkedList {
             pre = pre.next;
         }
         
-        // 삭제할 
+        // 삭제할 상자 
         removedBox = pre.next;
         pre.next = pre.next.next;
         
         // 마지막 상자를 제거했다면, tail을 이전 상자로 이동한다.
-        if (index == len - 1) {
+        if (index == len) {
             tail = pre;
         }
         
