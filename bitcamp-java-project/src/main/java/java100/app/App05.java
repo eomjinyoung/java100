@@ -76,6 +76,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
+// 5단계:
+// => 성적 상세보기 기능 구현
 public class App05 {
     
     static Scanner keyScan = new Scanner(System.in);

@@ -27,9 +27,11 @@ public class Score {
     
     //: > 내부에서만 사용할 메서드이기 때문에 공개하지 않는다.
     private void compute() {
+        int sum = 0;
         for (int sub : this.subjects) {
-            this.sum += sub;
+            sum += sub;
         } 
+        this.sum = sum;
         this.aver = (float)this.sum / this.subjects.length;
     }
     
@@ -57,6 +59,52 @@ public class Score {
         this.subjects[2] = keyScan.nextInt();
         
         this.compute();
+    }
+    
+    public void update() {
+        Scanner keyScan = new Scanner(System.in);
+        
+        System.out.printf("국어?(%d) ", this.subjects[0]);
+        int kor = this.subjects[0];
+        try {
+            kor = Integer.parseInt(keyScan.nextLine());
+        } catch(Exception e) {}
+        
+        System.out.printf("영어?(%d) ", this.subjects[1]);
+        int eng = this.subjects[1];
+        try {
+            eng = Integer.parseInt(keyScan.nextLine());
+        } catch(Exception e) {}
+        
+        System.out.printf("수학?(%d) ", this.subjects[2]);
+        int math = this.subjects[2];
+        try {
+            math = Integer.parseInt(keyScan.nextLine());
+        } catch(Exception e) {}
+        
+        if (confirm2("변경하시겠습니까?(y/N) ")) {
+            this.subjects[0] = kor;
+            this.subjects[1] = eng;
+            this.subjects[2] = math;
+            this.compute();
+            System.out.println("변경하였습니다.");
+            
+        } else {
+            System.out.println("변경을 취소하였습니다.");
+        }
+    }
+    
+    static boolean confirm2(String message) {
+        Scanner keyScan = new Scanner(System.in);
+        System.out.print(message);
+        String response = keyScan.nextLine().toLowerCase();
+        
+        if (response.equals("n") || 
+                response.equals("no") || 
+                response.equals("")) {
+            return false;
+        }
+        return true;
     }
 
     public void printDetail() {

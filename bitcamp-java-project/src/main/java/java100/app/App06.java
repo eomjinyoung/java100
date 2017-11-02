@@ -76,6 +76,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
+// 6단계
+// => 삭제 기능 구현
 public class App06 {
     
     static Scanner keyScan = new Scanner(System.in);

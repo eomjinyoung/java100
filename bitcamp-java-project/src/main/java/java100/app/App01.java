@@ -74,7 +74,9 @@ package java100.app;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
- 
+
+// 1단계 
+// => "성적관리>" 프롬프트를 출력하여 사용자로부터 입력을 받는다.
 public class App01 {
     
     static boolean confirm(String message) {

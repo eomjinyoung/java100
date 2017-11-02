@@ -75,6 +75,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
+// 2단계
+// => 사용자가 입력한 명령어에 따라 분기시키는 코드 추가
 public class App02 {
     
     static boolean confirm(String message) {

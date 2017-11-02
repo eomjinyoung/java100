@@ -75,6 +75,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
+// 4단계:
+// => 성적 목록 출력 기능 구현
 public class App04 {
     
     static boolean confirm(String message) {

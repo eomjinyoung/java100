@@ -21,6 +21,7 @@
 성적관리> list
 홍길동, 300, 100.0
 임꺽정, 270, 90.0
+
 성적관리> view
 이름? 홍길동
 홍길동, 100, 100, 100, 300, 100.0
@@ -75,12 +76,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
-// 3단계:
-// => 성적 등록 기능 구현
-public class App03 {
+// 8단계:
+// => 성적 변경 기능 중에서 사용자 입력한 값을 변경하는 기능 구현
+public class App08 {
+    
+    static Scanner keyScan = new Scanner(System.in);
+    
+    static String prompt(String message) {
+        System.out.print(message);
+        return keyScan.nextLine();
+    }
     
     static boolean confirm(String message) {
-        Scanner keyScan = new Scanner(System.in);
         System.out.print(message);
         String response = keyScan.nextLine().toLowerCase();
         
@@ -92,24 +99,36 @@ public class App03 {
         return false;
     }
     
-    public static void main(String[] args) {
-        Scanner keyScan = new Scanner(System.in);
+    static boolean confirm2(String message) {
+        System.out.print(message);
+        String response = keyScan.nextLine().toLowerCase();
         
-        // 제네릭이 적용된 ArrayList를 사용하려면,
-        // ArrayList에 다루고자하는 값의 타입 정보를 알려줘야 한다.
+        if (response.equals("n") || 
+                response.equals("no") || 
+                response.equals("")) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static void main(String[] args) {
         ArrayList<Score> list = new ArrayList<>();
+        Iterator<Score> iterator;
         
         loop:
         while (true) {
             System.out.print("성적관리> ");
             String input = keyScan.nextLine();
             
+            String name = null;
+            Score score = null;
+            
             switch (input) {
             case "add":
                 System.out.println("[학생 등록]");
                 
                 while (true) {
-                    Score score = new Score(); // 성적 데이터를 저장할 빈 객체를 준비한다.
+                    score = new Score(); // 성적 데이터를 저장할 빈 객체를 준비한다.
                     score.input(); // 사용자로부터 입력받은 데이터를 빈 객체에 저장한다.
                     
                     list.add(score);
@@ -121,15 +140,75 @@ public class App03 {
                 break;
             case "list":
                 System.out.println("[학생 목록]");
+                
+                iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    iterator.next().print();
+                }
+                
                 break;
             case "view":
                 System.out.println("[학생 정보]");
+                name = prompt("이름? ");
+                
+                iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    Score temp = iterator.next();
+                    if (temp.name.equals(name)) {
+                        score = temp;
+                        break;
+                    }
+                }
+                
+                if (score == null) {
+                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+                } else {
+                    score.printDetail();
+                }
                 break;
             case "update":
                 System.out.println("[학생 정보 변경]");
+                name = prompt("이름? ");
+                
+                iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    Score temp = iterator.next();
+                    if (temp.name.equals(name)) {
+                        score = temp;
+                        break;
+                    }
+                }
+                
+                if (score == null) {
+                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+                } else {
+                    score.update();
+                }
+                
                 break;
             case "delete":
                 System.out.println("[학생 삭제]");
+                name = prompt("이름? ");
+                
+                iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    Score temp = iterator.next();
+                    if (temp.name.equals(name)) {
+                        score = temp;
+                        break;
+                    }
+                }
+                
+                if (score == null) {
+                    System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+                } else {
+                    if (confirm2("정말 삭제하시겠습니까?(y/N) ")) {
+                        list.remove(score);
+                        System.out.println("삭제하였습니다.");
+                    } else {
+                        System.out.println("삭제를 취소하였습니다.");
+                    }
+                }
                 break;
             case "quit":
                 System.out.println("프로그램을 종료합니다.");
@@ -141,15 +220,6 @@ public class App03 {
             System.out.println();
         }
         
-        // ArrayList로부터 "데이터를 꺼내주는 일을 할 객체"를 얻는다.
-        //Iterator<Score> iterator = list.iterator();
-        
-        // "데이터를 꺼내주는 일을 할 객체"를 통해 값을 꺼낸다.
-        /*
-        while (iterator.hasNext()) {
-            iterator.next().print();
-        }
-        */
     }
 }
 
