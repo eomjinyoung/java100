@@ -3,7 +3,7 @@
 //   도서명, 저자, 출판사, 페이지, 가격($)
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test14_2 {
 

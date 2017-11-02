@@ -2,7 +2,7 @@
 // - int 외에 다른 데이터 타입의 배열을 만들어 보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_5 {
 

@@ -2,7 +2,7 @@
 // - 메서드를 이용하여 인스턴스를 다루는 방법을 알아보자!
 //
 
-package bitcamp.java100.Test17_17.step4;
+package bitcamp.java100.ch03.Test17_17.step4;
 
 // 4단계: Rect 클래스를 별도의 파일로 분리 
 public class Test {

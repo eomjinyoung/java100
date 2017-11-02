@@ -2,7 +2,7 @@
 // - 자바의 최소 연산 단위에 대해 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_6 {
 

@@ -2,7 +2,7 @@
 // - 정수 값을 유니코드로 다루는 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
  
 public class Test15_14 {
 

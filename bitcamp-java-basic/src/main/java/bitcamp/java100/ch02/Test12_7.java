@@ -2,7 +2,7 @@
 // - 부동소수점을 변수에 저장하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_7 {
 

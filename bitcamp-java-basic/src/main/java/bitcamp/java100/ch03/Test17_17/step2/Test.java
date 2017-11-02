@@ -2,7 +2,7 @@
 // - 메서드를 이용하여 인스턴스를 다루는 방법을 알아보자!
 //
 
-package bitcamp.java100.Test17_17.step2;
+package bitcamp.java100.ch03.Test17_17.step2;
 
 // 2단계: 메서드 분리 후
 public class Test {

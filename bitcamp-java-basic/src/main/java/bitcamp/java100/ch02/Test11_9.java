@@ -1,6 +1,6 @@
 // # 자바에서 값 표현(literal)하기 - 부동소수점을 메모리에 저장하는 방법
 //
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test11_9 {
 

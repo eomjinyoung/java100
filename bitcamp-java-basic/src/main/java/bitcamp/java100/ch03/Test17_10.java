@@ -2,7 +2,7 @@
 // - 메서드가 호출되고 리턴되는 과정을 살펴보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch03;
 
 public class Test17_10 {
 

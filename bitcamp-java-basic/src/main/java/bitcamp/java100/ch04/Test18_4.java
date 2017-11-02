@@ -2,7 +2,7 @@
 // - equals()를 사용하여 String 인스턴스의 내용물을 비교해보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_4 {
 

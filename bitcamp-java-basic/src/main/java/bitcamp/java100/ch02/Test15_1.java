@@ -2,7 +2,7 @@
 // - +, -, *, /, % 등 기본 산술 연산자의 사용 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_1 {
 

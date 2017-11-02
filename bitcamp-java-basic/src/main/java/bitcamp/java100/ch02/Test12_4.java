@@ -2,7 +2,7 @@
 // - 상수의 사용법에 대해 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_4 {
 

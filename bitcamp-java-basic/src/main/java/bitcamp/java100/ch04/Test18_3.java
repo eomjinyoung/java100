@@ -2,7 +2,7 @@
 // - String 인스턴스를 암시적으로 만드는 것과 명시적으로 만드는 것의 차이점을 이해하자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_3 {
 

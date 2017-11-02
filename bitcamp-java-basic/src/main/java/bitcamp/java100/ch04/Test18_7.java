@@ -2,7 +2,7 @@
 // - StringBuffer를 사용하여 원본 문자열을 변경하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_7 {
 

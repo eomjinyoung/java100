@@ -4,7 +4,7 @@
 // - 블록을 만드는 방법과 변수의 사용범위를 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test16_1 {
 

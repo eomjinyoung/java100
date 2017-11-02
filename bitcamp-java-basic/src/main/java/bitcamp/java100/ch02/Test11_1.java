@@ -1,7 +1,7 @@
 // # 자바에서 값 표현(literal)하기
 // 문자열, 정수, 부동소수점, 논리 값을 표현하는 방법
 //
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test11_1 {
 

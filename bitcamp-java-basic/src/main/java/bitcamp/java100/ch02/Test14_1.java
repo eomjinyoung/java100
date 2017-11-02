@@ -2,7 +2,7 @@
 // - 여러 종류의 메모리를 묶어 새로운 타입을 만드는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test14_1 {
 

@@ -2,7 +2,7 @@
 // - 논리 값을 저장할 변수를 만들고 사용하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_8 {
 

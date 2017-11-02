@@ -2,7 +2,7 @@
 // - 객체와 레퍼런스의 관계를 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test14_4 {
 

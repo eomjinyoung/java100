@@ -2,7 +2,7 @@
 //: 변수를 선언하고 값을 저장하는 다양한 방법을 알아보자!
 //:
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_3 {
 

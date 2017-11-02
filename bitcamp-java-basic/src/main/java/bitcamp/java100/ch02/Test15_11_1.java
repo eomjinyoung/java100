@@ -2,7 +2,7 @@
 // - 비트 연산자의 활용 예
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_11_1 {
 

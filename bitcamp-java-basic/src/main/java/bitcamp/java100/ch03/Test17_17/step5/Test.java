@@ -2,7 +2,7 @@
 // - 메서드를 이용하여 인스턴스를 다루는 방법을 알아보자!
 //
 
-package bitcamp.java100.Test17_17.step5;
+package bitcamp.java100.ch03.Test17_17.step5;
 
 // 5단계: 넓이를 구하는 메서드를 별도의 클래스로 분류한다. 
 public class Test {

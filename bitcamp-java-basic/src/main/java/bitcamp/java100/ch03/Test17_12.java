@@ -2,7 +2,7 @@
 // - 로컬 변수와 스택 메모리의 관계를 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch03;
 
 public class Test17_12 {
 

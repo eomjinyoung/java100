@@ -2,7 +2,7 @@
 // - String 인스턴스에 대해 사용할 수 있는 기타 인스턴스 메서드의 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_5 {
 

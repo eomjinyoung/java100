@@ -2,7 +2,7 @@
 // - 메서드를 이용하여 인스턴스를 다루는 방법을 알아보자!
 //
 
-package bitcamp.java100.Test17_17.step6;
+package bitcamp.java100.ch03.Test17_17.step6;
 
 // 6단계: 인스턴스의 값을 다루는 메서드는 해당 인스턴스의 전용 메서드로 만든다. 
 public class Test {

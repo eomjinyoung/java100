@@ -2,7 +2,7 @@
 // - 새 종류의 메모리를 만들었으면 그 메모리의 값을 다루는 연산자가 필요하다. 즉 새 클래스의 연산자를 만드는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test14_5 {
 

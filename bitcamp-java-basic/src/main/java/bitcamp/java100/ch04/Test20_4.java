@@ -2,7 +2,7 @@
 // - new 가 아닌 메서드를 통해서 래퍼 객체를 만들어보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test20_4 {
     

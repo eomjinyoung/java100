@@ -2,7 +2,7 @@
 // - 타입이 서로 다른 값을 연산하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_3 {
 

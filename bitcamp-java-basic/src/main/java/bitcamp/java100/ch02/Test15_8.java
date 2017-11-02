@@ -2,7 +2,7 @@
 // - 관계 연산자의 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_8 {
 

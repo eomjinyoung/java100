@@ -2,7 +2,7 @@
 // - 오토 박싱/ 오토 언박싱의 개념과 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test20_2 {
     public static void main(String[] args) {

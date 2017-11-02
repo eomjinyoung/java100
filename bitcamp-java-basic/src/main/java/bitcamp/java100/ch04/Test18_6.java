@@ -2,7 +2,7 @@
 // - 문자열에 대해 정규식을 사용하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_6 {
 

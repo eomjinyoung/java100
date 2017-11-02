@@ -2,7 +2,7 @@
 // - 로컬 변수의 생명주기와 객체의 생명주기에 대해 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch03;
 
 public class Test17_15 {
 

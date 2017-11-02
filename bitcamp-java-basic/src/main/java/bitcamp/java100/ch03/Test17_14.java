@@ -2,7 +2,7 @@
 // - call by value와 call by reference의 차이점을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch03;
 
 public class Test17_14 {
 

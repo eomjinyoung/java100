@@ -2,7 +2,7 @@
 // - import의 용도와 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 // import 명령
 // - 반드시 클래스 선언 위에 적어야 한다.

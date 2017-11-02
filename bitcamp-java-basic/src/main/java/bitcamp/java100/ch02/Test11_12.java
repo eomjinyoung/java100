@@ -1,6 +1,6 @@
 // # 자바에서 값 표현(literal)하기 - 문자열 표현
 //
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test11_12 {
 

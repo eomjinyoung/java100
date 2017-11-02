@@ -2,7 +2,7 @@
 // - byte, short의 연산 결과가 int임을 확인하자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_2 {
 

@@ -2,7 +2,7 @@
 // - literal을 사용하여 암시적으로 String 인스턴스를 생성하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test18_2 {
 

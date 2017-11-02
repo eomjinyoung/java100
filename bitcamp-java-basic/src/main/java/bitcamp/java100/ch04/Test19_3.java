@@ -2,7 +2,7 @@
 // - import의 용도와 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 // 패키지 정보를 알려야 하는 클래스는 무조건 import를 선언하면 된다.
 import java.util.ArrayList; 

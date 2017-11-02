@@ -2,7 +2,7 @@
 // - 래퍼 클래스가 무엇인지, 어떤 경우에 사용하는지 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test20_1 {
     public static void main(String[] args) {

@@ -2,7 +2,7 @@
 // - 객체와 가비지에 대한 개념을 이해하자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_6 {
 

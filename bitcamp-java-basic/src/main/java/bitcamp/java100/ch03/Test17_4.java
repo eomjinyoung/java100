@@ -2,7 +2,7 @@
 // - 메서드 정의 기본 문법을 알아 보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch03;
 
 public class Test17_4 {
 

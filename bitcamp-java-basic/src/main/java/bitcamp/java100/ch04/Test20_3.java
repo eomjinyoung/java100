@@ -2,7 +2,7 @@
 // - 래퍼 객체를 활용하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 import java.io.File;
 

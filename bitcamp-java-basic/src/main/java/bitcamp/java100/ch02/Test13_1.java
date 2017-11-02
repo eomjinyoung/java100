@@ -2,7 +2,7 @@
 // - 배열의 이점과 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_1 {
 

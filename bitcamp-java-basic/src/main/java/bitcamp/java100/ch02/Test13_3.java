@@ -2,7 +2,7 @@
 // - 배열의 크기와 인덱스를 다루는 방법을 배운다.
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_3 {
 

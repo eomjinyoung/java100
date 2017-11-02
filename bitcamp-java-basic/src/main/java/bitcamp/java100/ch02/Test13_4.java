@@ -2,7 +2,7 @@
 // - 배열을 선언과 동시에 특정 값으로 초기화시키는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_4 {
 

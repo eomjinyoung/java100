@@ -2,7 +2,7 @@
 // - import의 용도와 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 public class Test19_1 {
     public static void main(String[] args) {

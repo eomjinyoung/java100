@@ -2,7 +2,7 @@
 // - 메서드를 이용하여 인스턴스를 다루는 방법을 알아보자!
 //
 
-package bitcamp.java100.Test17_17.step3;
+package bitcamp.java100.ch03.Test17_17.step3;
 
 // 3단계: 너비, 높이 데이터를 저장할 때 사용할 전용 데이터 타입을 만든다. 
 public class Test {

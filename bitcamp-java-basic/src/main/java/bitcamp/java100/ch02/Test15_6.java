@@ -2,7 +2,7 @@
 // - 연산자 우선 순위를 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_6 {
 

@@ -2,7 +2,7 @@
 // - import의 용도와 사용법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch04;
 
 // import를 선언할 때 와일드카드(*)로 선언하면
 // 클래스 이름까지 자세하게 적을 필요가 없어 편리하다.

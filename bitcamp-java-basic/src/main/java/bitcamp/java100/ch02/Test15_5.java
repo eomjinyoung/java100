@@ -1,7 +1,7 @@
 // ## 연산자 - 증가/감소 연산자
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test15_5 {
 

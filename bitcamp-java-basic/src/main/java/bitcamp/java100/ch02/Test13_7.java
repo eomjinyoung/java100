@@ -2,7 +2,7 @@
 // - 값을 저장하는 변수와 주소를 저장하는 변수의 차이점을 이해하자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test13_7 {
 

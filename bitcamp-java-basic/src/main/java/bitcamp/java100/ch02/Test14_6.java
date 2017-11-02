@@ -2,7 +2,7 @@
 // - 배열을 이용하여 여러 객체의 주소를 관리하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test14_6 {
 

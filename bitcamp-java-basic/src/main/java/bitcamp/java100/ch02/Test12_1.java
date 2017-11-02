@@ -2,7 +2,7 @@
 // 값을 저장하기 위해 메모리를 준비하는 방법을 알아보자!
 //
 
-package bitcamp.java100;
+package bitcamp.java100.ch02;
 
 public class Test12_1 {
 
