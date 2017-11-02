@@ -58,4 +58,15 @@ public class Score {
         
         this.compute();
     }
+
+    public void printDetail() {
+        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+                this.name,
+                this.subjects[0],
+                this.subjects[1],
+                this.subjects[2],
+                this.sum, 
+                this.aver);
+        
+    }
 }
