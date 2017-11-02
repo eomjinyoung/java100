@@ -35,11 +35,8 @@ public class Score {
     
     //: > 전체 공개할 메서드는 public으로 선언한다. 
     public void print() {
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+        System.out.printf("%-4s, %4d, %6.1f\n",  
                 this.name, 
-                this.subjects[0], 
-                this.subjects[1], 
-                this.subjects[2], 
                 this.sum, 
                 this.aver);
     }

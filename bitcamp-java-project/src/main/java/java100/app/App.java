@@ -21,6 +21,7 @@
 성적관리> list
 홍길동, 300, 100.0
 임꺽정, 270, 90.0
+
 성적관리> view
 이름? 홍길동
 홍길동, 100, 100, 100, 300, 100.0
@@ -128,6 +129,7 @@ public class App {
                 break;
             case "view":
                 System.out.println("[학생 정보]");
+                
                 break;
             case "update":
                 System.out.println("[학생 정보 변경]");
