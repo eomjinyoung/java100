@@ -75,7 +75,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
-public class App {
+public class App04 {
     
     static boolean confirm(String message) {
         Scanner keyScan = new Scanner(System.in);

@@ -75,7 +75,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
  
-public class App {
+public class App03 {
     
     static boolean confirm(String message) {
         Scanner keyScan = new Scanner(System.in);
@@ -119,12 +119,6 @@ public class App {
                 break;
             case "list":
                 System.out.println("[학생 목록]");
-                
-                Iterator<Score> iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    iterator.next().print();
-                }
-                
                 break;
             case "view":
                 System.out.println("[학생 정보]");
@@ -145,6 +139,15 @@ public class App {
             System.out.println();
         }
         
+        // ArrayList로부터 "데이터를 꺼내주는 일을 할 객체"를 얻는다.
+        //Iterator<Score> iterator = list.iterator();
+        
+        // "데이터를 꺼내주는 일을 할 객체"를 통해 값을 꺼낸다.
+        /*
+        while (iterator.hasNext()) {
+            iterator.next().print();
+        }
+        */
     }
 }
 
