@@ -103,6 +103,7 @@ public class App {
                 }
             } catch (Exception e) {
                 System.out.println("명령 처리 중 오류 발생!");
+                e.printStackTrace();
             }
             System.out.println();
         } // while
