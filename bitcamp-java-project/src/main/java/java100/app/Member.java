@@ -63,6 +63,13 @@ public class Member {
         System.out.print("암호? ");
         this.password = keyScan.nextLine();
     }
+    
+    public void printDetail() {
+        System.out.printf("이름: %s\n", this.name);
+        System.out.printf("이메일: %s\n", this.email);
+        System.out.printf("암호: %s\n", this.password);
+        
+    }
 }
 
 

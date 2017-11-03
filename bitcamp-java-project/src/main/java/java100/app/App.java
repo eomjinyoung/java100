@@ -88,7 +88,8 @@ import java.util.Scanner;
 // 3) Member 클래스 list 명령을 처리할 때 호출될 print() 추가한다.
 // 4) App 클래스에 회원관리 메뉴에 대한 코드를 추가한다.
 // 5) 회원관리의 add 기능 추가한다.
-//
+// 6) 회원관리의 view 기능 추가한다.
+
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);

@@ -20,7 +20,7 @@ public class MemberController {
             switch (input) {
             case "list": this.doList(); break;
             case "add": this.doAdd(); break;
-            //case "view": this.doView(); break;
+            case "view": this.doView(); break;
             //case "update": this.doUpdate(); break;
             //case "delete": this.doDelete(); break;
             case "main": break loop;
@@ -47,6 +47,27 @@ public class MemberController {
         member.input();
         
         list.add(member);
+    } 
+    
+    private void doView() {
+        System.out.println("[회원 상세 정보]");
+        String email = Prompts.input("이메일? ");
+        
+        Member member = null;
+        Iterator<Member> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Member temp = iterator.next();
+            if (temp.email.equals(email)) {
+                member = temp;
+                break;
+            }
+        }
+        
+        if (member == null) {
+            System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
+        } else {
+            member.printDetail();
+        }
     }    
     
 }
