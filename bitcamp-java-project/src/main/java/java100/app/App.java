@@ -75,20 +75,25 @@ package java100.app;
 
 import java.util.Scanner;
  
-// => 성적 관리 명령을 처리하는 메서드를 관리하기 쉽게 
-//    별도의 클래스로 분리한다. (ScoreController 클래스)
-// => 사용자로부터 확인이나 입력을 받는 메서드를 
-//    별도의 클래스로 분리한다. (Prompts 클래스)
+// 
+// 1) 회원 정보를 담을 메모리를 설계한다.
+//    회원 정보를 담을 새로운 데이터 타입을 정의한다.
+//    => Member 클래스 정의
 //
-
-// 7단계 
-// => goScore() 메서드는 성적관리를 다루는 코드이다.
-//    따라서 이 메서드는 App 클래스에 두는 것 보다
-//    ScoreController에 두는 것이 합당하다.
+// 2) 회원관리 메뉴를 처리할 컨트롤러 클래스를 만든다.
+//    => MemberController 클래스 정의
+//    => execute() 메서드를 만든다.
+//    => 일단 list 명령만 처리한다.
+// 
+// 3) Member 클래스 list 명령을 처리할 때 호출될 print() 추가한다.
+// 4) App 클래스에 회원관리 메뉴에 대한 코드를 추가한다.
+// 5) 회원관리의 add 기능 추가한다.
+//
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     static ScoreController scoreController = new ScoreController();
+    static MemberController memberController = new MemberController();
     
     public static void main(String[] args) {
         
@@ -118,9 +123,7 @@ public class App {
         
         switch (menuNo) {
         case "1": scoreController.execute(); break;
-        case "2":
-            System.out.println("회원관리");
-            break;
+        case "2": memberController.execute(); break;
         case "3":
             System.out.println("게시판");
             break;

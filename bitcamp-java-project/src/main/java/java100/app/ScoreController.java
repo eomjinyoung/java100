@@ -54,7 +54,7 @@ public class ScoreController {
     //    즉 공개할 필요가 있을 때만 공개하라!
     // 
     private void doDelete() {
-        System.out.println("[학생 삭제]");
+        System.out.println("[성적 삭제]");
         String name = Prompts.input("이름? ");
         
         Score score = null;
@@ -80,7 +80,7 @@ public class ScoreController {
     }
 
     private void doUpdate() {
-        System.out.println("[학생 정보 변경]");
+        System.out.println("[성적 변경]");
         String name = Prompts.input("이름? ");
         
         Score score = null;
@@ -101,7 +101,7 @@ public class ScoreController {
     }
 
     private void doView() {
-        System.out.println("[학생 정보]");
+        System.out.println("[성적 상세 정보]");
         String name = Prompts.input("이름? ");
         
         Score score = null;
@@ -122,7 +122,7 @@ public class ScoreController {
     }
 
     private void doList() {
-        System.out.println("[학생 목록]");
+        System.out.println("[성적 목록]");
         
         Iterator<Score> iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -131,7 +131,7 @@ public class ScoreController {
     }
 
     private void doAdd() {
-        System.out.println("[학생 등록]");
+        System.out.println("[성적 등록]");
         
         Score score;
         while (true) {
