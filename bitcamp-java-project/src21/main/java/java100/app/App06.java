@@ -1,75 +1,35 @@
-//: ## ver 22
-//: - 회원관리 기능을 추가하라!
-//: - 자세한 요구사항은 App.java의 주석을 확인하라!
+//: ## ver 21
+//: - 메뉴 기능을 추가하라!
+//: - 요구사항 명세는 App.java 주석을 보라!
 //: - 학습목표
-//:   - 클래스를 만들고 메서드를 정의하는 것을 연습한다.
+//:   - 클래스 문법을 사용하여 관련 기능을 묶어서 분류하는 기법을 익한다.
+//:   - 콘솔에서 사용자 입력을 다루는 방법을 연습한다.
 //: 
 //: 
 //: 요구사항 
 /*
-회원관리> add
-이름? 홍길동
-이메일? hong@test.com
-암호? 1111
-입력하였습니다.
+명령> menu
+1 성적관리
+2 회원관리
+3 게시판
 
-회원관리> add
-이름? 홍길동2
-이메일? hong@test.com
-암호? 1111
-이미 등록된 이메일입니다.
+명령> help
+[명령]
+menu        - 메뉴 목록 출력한다.
+go 번호     - 메뉴로 이동한다.
+quit        - 프로그램을 종료한다.
 
-회원관리> list
-홍길동, hong@test.com
+명령> quit
+프로그램을 종료합니다.
 
-회원관리> view
-이메일? hong@test.com
-이름: 홍길동
-이메일: hong@test.com
-암호: 1111
+명령> ok
+잘못된 명령입니다.
 
-회원관리> view
-이메일? hong2@test.com
-'hong2@test.com'의 회원 정보가 없습니다.
+명령> go 1
 
-회원관리> delete
-이메일? hong@test.com
-정말 삭제하시겠습니까?(y/N) y <== 'Y', 'y'를 입력해야 삭제된다.
-삭제하였습니다.
+성적관리> list
+...
 
-회원관리> delete
-이메일? hong@test.com
-정말 삭제하시겠습니까?(y/N) n
-삭제취소하였습니다.
-
-회원관리> delete
-이메일? hong2@test.com
-'hong2@test.com'의 회원 정보가 없습니다.
-
-회원관리> update
-이메일? hong2@test.com
-이름?(홍길동) 홍길동2    <== 엔터를 치면 원래 점수 유지
-암호?(1111) 2222
-변경하시겠습니까?(y/N) y<== 'Y', 'y'를 입력해야 변경된다.
-변경하였습니다.
-
-회원관리> update
-이메일? hong2@test.com
-이름?(홍길동) 홍길동2    <== 엔터를 치면 원래 점수 유지
-암호?(1111) 2222
-변경하시겠습니까?(y/N) n<== 'Y', 'y'를 입력해야 변경된다.
-변경취소하였습니다.
-
-회원관리> update
-이메일? hong2@test.com
-'hong2@test.com'의 회원 정보가 없습니다.
-
-회원관리> remove
-수행할 수 없는 명령입니다.
-
-회원관리> main
-
-명령>
  */
 package java100.app;
 
@@ -81,11 +41,9 @@ import java.util.Scanner;
 //    별도의 클래스로 분리한다. (Prompts 클래스)
 //
 
-// 7단계 
-// => goScore() 메서드는 성적관리를 다루는 코드이다.
-//    따라서 이 메서드는 App 클래스에 두는 것 보다
-//    ScoreController에 두는 것이 합당하다.
-public class App {
+// 6단계 
+// => go 1 명령을 처리하는 코드를 별도의 메서드로 분리한다.
+public class App06 {
     
     static Scanner keyScan = new Scanner(System.in);
     static ScoreController scoreController = new ScoreController();
@@ -117,7 +75,7 @@ public class App {
     private static void doGo(String menuNo) {
         
         switch (menuNo) {
-        case "1": scoreController.execute(); break;
+        case "1": goScore(); break;
         case "2":
             System.out.println("회원관리");
             break;
@@ -128,6 +86,25 @@ public class App {
             System.out.println("해당 번호의 메뉴가 없습니다.");
         }
         
+    }
+
+    private static void goScore() {
+        loop:
+        while (true) {
+            System.out.print("성적관리> ");
+            String input = keyScan.nextLine();
+            
+            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
+            switch (input) {
+            case "add": scoreController.doAdd(); break;
+            case "list": scoreController.doList(); break;
+            case "view": scoreController.doView(); break;
+            case "update": scoreController.doUpdate(); break;
+            case "delete": scoreController.doDelete(); break;
+            case "main": break loop;
+            default: doError();
+            }
+        }
     }
 
     private static void doHelp() {

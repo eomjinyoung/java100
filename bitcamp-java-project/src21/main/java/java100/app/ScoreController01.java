@@ -2,11 +2,8 @@ package java100.app;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
-public class ScoreController {
-    
-    static Scanner keyScan = new Scanner(System.in);
+public class ScoreController01 {
     
     // ArrayList 객체와 메서드들을 스태틱으로 둘 것인지,
     // 아니면 인스턴스로 변경할 것인지 결정해야 한다.
@@ -25,35 +22,9 @@ public class ScoreController {
     // 성적 데이터를 보관하는 목록 객체는 외부 노출을 막는다.
     private ArrayList<Score> list = new ArrayList<>();
     
-    public void execute() {
-        loop:
-        while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
-            
-            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
-            switch (input) {
-            case "add": this.doAdd(); break;
-            case "list": this.doList(); break;
-            case "view": this.doView(); break;
-            case "update": this.doUpdate(); break;
-            case "delete": this.doDelete(); break;
-            case "main": break loop;
-            default: 
-                System.out.println("해당 명령이 없습니다.");
-            }
-        }
-    }
     
-    // 이전에는 App 클래스에서 doXxx() 메서드를 호출하기 때문에
-    // 공개하였다.
-    // 지금은 App 클래스에서 직접 doXxx()를 호출하는 게 아니라,
-    // 같은 멤버인 execute()에서 호출하기 때문에 공개할 필요가 없다.
-    // => 객체지향 프로그래밍에서는 가능한 공개 범위를 줄이는 것이
-    //    유지보수에 좋다.
-    //    즉 공개할 필요가 있을 때만 공개하라!
-    // 
-    private void doDelete() {
+    // 대신 목록 객체에 값을 저장하고 꺼내는 메서드는 완전 공개한다.
+    public void doDelete() {
         System.out.println("[학생 삭제]");
         String name = Prompts.input("이름? ");
         
@@ -79,7 +50,7 @@ public class ScoreController {
         }
     }
 
-    private void doUpdate() {
+    public void doUpdate() {
         System.out.println("[학생 정보 변경]");
         String name = Prompts.input("이름? ");
         
@@ -100,7 +71,7 @@ public class ScoreController {
         }
     }
 
-    private void doView() {
+    public void doView() {
         System.out.println("[학생 정보]");
         String name = Prompts.input("이름? ");
         
@@ -121,7 +92,7 @@ public class ScoreController {
         }
     }
 
-    private void doList() {
+    public void doList() {
         System.out.println("[학생 목록]");
         
         Iterator<Score> iterator = list.iterator();
@@ -130,7 +101,7 @@ public class ScoreController {
         }
     }
 
-    private void doAdd() {
+    public void doAdd() {
         System.out.println("[학생 등록]");
         
         Score score;
