@@ -89,7 +89,8 @@ import java.util.Scanner;
 // 4) App 클래스에 회원관리 메뉴에 대한 코드를 추가한다.
 // 5) 회원관리의 add 기능 추가한다.
 // 6) 회원관리의 view 기능 추가한다.
-
+// 7) 회원관리의 update 기능 추가한다.
+// 8) 회원관리의 delete 기능 추가한다.
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
