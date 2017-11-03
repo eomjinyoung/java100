@@ -77,32 +77,13 @@ package java100.app;
 import java.util.Scanner;
  
 // 
-// 1) 회원 정보를 담을 메모리를 설계한다.
-//    회원 정보를 담을 새로운 데이터 타입을 정의한다.
-//    => Member 클래스 정의
-//
-// 2) 회원관리 메뉴를 처리할 컨트롤러 클래스를 만든다.
-//    => MemberController 클래스 정의
-//    => execute() 메서드를 만든다.
-//    => 일단 list 명령만 처리한다.
-// 
-// 3) Member 클래스 list 명령을 처리할 때 호출될 print() 추가한다.
-// 4) App 클래스에 회원관리 메뉴에 대한 코드를 추가한다.
-// 5) 회원관리의 add 기능 추가한다.
-// 6) 회원관리의 view 기능 추가한다.
-// 7) 회원관리의 update 기능 추가한다.
-// 8) 회원관리의 delete 기능 추가한다.
-// 
-// 복사/붙여넣기를 한 후 변경을 완료하면, 
-// 나머지 세세한 요구사항을 처리한다.
-// 
-// 9) 추가할 때 이메일 중복여부를 검사한다.
 // 
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     static ScoreController scoreController = new ScoreController();
     static MemberController memberController = new MemberController();
+    static BoardController boardController = new BoardController();
     
     public static void main(String[] args) {
         
@@ -133,9 +114,7 @@ public class App {
         switch (menuNo) {
         case "1": scoreController.execute(); break;
         case "2": memberController.execute(); break;
-        case "3":
-            System.out.println("게시판");
-            break;
+        case "3": boardController.execute(); break;
         default:
             System.out.println("해당 번호의 메뉴가 없습니다.");
         }
