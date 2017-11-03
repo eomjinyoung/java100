@@ -41,56 +41,28 @@ import java.util.Scanner;
 //    별도의 클래스로 분리한다. (Prompts 클래스)
 //
 
-// 6단계 
-// => go 1 명령을 처리하는 코드를 별도의 메서드로 분리한다.
-public class App {
+// 3단계 
+// => 각 명령을 처리하는 메서드를 만든다.
+public class App03 {
     
     static Scanner keyScan = new Scanner(System.in);
-    static ScoreController scoreController = new ScoreController();
     
     public static void main(String[] args) {
+        ScoreController scoreController = new ScoreController();
         
         loop:
         while (true) {
             System.out.print("명령> ");
-            String[] input = keyScan.nextLine().toLowerCase().split(" ");
+            String input = keyScan.nextLine();
             
-            try {
-                switch (input[0]) {
-                case "menu": doMenu(); break;
-                case "help": doHelp(); break;
-                case "quit": doQuit(); break loop;
-                case "go": doGo(input[1]); break;
-                default:
-                    doError();
-                }
-            } catch (Exception e) {
-                System.out.println("명령 처리 중 오류 발생!");
+            switch (input) {
+            case "menu": doMenu(); break;
+            case "help": doHelp(); break;
+            case "quit": doQuit(); break loop;
+            default:
+                doError();
             }
-            System.out.println();
-        } // while
-        
-    }
-    
-    private static void doGo(String menuNo) {
-        
-        switch (menuNo) {
-        case "1": goScore(); break;
-        case "2":
-            System.out.println("회원관리");
-            break;
-        case "3":
-            System.out.println("게시판");
-            break;
-        default:
-            System.out.println("해당 번호의 메뉴가 없습니다.");
-        }
-        
-    }
-
-    private static void goScore() {
-        loop:
-        while (true) {
+            /*
             System.out.print("성적관리> ");
             String input = keyScan.nextLine();
             
@@ -101,12 +73,16 @@ public class App {
             case "view": scoreController.doView(); break;
             case "update": scoreController.doUpdate(); break;
             case "delete": scoreController.doDelete(); break;
-            case "main": break loop;
+            case "quit": doQuit(); break loop;
             default: doError();
             }
-        }
+            */
+            
+            System.out.println();
+        } // while
+        
     }
-
+    
     private static void doHelp() {
         System.out.println("[명령]");
         System.out.println("menu        - 메뉴 목록 출력한다.");

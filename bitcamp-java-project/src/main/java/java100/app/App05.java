@@ -41,9 +41,9 @@ import java.util.Scanner;
 //    별도의 클래스로 분리한다. (Prompts 클래스)
 //
 
-// 6단계 
-// => go 1 명령을 처리하는 코드를 별도의 메서드로 분리한다.
-public class App {
+// 5단계 
+// => go 1 명령을 처리한다.
+public class App05 {
     
     static Scanner keyScan = new Scanner(System.in);
     static ScoreController scoreController = new ScoreController();
@@ -75,7 +75,24 @@ public class App {
     private static void doGo(String menuNo) {
         
         switch (menuNo) {
-        case "1": goScore(); break;
+        case "1":
+            loop:
+            while (true) {
+                System.out.print("성적관리> ");
+                String input = keyScan.nextLine();
+                
+                // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
+                switch (input) {
+                case "add": scoreController.doAdd(); break;
+                case "list": scoreController.doList(); break;
+                case "view": scoreController.doView(); break;
+                case "update": scoreController.doUpdate(); break;
+                case "delete": scoreController.doDelete(); break;
+                case "main": break loop;
+                default: doError();
+                }
+            }
+            break;
         case "2":
             System.out.println("회원관리");
             break;
@@ -86,25 +103,6 @@ public class App {
             System.out.println("해당 번호의 메뉴가 없습니다.");
         }
         
-    }
-
-    private static void goScore() {
-        loop:
-        while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
-            
-            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
-            switch (input) {
-            case "add": scoreController.doAdd(); break;
-            case "list": scoreController.doList(); break;
-            case "view": scoreController.doView(); break;
-            case "update": scoreController.doUpdate(); break;
-            case "delete": scoreController.doDelete(); break;
-            case "main": break loop;
-            default: doError();
-            }
-        }
     }
 
     private static void doHelp() {
