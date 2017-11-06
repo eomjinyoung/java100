@@ -1,23 +1,24 @@
-//: ## ver 26
-//: - 코드 리팩토링3
+//: ## ver 25
+//: - 코드 리팩토리2
 //: - 학습목표
-//:   - 역할에 따라 클래스를 여러 패키지에 분류하는 것을 연습한다.
-//: 
+//:   - 관련 메서드를 적절하게 클래스로 분류하는 방법을 익힌다.
+
 package java100.app;
 
 import java.util.Scanner;
-
-import java100.app.control.BoardController;
-import java100.app.control.MemberController;
-import java100.app.control.ScoreController;
  
 // 리팩토링
-// 1) 사용자 정의 데이터 타입 클래스는 보통 "domain"이라는 패키지에 둔다.
-//    "business domain(업무 영역)에서 사용하는 값이다"라는 의미이다.
-//    또는 값을 표현하는 클래스라고 해서 "value object"의 약자인 
-//    "vo" 패키지에 두는 경우도 있다.
-// 2) UI를 담당하는 컨트롤러 클래스는 "control"이라는 패키지에 둔다.
-// 3) 기타 여러 곳에서 사용된느 클래스는 "util"이라는 패키지에 둔다.
+// 1) Score에 있는 사용자와 상호작용하는 코드를 분리하여 
+//    ScoreController로 옮긴다.
+//    => Score 클래스는 사용자 정의 데이터 타입의 역할로 제한한다.
+//    => Score 클래스에 getter/setter를 정의한다.
+//    => add 명령은 한 개의 성적만 입력하도록 변경한다.
+// 2) 사용자로부터 문자열이나 숫자를 입력 받아 리턴하는 메서드를 만든다.
+//    => Prompts 클래스에 inputString(), inputInt()를 추가한다.
+//    => 기존이 input() 메서드는 @Deprecated로 선언하여 
+//       사용하지 말라고 경고한다.
+// 3) Member에 있는 UI 관련 코드를 모두 MemberController로 옮긴다
+// 4) Board에 있는 UI 관련 코드를 모두 BoardController로 옮긴다.
 //
 //
 public class App {
