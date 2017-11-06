@@ -1,33 +1,46 @@
-//: ## ver 26
-//: - 코드 리팩토링3
+//: ## ver 27
+//: - 컨트롤러 클래스들의 공통 점을 찾아 일반화시켜라!
+//: - 즉 상속의 generalization을 수행하라!
 //: - 학습목표
-//:   - 역할에 따라 클래스를 여러 패키지에 분류하는 것을 연습한다.
+//:   - 상속의 generalization을 이용해 수퍼 클래스를 정의하는 방법을 익힌다.
+//:   - 수퍼 클래스를 정의했을 때의 이점을 이해한다.
 //: 
 package java100.app;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.control.BoardController;
+import java100.app.control.GenericController;
 import java100.app.control.MemberController;
 import java100.app.control.ScoreController;
  
-// 리팩토링
-// 1) 사용자 정의 데이터 타입 클래스는 보통 "domain"이라는 패키지에 둔다.
-//    "business domain(업무 영역)에서 사용하는 값이다"라는 의미이다.
-//    또는 값을 표현하는 클래스라고 해서 "value object"의 약자인 
-//    "vo" 패키지에 두는 경우도 있다.
-// 2) UI를 담당하는 컨트롤러 클래스는 "control"이라는 패키지에 둔다.
-// 3) 기타 여러 곳에서 사용된느 클래스는 "util"이라는 패키지에 둔다.
+// 1) 상속의 generalization
+//    => ScoreController, MemberController, BoardController의 
+//       공통 변수나 메서드를 추출하여 클래스를 정의하고,
+//       그 클래스를 상속 받는다.
+//    => GenericController 클래스 정의
 //
+// 2) Map을 이용하여 객체 보관
+//    => 컨트롤러 클래스를 Map 객체에 보관하여 필요할 때 꺼내 쓴다.
+//    => 다형적 변수를 이용하여 GenericController의 하위 클래스에 대해
+//       execute()를 호출한다.
+//    => 이렇게 되면 새 컨트롤러를 추가하더라도 doGo() 메서드를 
+//       변경할 필요가 없다.
 //
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
-    static ScoreController scoreController = new ScoreController();
-    static MemberController memberController = new MemberController();
-    static BoardController boardController = new BoardController();
+    
+    static HashMap<String,GenericController<?>> controllerMap = 
+            new HashMap<>();
     
     public static void main(String[] args) {
+        
+        // go 명령어를 수행할 컨트롤러를 등록한다.
+        controllerMap.put("1", new ScoreController());
+        controllerMap.put("2", new MemberController());
+        controllerMap.put("3", new BoardController());
         
         loop:
         while (true) {
@@ -54,14 +67,20 @@ public class App {
     
     private static void doGo(String menuNo) {
         
-        switch (menuNo) {
-        case "1": scoreController.execute(); break;
-        case "2": memberController.execute(); break;
-        case "3": boardController.execute(); break;
-        default:
+        GenericController<?> controller = controllerMap.get(menuNo);
+        
+        if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
+            return;
         }
         
+        controller.execute();
+        
+        // 이제 새로운 컨트롤러가 추가되더라도 
+        // 이 메서드를 변경할 필요가 없다.
+        // 그냥 main() 시작 부분에 새로 추가한 컨트롤러를
+        // Map에 등록하기만 하면 된다.
+        // 새로운 기능이 추가되더라도 코드 변경을 최소화시키는 기법이다.
     }
 
     private static void doHelp() {

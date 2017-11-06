@@ -1,18 +1,15 @@
 package java100.app.control;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import java100.app.domain.Score;
 import java100.app.util.Prompts;
 
-public class ScoreController {
+public class ScoreController extends GenericController<Score> {
     
-    static Scanner keyScan = new Scanner(System.in);
-    
-    private ArrayList<Score> list = new ArrayList<>();
-    
+    // 수퍼 클래스 GenericController에서 상속 받은 메서드를 
+    // 재정의하기 때문에 오버라이딩을 검증하도록 애노테이션을 붙인다.
+    @Override
     public void execute() {
         loop:
         while (true) {
