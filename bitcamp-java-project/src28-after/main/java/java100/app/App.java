@@ -1,8 +1,8 @@
-//: ## ver 29
-//: - 추상 메서드를 이용하여 GenericController의 모든 하위 클래스가 
-//:   반드시 execute()를 오버라이딩하도록 강제하라!
+//: ## ver 28
+//: - 추상 클래스 문법을 이용하여 GenericController의 인스턴스를 만들지 
+//:   못하게 막아라!
 //: - 학습목표
-//:   - 추상 메서드의 의미와 활용법을 익힌다.
+//:   - 추상 클래스의 활용법을 익힌다.
 
 //: 
 package java100.app;
@@ -13,18 +13,14 @@ import java.util.Scanner;
 import java100.app.control.BoardController;
 import java100.app.control.GenericController;
 import java100.app.control.MemberController;
-import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
+import java100.app.domain.Room;
  
 // 강의실(지역, 강의실번호, 수용인원) 관리 기능 추가
 // 
-// 추상 메서드 적용 후
-// 1) GenericController의 execute() 메서드를 추상 메서드로 선어하였다.
-//    따라서 이 클래스를 상속 받는 서브 클래스들은 
-//    반드시 이 메서드를 오버라이딩 해야 한다.
-//    만약 오버라이딩을 하지 않는다면,
-//    그 클래스 또한 추상 클래스가 되어야 한다.
-//    왜? 오직 추상 클래스만이 추상 메서드를 가질 수 있다.
+// 추상 클래스 사용 후
+// 1) GenericController 클래스를 추상 클래스로 선언하여
+//    직접 인스턴스를 생성하지 못하도록 막는다.
 // 
 public class App {
     
@@ -40,12 +36,13 @@ public class App {
         controllerMap.put("2", new MemberController());
         controllerMap.put("3", new BoardController());
         
-        // RoomController를 등록한다.
-        // => GenericController에는 execute()라는 추상 메서드가 있고,
-        // => RoomController가 GenericController의 서브 클래스라면,
-        //    반드시 execute()를 오버라이딩 했을 것이다.
-        // => 왜? 오버라이딩하지 않으면 컴파일 오류이다!
-        controllerMap.put("4", new RoomController());
+        // GenericController는 추상 클래스이기 때문에 
+        // 인스턴스를 생성할 수 없다.
+        // 즉 어떤 클래스가 추상 클래스라면,
+        // 인스턴스를 만들지 말라는 얘기다.
+        // 상속 받아 서브 클래스를 만들어 사용하라는 의미다!
+        // => 컴파일 오류!
+        //controllerMap.put("4", new GenericController<Room>());
         
         loop:
         while (true) {
@@ -81,11 +78,11 @@ public class App {
         
         controller.execute();
         
-        // 다시 한번,
-        // GenericController 클래스에는 execute() 추상 메서드가 있다.
-        // 이 클래스의 서브 클래스들은 반드시 execute()를 
-        // 재정의해야 한다.
-        // 따라서 우리는 안심하고 execute()를 호출할 수 있다.
+        // 이제 새로운 컨트롤러가 추가되더라도 
+        // 이 메서드를 변경할 필요가 없다.
+        // 그냥 main() 시작 부분에 새로 추가한 컨트롤러를
+        // Map에 등록하기만 하면 된다.
+        // 새로운 기능이 추가되더라도 코드 변경을 최소화시키는 기법이다.
     }
 
     private static void doHelp() {

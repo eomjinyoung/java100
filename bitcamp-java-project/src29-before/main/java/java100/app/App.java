@@ -18,13 +18,11 @@ import java100.app.control.ScoreController;
  
 // 강의실(지역, 강의실번호, 수용인원) 관리 기능 추가
 // 
-// 추상 메서드 적용 후
-// 1) GenericController의 execute() 메서드를 추상 메서드로 선어하였다.
-//    따라서 이 클래스를 상속 받는 서브 클래스들은 
-//    반드시 이 메서드를 오버라이딩 해야 한다.
-//    만약 오버라이딩을 하지 않는다면,
-//    그 클래스 또한 추상 클래스가 되어야 한다.
-//    왜? 오직 추상 클래스만이 추상 메서드를 가질 수 있다.
+// 추상 메서드 적용 전
+// 1) RoomController 클래스를 새로 추가한다.
+//    단 GenericController의 execute() 메서드를 오버라이딩 하지 
+//    않아서 정상적으로 동작되지 않을 것이다.
+//    => execute()를 오버라이딩 하도록 강요하지 않은 상태이다.
 // 
 public class App {
     
@@ -41,10 +39,13 @@ public class App {
         controllerMap.put("3", new BoardController());
         
         // RoomController를 등록한다.
-        // => GenericController에는 execute()라는 추상 메서드가 있고,
-        // => RoomController가 GenericController의 서브 클래스라면,
-        //    반드시 execute()를 오버라이딩 했을 것이다.
-        // => 왜? 오버라이딩하지 않으면 컴파일 오류이다!
+        // => 하지만 제대로 동작하지 않을 것이다.
+        // => App 클래스는 컨트롤러 객체에 대해 execute()를 호출할 것이지만,
+        //    RoomController 클래스는 execute()를 오버라이딩 하지 않았다.
+        //    대신 자기 마음대로 execution() 메서드를 만들었다.
+        //    말 그대로 App하고 협업하는 것을 고려하지 않고,
+        //    지 마음대로 만들었다.
+        //    현재 이것을 막지 못했다. 
         controllerMap.put("4", new RoomController());
         
         loop:
@@ -81,11 +82,11 @@ public class App {
         
         controller.execute();
         
-        // 다시 한번,
-        // GenericController 클래스에는 execute() 추상 메서드가 있다.
-        // 이 클래스의 서브 클래스들은 반드시 execute()를 
-        // 재정의해야 한다.
-        // 따라서 우리는 안심하고 execute()를 호출할 수 있다.
+        // 이제 새로운 컨트롤러가 추가되더라도 
+        // 이 메서드를 변경할 필요가 없다.
+        // 그냥 main() 시작 부분에 새로 추가한 컨트롤러를
+        // Map에 등록하기만 하면 된다.
+        // 새로운 기능이 추가되더라도 코드 변경을 최소화시키는 기법이다.
     }
 
     private static void doHelp() {
