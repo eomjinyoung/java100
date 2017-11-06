@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public class BoardController {
+public class MemberController {
     
     static Scanner keyScan = new Scanner(System.in);
-    private ArrayList<Board> list = new ArrayList<>();
+    
+    private ArrayList<Member> list = new ArrayList<>();
     
     public void execute() {
         loop:
         while (true) {
-            System.out.print("게시판> ");
+            System.out.print("회원관리> ");
             String input = keyScan.nextLine();
             
             // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
@@ -30,65 +31,66 @@ public class BoardController {
     }
     
     private void doList() {
-        System.out.println("[게시물 목록]");
+        System.out.println("[회원 목록]");
         
-        Iterator<Board> iterator = list.iterator();
+        Iterator<Member> iterator = list.iterator();
         while (iterator.hasNext()) {
             iterator.next().print();
         }
     }
-
+    
     private void doAdd() {
-        System.out.println("[게시물 등록]");
+        System.out.println("[회원 등록]");
         
-        Board board = new Board(); 
-        board.input();
+        Member member;
+        member = new Member(); 
+        member.input();
         
-        if (findByNo(board.getNo()) != null) {
-            System.out.println("이미 등록된 번호입니다.");
+        if (findByEmail(member.getEmail()) != null) {
+            System.out.println("이미 등록된 이메일입니다.");
         } else {
-            list.add(board);
+            list.add(member);
         }
         
     } 
     
     private void doView() {
-        System.out.println("[게시물 상세 정보]");
-        int no = Integer.parseInt(Prompts.input("번호? "));
+        System.out.println("[회원 상세 정보]");
+        String email = Prompts.input("이메일? ");
         
-        Board board = findByNo(no);
+        Member member = findByEmail(email);
         
-        if (board == null) {
-            System.out.printf("%d번 게시물이 없습니다.\n", no);
+        if (member == null) {
+            System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
         } else {
-            board.printDetail();
+            member.printDetail();
         }
     } 
     
     private void doUpdate() {
-        System.out.println("[게시물 변경]");
-        int no = Integer.parseInt(Prompts.input("번호? "));
+        System.out.println("[회원 변경]");
+        String email = Prompts.input("이메일? ");
         
-        Board board = findByNo(no);
+        Member member = findByEmail(email);
         
-        if (board == null) {
-            System.out.printf("%d번 게시물이 없습니다.\n", no);
+        if (member == null) {
+            System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
         } else {
-            board.update();
+            member.update();
         }
     }
     
     private void doDelete() {
-        System.out.println("[게시물 삭제]");
-        int no = Integer.parseInt(Prompts.input("번호? "));
+        System.out.println("[회원 삭제]");
+        String email = Prompts.input("이메일? ");
         
-        Board board = findByNo(no);
+        Member member = findByEmail(email);
         
-        if (board == null) {
-            System.out.printf("%d번 게시물이 없습니다.\n", no);
+        if (member == null) {
+            System.out.printf("'%s'의 회원 정보가 없습니다.\n", email);
         } else {
             if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                list.remove(board);
+                list.remove(member);
                 System.out.println("삭제하였습니다.");
             } else {
                 System.out.println("삭제를 취소하였습니다.");
@@ -96,17 +98,19 @@ public class BoardController {
         }
     }
     
-    private Board findByNo(int no) {
-        Iterator<Board> iterator = list.iterator();
+    private Member findByEmail(String email) {
+        Iterator<Member> iterator = list.iterator();
         while (iterator.hasNext()) {
-            Board board = iterator.next();
-            if (board.no == no) {
-                return board;
+            Member member = iterator.next();
+            if (member.email.equals(email)) {
+                return member;
             }
         }
         return null;
     }
 }
+
+
 
 
 

@@ -32,10 +32,7 @@ public class ScoreController {
     
     private void doDelete() {
         System.out.println("[성적 삭제]");
-        // Prompts 클래스의 input() 메서드를 사용한 예:
-        //String name = Prompts.input("이름? ");
-        
-        String name = Prompts.inputString("이름? ");
+        String name = Prompts.input("이름? ");
         
         Score score = findByName(name);
         
@@ -53,58 +50,28 @@ public class ScoreController {
 
     private void doUpdate() {
         System.out.println("[성적 변경]");
-        String name = Prompts.inputString("이름? ");
+        String name = Prompts.input("이름? ");
         
         Score score = findByName(name);
         
         if (score == null) {
             System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
         } else {
-            int kor = score.getKor();
-            try {
-                kor = Prompts.inputInt("국어?(%d) ", score.getKor());
-            } catch(Exception e) {}
-            
-            int eng = score.getEng();
-            try {
-                eng = Prompts.inputInt("영어?(%d) ", score.getEng());
-            } catch(Exception e) {}
-            
-            int math = score.getMath();
-            try {
-                math = Prompts.inputInt("수학?(%d) ", score.getMath());
-            } catch(Exception e) {}
-            
-            if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
-                score.setKor(kor);
-                score.setEng(eng);
-                score.setMath(math);
-                System.out.println("변경하였습니다.");
-                
-            } else {
-                System.out.println("변경을 취소하였습니다.");
-            }
+            score.update();
         }
     }
 
     private void doView() {
         System.out.println("[성적 상세 정보]");
-        String name = Prompts.inputString("이름? ");
+        String name = Prompts.input("이름? ");
         
         Score score = findByName(name);
         
         if (score == null) {
             System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-            return;
+        } else {
+            score.printDetail();
         }
-        
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                score.getName(),
-                score.getKor(),
-                score.getEng(),
-                score.getMath(),
-                score.getSum(), 
-                score.getAver());
     }
 
     private void doList() {
@@ -112,25 +79,24 @@ public class ScoreController {
         
         Iterator<Score> iterator = list.iterator();
         while (iterator.hasNext()) {
-            Score score = iterator.next();
-            System.out.printf("%-4s, %4d, %6.1f\n",  
-                    score.getName(), 
-                    score.getSum(), 
-                    score.getAver());
+            iterator.next().print();
         }
     }
 
     private void doAdd() {
         System.out.println("[성적 등록]");
         
-        Score score = new Score();
+        Score score;
+        while (true) {
+            score = new Score(); // 성적 데이터를 저장할 빈 객체를 준비한다.
+            score.input(); // 사용자로부터 입력받은 데이터를 빈 객체에 저장한다.
+            
+            list.add(score);
+            
+            if (!Prompts.confirm("계속하시겠습니까?(Y/n) "))
+                break;
+        }
         
-        score.setName(Prompts.inputString("이름? "));
-        score.setKor(Prompts.inputInt("국어? "));
-        score.setEng(Prompts.inputInt("영어? "));
-        score.setMath(Prompts.inputInt("수학? "));
-        
-        list.add(score);
     }
     
     private Score findByName(String name) {

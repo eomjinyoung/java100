@@ -1,25 +1,20 @@
-//: ## ver 25
-//: - 코드 리팩토리2
+//: ## ver 24
+//: - 코드 리랙토링
 //: - 학습목표
-//:   - 관련 메서드를 적절하게 클래스로 분류하는 방법을 익힌다.
+//:   - 중복 코드를 별도의 메서드로 분리하는 방법을 익힌다.
+//: 
 
 package java100.app;
 
 import java.util.Scanner;
  
 // 리팩토링
-// 1) Score에 있는 사용자와 상호작용하는 코드를 분리하여 
-//    ScoreController로 옮긴다.
-//    => Score 클래스는 사용자 정의 데이터 타입의 역할로 제한한다.
-//    => Score 클래스에 getter/setter를 정의한다.
-//    => add 명령은 한 개의 성적만 입력하도록 변경한다.
-// 2) 사용자로부터 문자열이나 숫자를 입력 받아 리턴하는 메서드를 만든다.
-//    => Prompts 클래스에 inputString(), inputInt()를 추가한다.
-//    => 기존이 input() 메서드는 @Deprecated로 선언하여 
-//       사용하지 말라고 경고한다.
-// 3) Member에 있는 UI 관련 코드를 모두 MemberController로 옮긴다
-// 4) Board에 있는 UI 관련 코드를 모두 BoardController로 옮긴다.
-//
+// 1) ScoreController에서 Score 객체를 찾는 코드를 분리하여 
+//    findByName()로 정의.
+// 2) MemberController에서 Member 객체를 찾는 코드를 분리하여
+//    findByEmail()로 정의.
+// 3) BoardController에서 Board 객체를 찾는 코드를 분리하여
+//    findByNo()로 정의.
 //
 public class App {
     
