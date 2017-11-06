@@ -11,8 +11,10 @@ package java100.app;
 
 import java.util.Scanner;
  
-// 
-// 
+// 리팩토링
+// 1) ScoreController에서 Score 객체를 찾는 코드를 분리하여 
+//    findByName()로 정의.
+// 2) 
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
