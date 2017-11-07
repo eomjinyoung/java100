@@ -1,7 +1,12 @@
 package bitcamp.java100.ch11.ex4;
 
-// Sedan과 Truck에서 중복되는 코드를 이 클래스로 가져온다.
-public class Car {
+// Car 클래스는 자동차가 기본으로 가져야할 필드와 메서드를 선언하고 있다.
+// 목적은 서브 클래스에 이들을 물려주기 위함이다.
+// 이런 목적으로 만든 클래스는 직접 인스턴스를 생성하지 못하도록 
+// 막아야 한다. 
+// 어떻게?
+// 추상 클래스로 선언하라!
+public abstract class Car {
     String model;
     int cc;
     
@@ -9,13 +14,7 @@ public class Car {
         System.out.println("멈춘다.");
     }
     
-    // Sedan에 있던 run() 메서드를 가져온다.
-    // Truck에 있던 것은 move() 이지만 기능상으로 run()과 같기 때문에
-    // run()으로 바꾼다.
-    public void run() {
-        // 어차피 Sedan과 Truck에서 각각의 역할에 맞게끔
-        // 구현할 것이기 때문에 여기서는 따로 구현하지 않는다.
-    }
+    public void run() {}
 }
 
 
