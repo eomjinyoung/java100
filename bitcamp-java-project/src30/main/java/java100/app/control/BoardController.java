@@ -8,9 +8,8 @@ import java100.app.util.Prompts;
 
 public class BoardController extends GenericController<Board> {
     
-    // 실제 이 클래스가 오버라이딩 하는 메서드는 
-    // GenericController가 따른다고 한 Controller 인터페이스의 
-    // 추상 메서드이다.
+    // 수퍼 클래스 GenericController에서 상속 받은 메서드를 
+    // 재정의하기 때문에 오버라이딩을 검증하도록 애노테이션을 붙인다.
     @Override
     public void execute() {
         loop:

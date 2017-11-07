@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-// 이렇게 추상 클래스로 선언함으로써 
-// 이 클래스는 직접 인스턴스를 생성할 수 없다.
-// 다만 컨트롤러를 만들기 위해 상속 받은 용도로만 쓴다.
+// ScoreController와 MemberController, BoardController가 
+// 이 클래스를 상속 받는다.
+// 따라서 이 클래스가 Controller 규칙을 따른다면,
+// 나머지 서브 클래스들은 자동으로 Controller 규칙을 따르게 되는 것이다.
+// 그래서 GenericController가 Controller 규칙을 따르도록 정의하자!
 // 
-public abstract class GenericController<T> {
+public abstract class GenericController<T> implements Controller {
     
     // 컨트롤러 클래스들이 공통으로 사용하는 객체를 선언한다.
     static Scanner keyScan = new Scanner(System.in);
     
     protected ArrayList<T> list = new ArrayList<>();
 
-    // 추상 메서드로 선언하여 서브 클래스가 반드시 오버라이딩하도록 
-    // 강제할 수 있다.
-    // => 추상 메서드는 구현할 수 없다.
-    public abstract void execute();
+    // Controller 인터페이스로부터 execute()라는 추상 메서드를 
+    // 물려 받았기 때문에 여기서 또 선언해서는 안된다.
+    //public abstract void execute();
     
 }
 

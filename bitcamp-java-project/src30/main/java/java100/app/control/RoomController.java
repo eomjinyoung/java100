@@ -7,18 +7,15 @@ import java.util.Scanner;
 import java100.app.domain.Room;
 import java100.app.util.Prompts;
 
-// RoomController는 ArrayList를 상속 받은 서브 클래스이기도 하지만,
-// Controller라는 규칙을 따르는 클래스이기도 하다!
-public class RoomController extends ArrayList<Room> implements Controller {
+// ArrayList를 상속 받아서 RoomController를 만든다.
+// 자바는 다중 상속을 지원하지 않는다.
+// 그래서 GenericController를 상속받을 때 이용할 수 있었던
+// Scanner 객체를 사용하지 못한다.
+public class RoomController extends ArrayList<Room> {
 
     // Scanner 객체를 준비한다.
     Scanner keyScan = new Scanner(System.in);
     
-    // 다음 메서드는 Controller 규칙을 따르기로 했기 때문에,
-    // Controller 선언된 추상 메서드를 오버라이딩 한 것이다.
-    // 만약 추상 메서드를 오버라이딩 하지 않는다면,
-    // 이 클래스는 추상 클래스가 되어야 한다.
-    @Override
     public void execute() {
         loop:
         while (true) {

@@ -1,7 +1,8 @@
-//: ## ver 31
-//: - 인터페이스를 적용하여 상속의 한계를 극복해보자!
+//: ## ver 30
+//: - 추상 클래스의 한계
 //: - 학습목표
-//:   - 인터페이스의 사용법과 이점을 익힌다.
+//:   - 추상 클래스의 한계를 이해하자!
+
 //: 
 package java100.app;
 
@@ -9,28 +10,23 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.control.BoardController;
-import java100.app.control.Controller;
+import java100.app.control.GenericController;
 import java100.app.control.MemberController;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
  
-// 인터페이스 정의
-// 1) App 클래스와 컨트롤러들 사이의 호출 규칙을 정의한다.
-//    => Controller 인터페이스 정의
-// 
-// 2)기존의 컨트롤러들이 이 규칙을 따르도록 변경한다.
-//    => GenericController가 Controller의 규칙을 따른다.
-//    => RoomController는 직접 Controller의 규칙을 따른다.
-//
-// 3) controllerMap에 저장하는 값은 Controller 규칙을 따르는 객체로
-//    변경한다.
+// 강의실 관리 기능을 수행하는 RoomController를 다시 작성해보자!
+// 강의실 목록을 관리해야 하기 때문에
+// 내부 필드로 ArrayList 객체를 사용한다.
+// 그런데 필드가 아니라 ArrayList를 상속 받아서 RoomController를 
+// 구현해보자!
+// 그리고 추상 클래스를 이용한 상속의 한계점을 알아보자!
 //
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     
-    // 이제 HashMap에 보관하는 값은 Controller 규칙을 준수한 객체이다.
-    static HashMap<String,Controller> controllerMap = 
+    static HashMap<String,GenericController<?>> controllerMap = 
             new HashMap<>();
     
     public static void main(String[] args) {
@@ -40,10 +36,23 @@ public class App {
         controllerMap.put("2", new MemberController());
         controllerMap.put("3", new BoardController());
         
-        // 비록 RooomController가 GenericController의 서브클래스는 아니지만,
-        // Controller의 규칙을 따르기 때문에 
-        // controllerMap에 저장할 수 있다.
-        controllerMap.put("4", new RoomController()); // OK!
+        // RoomController는 GenericController를 상속 받지 않고
+        // 객체 관리를 편하게 하기 위해 ArrayList를 상속 받았다.
+        // 문제는 controllerMap에 저장할 수 없다는 것이다.
+        // controllerMap은 오직 GenericController 계열의 객체만
+        // 저장할 수 있도록 선언하였기 때문이다.
+        // 그렇다고 RoomController가 ArrayList와 GenericControler를
+        // 동시에 다중 상속 할 수는 없다.
+        // 왜? 자바는 다중상속을 지원하지 않기 때문이다.
+        //
+        // 이것이 상속으로 컨트롤러를 만드는 방법의 한계이다.
+        // 
+        // 상속의 문제는 반드시 그 서브 클래스만 등록할 수 있다는 것이다.
+        // 너무 제한적이다.
+        // 이런 제한을 해결하는 방법으로 나온 것이 "인터페이스" 문법이다.
+        // 다음 버전을 확인하라!
+        // 
+        controllerMap.put("4", new RoomController()); // 컴파일 오류!
         
         loop:
         while (true) {
@@ -70,27 +79,20 @@ public class App {
     
     private static void doGo(String menuNo) {
         
-        // controllerMap에 저장된 컨트롤러 객체는 
-        // Controller 규칙을 따르는 객체이기 때문에
-        // 레퍼런스를 선언할 때도 Controller 레퍼런스를 사용하라!
-        Controller controller = controllerMap.get(menuNo);
+        GenericController<?> controller = controllerMap.get(menuNo);
         
         if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
             return;
         }
         
-        // App 클래스는 컨틀롤러 객체를 사용할 때
-        // Controller 규칙에 정의된 메서드를 호출할 뿐이다!
-        // 이 규칙을 따르는 객체라면 누구를 상속 받는지 상관없이
-        // 호출할 수 있다.
-        // 이것이 인터페이스 문법을 사용하는 이유이다.
-        // 그 자격을 갖춘 객체라면 상속과 상관없이 호출할 수 있다.
-        // 사용하는 객체의 범위를 더 확대시키는 문법이다.
-        // 훨씬 코드 확장을 유연하게 도와준다.
-        // 이전의 방식이라면 GenericController의 서브 클래스만 
-        // 가능하기 때문에 너무 협소적이었다.
         controller.execute();
+        
+        // 다시 한번,
+        // GenericController 클래스에는 execute() 추상 메서드가 있다.
+        // 이 클래스의 서브 클래스들은 반드시 execute()를 
+        // 재정의해야 한다.
+        // 따라서 우리는 안심하고 execute()를 호출할 수 있다.
     }
 
     private static void doHelp() {
