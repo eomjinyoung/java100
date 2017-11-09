@@ -1,5 +1,8 @@
 package java100.app.control;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -11,8 +14,51 @@ import java100.app.util.Prompts;
 // Controller라는 규칙을 따르는 클래스이기도 하다!
 public class RoomController extends ArrayList<Room> implements Controller {
 
-    // Scanner 객체를 준비한다.
     Scanner keyScan = new Scanner(System.in);
+
+    public RoomController() {
+        this.init();
+    }
+    
+    @Override
+    public void destroy() {
+        
+        try (FileWriter out = new FileWriter("./data/room.csv");) {
+            for (Room room : this) {
+                out.write(room.toCSVString() + "\n");
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
+    // CSV 형식으로 저장된 파일에서 성적 데이터를 읽어 
+    // ArrayList에 보관한다.
+    @Override
+    public void init() {
+        
+        try (
+                FileReader in = new FileReader("./data/room.csv");
+                Scanner lineScan = new Scanner(in);) {
+            
+            String csv = null;
+            while (lineScan.hasNextLine()) {
+                csv = lineScan.nextLine();
+                try {
+                    this.add(new Room(csv));
+                } catch (CSVFormatException e) {
+                    System.err.println("CSV 데이터 형식 오류!");
+                    e.printStackTrace();
+                }
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
     // 다음 메서드는 Controller 규칙을 따르기로 했기 때문에,
     // Controller 선언된 추상 메서드를 오버라이딩 한 것이다.

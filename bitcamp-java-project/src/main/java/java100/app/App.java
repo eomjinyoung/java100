@@ -101,6 +101,7 @@ public class App {
         System.out.println("1 성적관리");
         System.out.println("2 회원관리");
         System.out.println("3 게시판");
+        System.out.println("4 강의실");
     }
 
     private static void doError() {
