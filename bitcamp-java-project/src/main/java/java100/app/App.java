@@ -33,14 +33,14 @@ public class App {
     public static void main(String[] args) {
         
         // go 명령어를 수행할 컨트롤러를 등록한다.
-        controllerMap.put("1", new ScoreController());
-        controllerMap.put("2", new MemberController());
-        controllerMap.put("3", new BoardController());
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
         
         // 비록 RooomController가 GenericController의 서브클래스는 아니지만,
         // Controller의 규칙을 따르기 때문에 
         // controllerMap에 저장할 수 있다.
-        controllerMap.put("4", new RoomController()); // OK!
+        controllerMap.put("4", new RoomController("./data/room.csv")); // OK!
         
         loop:
         while (true) {

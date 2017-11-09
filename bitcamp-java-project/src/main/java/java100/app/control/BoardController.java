@@ -12,14 +12,17 @@ import java100.app.util.Prompts;
 
 public class BoardController extends GenericController<Board> {
     
-    public BoardController() {
+    private String dataFilePath;
+    
+    public BoardController(String dataFilePath) {
+        this.dataFilePath = dataFilePath;
         this.init();
     }
     
     @Override
     public void destroy() {
         
-        try (FileWriter out = new FileWriter("./data/board.csv");) {
+        try (FileWriter out = new FileWriter(this.dataFilePath);) {
             for (Board board : this.list) {
                 out.write(board.toCSVString() + "\n");
             }
@@ -34,7 +37,7 @@ public class BoardController extends GenericController<Board> {
     public void init() {
         
         try (
-                FileReader in = new FileReader("./data/board.csv");
+                FileReader in = new FileReader(this.dataFilePath);
                 Scanner lineScan = new Scanner(in);) {
             
             String csv = null;

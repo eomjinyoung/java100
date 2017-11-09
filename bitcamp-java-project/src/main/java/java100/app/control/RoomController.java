@@ -15,15 +15,17 @@ import java100.app.util.Prompts;
 public class RoomController extends ArrayList<Room> implements Controller {
 
     Scanner keyScan = new Scanner(System.in);
-
-    public RoomController() {
+    private String dataFilePath;
+    
+    public RoomController(String dataFilePath) {
+        this.dataFilePath = dataFilePath;
         this.init();
     }
     
     @Override
     public void destroy() {
         
-        try (FileWriter out = new FileWriter("./data/room.csv");) {
+        try (FileWriter out = new FileWriter(this.dataFilePath);) {
             for (Room room : this) {
                 out.write(room.toCSVString() + "\n");
             }
@@ -40,7 +42,7 @@ public class RoomController extends ArrayList<Room> implements Controller {
     public void init() {
         
         try (
-                FileReader in = new FileReader("./data/room.csv");
+                FileReader in = new FileReader(this.dataFilePath);
                 Scanner lineScan = new Scanner(in);) {
             
             String csv = null;
