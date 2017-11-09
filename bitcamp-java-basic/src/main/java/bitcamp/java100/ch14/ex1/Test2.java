@@ -22,7 +22,22 @@ public class Test2 {
         
         // 디렉토리 생성
         File file2 = new File("dir1");
-        //file2
+        
+        // 존재하는 디렉토리는 다시 생성하지 않는다.
+        System.out.printf("디렉토리 생성=%b\n", file2.mkdir());
+        
+        // 디렉토리에 파일이 있을 경우 삭제하지 않는다.
+        System.out.printf("디렉토리 삭제=%b\n", file2.delete());
+        
+        // 디렉토리 생성2 - 여러 하위 디렉토리가 있을 경우
+        File file3 = new File("aaa/bbb/ccc/test.txt");
+        
+        // 생성 실패!
+        System.out.printf("디렉토리2 생성=%b\n", file3.mkdir());
+        
+        // 생성 성공!
+        // => 파일 경로에서 마지막 이름도 디렉토리로 간주한다.
+        System.out.printf("디렉토리2 생성=%b\n", file3.mkdirs());
     }
 
 }
