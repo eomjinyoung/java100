@@ -23,13 +23,7 @@ public class ScoreController extends GenericController<Score> {
         
         try (FileWriter out = new FileWriter("./data/score.csv");) {
             for (Score score : this.list) {
-                out.write(String.format("%s,%d,%d,%d,%d,%f\n", 
-                        score.getName(), 
-                        score.getKor(), 
-                        score.getEng(),
-                        score.getMath(),
-                        score.getSum(),
-                        score.getAver()));
+                out.write(score.toCSVString() + "\n");
             }
             
         } catch (IOException e) {
@@ -47,19 +41,15 @@ public class ScoreController extends GenericController<Score> {
                 FileReader in = new FileReader("./data/score.csv");
                 Scanner lineScan = new Scanner(in);) {
             
-            String str = null;
+            String csv = null;
             while (lineScan.hasNextLine()) {
-                str = lineScan.nextLine();
-                
-                String[] rec = str.split(",");
-                if (rec.length != 6) // 데이터의 개수가 올바르지 않다면,
-                    continue; // 이 데이터는 건너 뛴다.
-                
-                Score score = new Score(rec[0], 
-                        Integer.parseInt(rec[1]), 
-                        Integer.parseInt(rec[2]), 
-                        Integer.parseInt(rec[3]));
-                list.add(score);
+                csv = lineScan.nextLine();
+                try {
+                    list.add(new Score(csv));
+                } catch (CSVFormatException e) {
+                    System.err.println("CSV 데이터 형식 오류!");
+                    e.printStackTrace();
+                }
             }
             
         } catch (IOException e) {
