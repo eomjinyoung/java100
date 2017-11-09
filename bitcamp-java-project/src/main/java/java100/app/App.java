@@ -7,6 +7,7 @@
 //: 
 package java100.app;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -107,13 +108,13 @@ public class App {
     }
 
     private static void doQuit() {
+        Collection<Controller> controls = controllerMap.values();
+        for (Controller control : controls) {
+            control.destroy(); // 각 컨트롤러에게 마무리 기회를 준다.
+        }
         System.out.println("프로그램을 종료합니다.");
     }
 
-
-
-
-        
 }
 
 

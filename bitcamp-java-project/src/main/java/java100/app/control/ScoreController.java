@@ -4,16 +4,22 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import java100.app.domain.Score;
 import java100.app.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
     
+    public ScoreController() {
+        this.init();
+    }
+    
     // ArrayList에 보관된 데이터를 score.csv 파일에 저장한다.
     // 저장하는 형식은 CSV(Comma Separated Value) 방식을 사용한다.
     // 예) 홍길동,100,100,100,300,100.0
-    public void save() {
+    @Override
+    public void destroy() {
         
         try (FileWriter out = new FileWriter("./data/score.csv");) {
             for (Score score : this.list) {
@@ -32,33 +38,28 @@ public class ScoreController extends GenericController<Score> {
         }
     }
     
-    public static void main(String[] args) {
-        ScoreController obj = new ScoreController();
-        obj.load();
-    }
-    
     // CSV 형식으로 저장된 파일에서 성적 데이터를 읽어 
     // ArrayList에 보관한다.
-    public void load() {
+    @Override
+    public void init() {
         
-        try (FileReader in = new FileReader("./data/score.csv");) {
+        try (
+                FileReader in = new FileReader("./data/score.csv");
+                Scanner lineScan = new Scanner(in);) {
             
-            StringBuffer buf = new StringBuffer();
-            int ch;
-            while ((ch = in.read()) != -1) {
-                if (ch == 0x0d) // CR(Carrage Return)
-                    continue;
-                if (ch != 0x0a) {
-                    buf.append((char)ch);
-                } else {
-                    // 한 줄을 읽었으면, 
-                    // 그 줄을 분석하여 Score 객체에 담은 다음에
-                    // 다시 Score 객체를 ArrayList에 추가한다.
-                    System.out.println(buf.toString());
-                    
-                    // 처리했으면 다시 버퍼를 비운다.
-                    buf.setLength(0);
-                }
+            String str = null;
+            while (lineScan.hasNextLine()) {
+                str = lineScan.nextLine();
+                
+                String[] rec = str.split(",");
+                if (rec.length != 6) // 데이터의 개수가 올바르지 않다면,
+                    continue; // 이 데이터는 건너 뛴다.
+                
+                Score score = new Score(rec[0], 
+                        Integer.parseInt(rec[1]), 
+                        Integer.parseInt(rec[2]), 
+                        Integer.parseInt(rec[3]));
+                list.add(score);
             }
             
         } catch (IOException e) {

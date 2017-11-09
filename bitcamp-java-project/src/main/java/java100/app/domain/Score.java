@@ -26,7 +26,12 @@ public class Score {
         this.compute();
     }
     
-    
+    @Override
+    public String toString() {
+        return "Score [name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum=" + sum + ", aver="
+                + aver + "]";
+    }
+
     public String getName() {
         return name;
     }
