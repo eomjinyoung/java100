@@ -1,11 +1,70 @@
 package java100.app.control;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
 
 import java100.app.domain.Score;
 import java100.app.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
+    
+    // ArrayList에 보관된 데이터를 score.csv 파일에 저장한다.
+    // 저장하는 형식은 CSV(Comma Separated Value) 방식을 사용한다.
+    // 예) 홍길동,100,100,100,300,100.0
+    public void save() {
+        
+        try (FileWriter out = new FileWriter("./data/score.csv");) {
+            for (Score score : this.list) {
+                out.write(String.format("%s,%d,%d,%d,%d,%f\n", 
+                        score.getName(), 
+                        score.getKor(), 
+                        score.getEng(),
+                        score.getMath(),
+                        score.getSum(),
+                        score.getAver()));
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
+    public static void main(String[] args) {
+        ScoreController obj = new ScoreController();
+        obj.load();
+    }
+    
+    // CSV 형식으로 저장된 파일에서 성적 데이터를 읽어 
+    // ArrayList에 보관한다.
+    public void load() {
+        
+        try (FileReader in = new FileReader("./data/score.csv");) {
+            
+            StringBuffer buf = new StringBuffer();
+            int ch;
+            while ((ch = in.read()) != -1) {
+                if (ch == 0x0d) // CR(Carrage Return)
+                    continue;
+                if (ch != 0x0a) {
+                    buf.append((char)ch);
+                } else {
+                    // 한 줄을 읽었으면, 
+                    // 그 줄을 분석하여 Score 객체에 담은 다음에
+                    // 다시 Score 객체를 ArrayList에 추가한다.
+                    System.out.println(buf.toString());
+                    
+                    // 처리했으면 다시 버퍼를 비운다.
+                    buf.setLength(0);
+                }
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     // 실제 이 클래스가 오버라이딩 하는 메서드는 
     // GenericController가 따른다고 한 Controller 인터페이스의 

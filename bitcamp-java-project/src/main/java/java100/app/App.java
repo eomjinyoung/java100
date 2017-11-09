@@ -1,7 +1,9 @@
-//: ## ver 31
-//: - 인터페이스를 적용하여 상속의 한계를 극복해보자!
+//: ## ver 32
+//: - 사용자가 입력한 데이터를 파일에 저장하여 다음에 프로그램을 실행할 때도
+//:   유지되게 하라!
 //: - 학습목표
-//:   - 인터페이스의 사용법과 이점을 익힌다.
+//:   - File API를 활용하는 방법을 연습한다
+//: 
 //: 
 package java100.app;
 
@@ -14,17 +16,11 @@ import java100.app.control.MemberController;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
  
-// 인터페이스 정의
-// 1) App 클래스와 컨트롤러들 사이의 호출 규칙을 정의한다.
-//    => Controller 인터페이스 정의
+// 프로그램을 실행할 때 파일에서 메모리로 데이터를 로딩한다.
+// 프로그램을 종료할 때 메모리에 있는 데이터를 파일로 저장한다.
+// 1) 각 컨트롤러 클래스에 파일을 저장하고 파일을 로딩하는 기능을 추가한다.
+// => save(), load() 메서드 추가
 // 
-// 2)기존의 컨트롤러들이 이 규칙을 따르도록 변경한다.
-//    => GenericController가 Controller의 규칙을 따른다.
-//    => RoomController는 직접 Controller의 규칙을 따른다.
-//
-// 3) controllerMap에 저장하는 값은 Controller 규칙을 따르는 객체로
-//    변경한다.
-//
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
