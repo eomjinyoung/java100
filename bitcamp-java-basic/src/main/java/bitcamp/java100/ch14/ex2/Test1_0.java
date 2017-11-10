@@ -27,7 +27,7 @@ package bitcamp.java100.ch14.ex2;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class Test1 {
+public class Test1_0 {
     public static void main(String[] args) throws Exception {
         // 0) 읽어올 파일 정보 준비
         File file = new File("sample/a.jpg");
