@@ -1,4 +1,4 @@
-// File System 다루기 : 디렉토리 내용 알아내기 III
+// File System 다루기 : 필터 사용
 package bitcamp.java100.ch14.ex1;
 
 import java.io.File;
