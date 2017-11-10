@@ -18,9 +18,18 @@ public class Test12 {
     static void printFiles(File dir) throws Exception {
         File[] files = dir.listFiles();
         
+        String path;
+        int i = 0;
         for (File f : files) {
             if (f.isFile() && f.getName().endsWith(".class")) {
-                System.out.println(f.getName());
+                path = f.getCanonicalPath();
+                i = path.indexOf("bin") + 4;
+                
+                System.out.println(
+                        path.substring(i)
+                            .replace(".class", "")
+                            .replace("/", ".")
+                            .replace("\\", "."));
             }
             if (f.isDirectory()) {
                 printFiles(f);
