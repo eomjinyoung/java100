@@ -1,4 +1,4 @@
-// 파일 읽기: FileInputStream 사용법 - 버퍼 사용 전
+// 파일 읽기: FileInputStream 사용법 - 버퍼 사용 후
 
 package bitcamp.java100.ch14.ex2;
 
