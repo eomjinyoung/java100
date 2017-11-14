@@ -1,8 +1,11 @@
 package java100.app.control;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -13,7 +16,8 @@ import java100.app.util.Prompts;
 // RoomController는 ArrayList를 상속 받은 서브 클래스이기도 하지만,
 // Controller라는 규칙을 따르는 클래스이기도 하다!
 public class RoomController extends ArrayList<Room> implements Controller {
-
+    private static final long serialVersionUID = 1L;
+    
     Scanner keyScan = new Scanner(System.in);
     private String dataFilePath;
     
@@ -25,9 +29,11 @@ public class RoomController extends ArrayList<Room> implements Controller {
     @Override
     public void destroy() {
         
-        try (FileWriter out = new FileWriter(this.dataFilePath);) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedWriter(
+                new FileWriter(this.dataFilePath)))) {
             for (Room room : this) {
-                out.write(room.toCSVString() + "\n");
+                out.println(room.toCSVString());
             }
             
         } catch (IOException e) {
@@ -41,13 +47,11 @@ public class RoomController extends ArrayList<Room> implements Controller {
     @Override
     public void init() {
         
-        try (
-                FileReader in = new FileReader(this.dataFilePath);
-                Scanner lineScan = new Scanner(in);) {
+        try (BufferedReader in = new BufferedReader(
+                new FileReader(this.dataFilePath));) {
             
             String csv = null;
-            while (lineScan.hasNextLine()) {
-                csv = lineScan.nextLine();
+            while ((csv = in.readLine()) != null) {
                 try {
                     this.add(new Room(csv));
                 } catch (CSVFormatException e) {
