@@ -30,6 +30,10 @@ public class BoardController extends GenericController<Board> {
             for (Board board : this.list) {
                 out.println(board.toCSVString());
             }
+            // 버퍼에 남은 찌꺼기를 마저 출력한다.
+            // => 물론 close()가 호출되도 버퍼에 남은 찌꺼기가 출력될 것이다.
+            // => 그래도 가능한 명시적으로 출력하자!
+            out.flush();
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +56,7 @@ public class BoardController extends GenericController<Board> {
                     e.printStackTrace();
                 }
             }
+            
             
         } catch (IOException e) {
             e.printStackTrace();
