@@ -2,7 +2,6 @@ package bitcamp.java100.ch14.ex1;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 
 public class MyFilenameFilter implements FilenameFilter {
 
