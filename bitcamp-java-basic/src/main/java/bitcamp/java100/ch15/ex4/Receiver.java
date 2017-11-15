@@ -16,7 +16,8 @@ public class Receiver {
         out.println("receiver");
         
         // 서버가 응답한 내용을 받아 출력한다.
-        Scanner in = new Scanner(socket.getInputStream());
+        Scanner in = new Scanner(
+                socket.getInputStream());
         
         while (true) {
             System.out.println(in.nextLine());
