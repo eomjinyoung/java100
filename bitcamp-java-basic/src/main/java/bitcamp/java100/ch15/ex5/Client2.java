@@ -1,19 +1,22 @@
-// 바이너리 데이터 전송하기
+// 바이너리 데이터 전송하기 : 버퍼 기능 추가
 package bitcamp.java100.ch15.ex5;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.Socket;
 
-public class Client {
+public class Client2 {
     public static void main(String[] args) throws Exception {
         // 파일 정보 가져오기
         File photo = new File("./sample/jls9.pdf");
         
         // 입력 스트림 도구 준비
-        FileInputStream fileIn = new FileInputStream(photo);
+        BufferedInputStream fileIn = new BufferedInputStream( 
+                new FileInputStream(photo));
         
         // 서버에 연결
         Socket socket = new Socket("localhost", 9999);
@@ -22,7 +25,8 @@ public class Client {
         // => DataOutputStream 클래스에는 문자열과 long, 바이트를 출력하는
         //    메서드가 구비되어 있다.
         DataOutputStream netOut = new DataOutputStream(
-                socket.getOutputStream());
+                new BufferedOutputStream(
+                socket.getOutputStream()));
         
         long start = System.currentTimeMillis();
         
@@ -38,9 +42,14 @@ public class Client {
             netOut.write(b); //1바이트 보낸다.
         }
         
+        // 버퍼를 사용할 때는 항상 출력 끝에 flush()를 호출하여 
+        // 버퍼에 남아있는 잔여 데이터를 출력하라!
+        netOut.flush();
+        
         // 서버로부터 응답을 받는다.
         DataInputStream netIn = new DataInputStream(
-                socket.getInputStream());
+                new BufferedInputStream(
+                socket.getInputStream()));
         String response = netIn.readUTF();
         
         long end = System.currentTimeMillis();
