@@ -14,7 +14,7 @@ public class MulticastServer {
         MulticastSocket socket = new MulticastSocket(9999);
         
         // 멀티캐스트를 위한 그룹 IP 주소를 준비한다.
-        InetAddress groupAddr = InetAddress.getByName("230.0.0.1");
+        InetAddress groupAddr = InetAddress.getByName("224.0.0.1");
         
         socket.joinGroup(groupAddr);
         

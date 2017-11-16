@@ -20,7 +20,7 @@ public class MulticastClient {
         // 멀티캐스트 그룹 IP 주소
         // 멀태캐스트 그룹 주소는 224.0.0.0 ~ 239.255.255.255 까지 사용가능.
         //
-        InetAddress ip = InetAddress.getByName("230.0.0.1");
+        InetAddress ip = InetAddress.getByName("224.0.0.1");
         
         // 받는쪽 port
         int port = 9999;
