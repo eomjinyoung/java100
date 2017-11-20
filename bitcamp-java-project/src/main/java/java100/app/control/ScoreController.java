@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 
 import java100.app.domain.Score;
-import java100.app.util.Prompts;
 
 public class ScoreController extends GenericController<Score> {
     
@@ -79,74 +78,57 @@ public class ScoreController extends GenericController<Score> {
     }
     
     private void doDelete(Request request, Response response) {
-        System.out.println("[성적 삭제]");
-        // Prompts 클래스의 input() 메서드를 사용한 예:
-        //String name = Prompts.input("이름? ");
+        PrintWriter out = response.getWriter();
         
-        String name = Prompts.inputString("이름? ");
+        String name = request.getParameter("name");
+        
+        out.println("[성적 삭제]");
         
         Score score = findByName(name);
         
         if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
         } else {
-            if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                list.remove(score);
-                System.out.println("삭제하였습니다.");
-            } else {
-                System.out.println("삭제를 취소하였습니다.");
-            }
+            list.remove(score);
+            out.println("삭제했습니다.");
         }
     }
 
     private void doUpdate(Request request, Response response) {
-        System.out.println("[성적 변경]");
-        String name = Prompts.inputString("이름? ");
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        
+        out.println("[성적 변경]");
         
         Score score = findByName(name);
         
         if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-        } else {
-            int kor = score.getKor();
-            try {
-                kor = Prompts.inputInt("국어?(%d) ", score.getKor());
-            } catch(Exception e) {}
-            
-            int eng = score.getEng();
-            try {
-                eng = Prompts.inputInt("영어?(%d) ", score.getEng());
-            } catch(Exception e) {}
-            
-            int math = score.getMath();
-            try {
-                math = Prompts.inputInt("수학?(%d) ", score.getMath());
-            } catch(Exception e) {}
-            
-            if (Prompts.confirm2("변경하시겠습니까?(y/N) ")) {
-                score.setKor(kor);
-                score.setEng(eng);
-                score.setMath(math);
-                System.out.println("변경하였습니다.");
-                
-            } else {
-                System.out.println("변경을 취소하였습니다.");
-            }
-        }
+            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+            return;
+        } 
+        
+        score.setKor(Integer.parseInt(request.getParameter("kor")));
+        score.setEng(Integer.parseInt(request.getParameter("eng")));
+        score.setMath(Integer.parseInt(request.getParameter("math")));
+        
+        out.println("변경하였습니다!");
     }
 
     private void doView(Request request, Response response) {
-        System.out.println("[성적 상세 정보]");
-        String name = Prompts.inputString("이름? ");
+        PrintWriter out = response.getWriter();
+        
+        String name = request.getParameter("name");
         
         Score score = findByName(name);
         
+        out.println("[성적 상세 정보]");
+        
         if (score == null) {
-            System.out.printf("'%s'의 성적 정보가 없습니다.\n", name);
+            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
             return;
         }
         
-        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+        out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
                 score.getName(),
                 score.getKor(),
                 score.getEng(),

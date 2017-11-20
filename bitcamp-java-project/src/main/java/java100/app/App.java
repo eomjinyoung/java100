@@ -49,6 +49,27 @@ import java100.app.control.ScoreController;
 // 
 // 명령>
 //
+// 게시판 명령어 정리:
+// 목록 => /board/list
+// 보기 => /board/view?no=1
+// 등록 => /board/add?no=10&title=aaa&content=bbb
+// 변경 => /board/update?no=10&title=aaax&content=bbbx
+// 삭제 => /board/delete?no=10
+//
+// 회원관리 명령어 정리:
+// 목록 => /member/list
+// 보기 => /member/view?email=aaa@test.com
+// 등록 => /member/add?email=bbb@test.com&name=bbb&password=1111
+// 변경 => /member/update?email=bbb@test.com&name=bbbx&password=2222
+// 삭제 => /member/delete?email=bbb@test.com
+//
+// 강의실 명령어 정리:
+// 목록 => /room/list
+// 보기 => /room/view?name=K101
+// 등록 => /room/add?name=K101&location=강남&capacity=30
+// 변경 => /room/update?name=K101&location=강남&capacity=30
+// 삭제 => /root/delete?name=K101
+//
 public class App {
 
     Scanner keyScan = new Scanner(System.in);
@@ -162,6 +183,8 @@ public class App {
     }
 
 }
+
+
 
 
 
