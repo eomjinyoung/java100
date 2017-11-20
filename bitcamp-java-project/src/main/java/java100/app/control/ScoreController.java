@@ -170,16 +170,17 @@ public class ScoreController extends GenericController<Score> {
     }
 
     private void doAdd(Request request, Response response) {
-        System.out.println("[성적 등록]");
-        
+
         Score score = new Score();
-        
-        score.setName(Prompts.inputString("이름? "));
-        score.setKor(Prompts.inputInt("국어? "));
-        score.setEng(Prompts.inputInt("영어? "));
-        score.setMath(Prompts.inputInt("수학? "));
+        score.setName(request.getParameter("name"));
+        score.setKor(Integer.parseInt(request.getParameter("kor")));
+        score.setEng(Integer.parseInt(request.getParameter("eng")));
+        score.setMath(Integer.parseInt(request.getParameter("math")));
         
         list.add(score);
+        
+        PrintWriter out = response.getWriter();
+        out.println("저장하였습니다.");
     }
     
     private Score findByName(String name) {

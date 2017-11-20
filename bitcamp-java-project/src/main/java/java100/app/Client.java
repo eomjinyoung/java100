@@ -34,7 +34,8 @@ public class Client {
                 out.flush();
 
                 //=> quit 명령어를 입력 받았으면 프로그램을 종료한다.
-                if (command.equals("quit")) {
+                if (command.equals("quit") || 
+                        command.equals("server stop")) {
                     break;
                 }
 

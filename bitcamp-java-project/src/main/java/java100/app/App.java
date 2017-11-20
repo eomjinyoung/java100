@@ -12,15 +12,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import java100.app.control.BoardController;
 import java100.app.control.Controller;
-import java100.app.control.MemberController;
 import java100.app.control.Request;
 import java100.app.control.Response;
-import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
 // App 클래스를 서버 프로그램으로 전환한다.
@@ -72,6 +70,7 @@ public class App {
         ServerSocket ss = new ServerSocket(9999);
         System.out.println("서버 실행!");
         
+        loop:
         while (true) {
             try (
                     // 클라이언트가 연결되면,
@@ -91,16 +90,27 @@ public class App {
                         hello(command, out);
                     } else if (command.equals("quit")) {
                         break;
+                    } else if (command.equals("server stop")) {
+                        break loop;
                     } else {
                         request(command, out);
                     }
                     out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                     out.flush();
                 }
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } // while
+        
+        // 모든 컨트롤러에 대해 마무리 작업을 지시한다.
+        Collection<Controller> controllers = controllerMap.values();
+        for (Controller controller : controllers) {
+            controller.destroy(); // List에 들어있는 값을 파일에 저장.
+        }
+        
+        ss.close();
     }
 
 
