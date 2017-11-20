@@ -20,9 +20,6 @@ public class ScoreController extends GenericController<Score> {
         this.init();
     }
     
-    // ArrayList에 보관된 데이터를 score.csv 파일에 저장한다.
-    // 저장하는 형식은 CSV(Comma Separated Value) 방식을 사용한다.
-    // 예) 홍길동,100,100,100,300,100.0
     @Override
     public void destroy() {
         
@@ -67,31 +64,21 @@ public class ScoreController extends GenericController<Score> {
         }
     }
     
-    // 실제 이 클래스가 오버라이딩 하는 메서드는 
-    // GenericController가 따른다고 한 Controller 인터페이스의 
-    // 추상 메서드이다.
     @Override
-    public void execute() {
-        loop:
-        while (true) {
-            System.out.print("성적관리> ");
-            String input = keyScan.nextLine();
-            
-            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
-            switch (input) {
-            case "add": this.doAdd(); break;
-            case "list": this.doList(); break;
-            case "view": this.doView(); break;
-            case "update": this.doUpdate(); break;
-            case "delete": this.doDelete(); break;
-            case "main": break loop;
-            default: 
-                System.out.println("해당 명령이 없습니다.");
-            }
+    public void execute(Request request, Response response) {
+
+        switch (request.getMenuPath()) {
+        case "/score/add": this.doAdd(request, response); break;
+        case "/score/list": this.doList(request, response); break;
+        case "/score/view": this.doView(request, response); break;
+        case "/score/update": this.doUpdate(request, response); break;
+        case "/score/delete": this.doDelete(request, response); break;
+        default: 
+            response.getWriter().println("해당 명령이 없습니다.");
         }
     }
     
-    private void doDelete() {
+    private void doDelete(Request request, Response response) {
         System.out.println("[성적 삭제]");
         // Prompts 클래스의 input() 메서드를 사용한 예:
         //String name = Prompts.input("이름? ");
@@ -112,7 +99,7 @@ public class ScoreController extends GenericController<Score> {
         }
     }
 
-    private void doUpdate() {
+    private void doUpdate(Request request, Response response) {
         System.out.println("[성적 변경]");
         String name = Prompts.inputString("이름? ");
         
@@ -148,7 +135,7 @@ public class ScoreController extends GenericController<Score> {
         }
     }
 
-    private void doView() {
+    private void doView(Request request, Response response) {
         System.out.println("[성적 상세 정보]");
         String name = Prompts.inputString("이름? ");
         
@@ -168,20 +155,21 @@ public class ScoreController extends GenericController<Score> {
                 score.getAver());
     }
 
-    private void doList() {
-        System.out.println("[성적 목록]");
+    private void doList(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+        out.println("[성적 목록]");
         
         Iterator<Score> iterator = list.iterator();
         while (iterator.hasNext()) {
             Score score = iterator.next();
-            System.out.printf("%-4s, %4d, %6.1f\n",  
+            out.printf("%-4s, %4d, %6.1f\n",  
                     score.getName(), 
                     score.getSum(), 
                     score.getAver());
         }
     }
 
-    private void doAdd() {
+    private void doAdd(Request request, Response response) {
         System.out.println("[성적 등록]");
         
         Score score = new Score();

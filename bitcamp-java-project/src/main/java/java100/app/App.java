@@ -9,16 +9,17 @@ package java100.app;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.control.BoardController;
 import java100.app.control.Controller;
 import java100.app.control.MemberController;
+import java100.app.control.Request;
+import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
@@ -60,9 +61,9 @@ public class App {
 
     void init() {
         controllerMap.put("/score", new ScoreController("./data/score.csv"));
-        controllerMap.put("/member", new MemberController("./data/member.csv"));
-        controllerMap.put("/board", new BoardController("./data/board.csv"));
-        controllerMap.put("/room", new RoomController("./data/room.csv")); 
+        //controllerMap.put("/member", new MemberController("./data/member.csv"));
+        //controllerMap.put("/board", new BoardController("./data/board.csv"));
+        //controllerMap.put("/room", new RoomController("./data/room.csv")); 
 
     }
 
@@ -78,7 +79,7 @@ public class App {
                     // 소켓을 통해 데이터를 입출력할 수 있도록 스트림 객체 준비
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(socket.getInputStream()));
-                    PrintStream out = new PrintStream(
+                    PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
                 while (true) {
@@ -104,7 +105,7 @@ public class App {
 
 
 
-    private void request(String command, PrintStream out) {
+    private void request(String command, PrintWriter out) {
 
         String menuName = command;
 
@@ -120,11 +121,17 @@ public class App {
             return;
         }
 
-        out.println("좋은 명령입니다.^^");
-        //controller.execute();
+        // Controller를 실행하기 전에 컨트롤러가 작업하기 편하게
+        // 클라이언트가 보낸 명령을 분석하여 객체 담아 둔다.
+        Request request = new Request(command);
+        
+        Response response = new Response();
+        response.setWriter(out);
+        
+        controller.execute(request, response);
     }
 
-    private void hello(String command, PrintStream out) {
+    private void hello(String command, PrintWriter out) {
         out.println("안녕하세요. 성적관리 시스템입니다.");
         out.println("[성적관리 명령들]");
         out.println("목록보기: /score/list");
