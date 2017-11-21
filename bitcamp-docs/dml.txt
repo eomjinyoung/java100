@@ -1,0 +1,2 @@
+# data manipulation language
+데이터 등록, 변경, 삭제를 다루는 SQL 문법
