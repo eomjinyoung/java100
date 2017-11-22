@@ -178,6 +178,111 @@ from test16
 where name like 's0_';
 ```
 
+### 날짜 다루기
+- 날짜 함수와 문자열 함수를 사용하여 날짜 값을 다루는 방법.
+```
+create table test18 (
+  no int not null,
+  title varchar(200) not null,
+  content text,
+  regdt datetime not null
+);
+
+alter table test18
+  add constraint primary key (no),
+  modify column no int not null auto_increment;
+
+insert into test18(title, regdt) values('aaaa', '2017-01-27');
+insert into test18(title, regdt) values('bbbb', '2017-2-2');
+insert into test18(title, regdt) values('cccc', '2017-2-13');
+insert into test18(title, regdt) values('dddd', '2017-3-2');
+insert into test18(title, regdt) values('eeee', '2017-4-15');
+insert into test18(title, regdt) values('ffff', '2017-6-7');
+insert into test18(title, regdt) values('gggg', '2017-6-17');
+insert into test18(title, regdt) values('hhhh', '2017-6-27');
+insert into test18(title, regdt) values('iiii', '2017-9-5');
+insert into test18(title, regdt) values('jjjj', '2017-10-12');
+insert into test18(title, regdt) values('kkkk', '2017-11-22');
+insert into test18(title, regdt) values('llll', '2017-11-24');
+insert into test18(title, regdt) values('mmmm', '2017-12-31');
+```
+
+- 날짜 값 비교하기
+```
+/* 특정 날짜의 게시글 찾기 */
+select * 
+from test18
+where regdt = '2017-6-17';
+
+/* 특정 기간의 게시글 조회 */
+select * 
+from test18
+where regdt between '2017-11-1' and '2017-12-31';
+
+select * 
+from test18
+where regdt >= '2017-11-1' and regdt <= '2017-12-31';
+```
+
+- 날짜를 다루는 연산자와 함수
+```
+/* 현재 날짜 및 시간 알아내기 */
+select now();
+
+/* 현재 날짜 알아내기 */
+select curdate();
+
+/* 현재 시간 알아내기 */
+select curtime();
+
+/* 주어진 날짜, 시간에서 날짜만 뽑거나 시간만 뽑기 */
+select regdt, date(regdt), time(regdt) from test18;
+
+/* 특정 날짜에 시,분,초,일,월,년을 추가하거나 빼기*/
+date_add(날짜데이터, interval 값 단위);
+date_sub(날짜데이터, interval 값 단위);
+
+select date_add(now(), interval 11 day);
+select date_sub(now(), interval 11 day);
+
+/* 두 날짜 사이의 간격을 알아내기 */
+datediff(날짜1, 날짜2);
+select datediff(curdate(), '2018-3-19');
+
+/* 날짜에서 특정 형식으로 값을 추출하기 */
+date_format(날짜, 형식)
+select date_format('2017-9-7', '%m/%e/%Y'); /* 09/7/2017 */
+select date_format('2017-9-7', '%M/%d/%y'); /* September/07/17 */
+select date_format('2017-9-7', '%W %w %a'); /* Thursday 4 Thu */
+select date_format('2017-9-7', '%M %b'); /* September Sep */
+select date_format('2017-9-7 13:5:45', '%p %h %H %l'); /* PM 01 13 1 */
+select date_format('2017-9-7 13:5:45', '%i %s'); /* 05 45 */
+
+/* 문자열을 날짜 값으로 바꾸기 */
+select str_to_date('11/22/2017', '%m/%d/%Y');
+select str_to_date('2017.2.12', '%Y.%m.%d');
+
+
+/* 날짜 값을 저장할 때 기본 형식은 yyyy-MM-dd이다. */
+insert into test18 (title, regdt) values('aaaa', '2017-11-22');
+
+/* 다음 형식의 문자열을 날짜 값으로 지정할 수 없다.*/
+insert into test18 (title, regdt) values('bbbb', '11/22/2017');
+
+/* 위 형식의 문자열을 날짜 값으로 저장하려면 str_to_date() 함수를 사용해야 한다.*/
+insert into test18 (title, regdt) 
+  values('bbbb', str_to_date('11/22/2017', '%m/%d/%Y'));
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
