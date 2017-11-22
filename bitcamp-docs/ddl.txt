@@ -327,8 +327,174 @@
 ##### index
 - 검색 조건으로 사용되는 컬럼은 정렬되어야만 데이터를 빨리 찾을 수 있다.
 - 특정 컬럼의 값을 A-Z 또는 Z-A로 정렬시키는 문법이 인덱스이다.
+```
+create table test13(
+  no int primary key,
+  name varchar(20),
+  age int,
+  kor int,
+  eng int,
+  math int,
+  constraint unique (name, age),
+  fulltext index (name)
+);
 
+insert into test13(no,name,age,kor,eng,math) values(1,'aaa',20,80,80,80);
+insert into test13(no,name,age,kor,eng,math) values(2,'bbb',21,90,80,80);
+insert into test13(no,name,age,kor,eng,math) values(3,'ccc',20,80,80,80);
+insert into test13(no,name,age,kor,eng,math) values(4,'ddd',22,90,80,80);
+insert into test13(no,name,age,kor,eng,math) values(5,'eee',20,80,80,80); 
+```
+- name 컬럼은 인덱스 컬럼으로 지정되었기 때문에 
+  DBMS는 데이터가 추가되거나 삭제되거나 name 컬럼 값이 변경될 때마다
+  색인표를 갱신한다.
+- 단점, 이런 이유로 이름으로 검색할 때 찾기 속도는 빠르지만,
+  입력,변경,삭제 속도는 느리게 된다.
+   
+#### 인덱스 컬럼의 활용
+검색할 때 사용한다.
+```
+select * from test13 where name = 'bbb';
+```
 
+### 테이블 변경 
+기존에 있는 테이블을 변경할 수 있다.
+
+- 테이블 생성
+```
+create table test14 (
+  name varchar(3),
+  kor int,
+  eng int,
+  math int,
+  sum int,
+  aver int
+);
+
+```
+
+- 테이블에 컬럼 추가
+```
+alter table test14
+  add column no int;
+
+alter table test14
+  add column age int;  
+```
+
+- PK 컬럼 지정, UNIQUE 컬럼 지정, INDEX 컬럼 지정
+```
+alter table test14
+  add constraint primary key (no),
+  add constraint unique (name, age),
+  add fulltext index (name);
+```
+
+- 컬럼에 옵션 추가
+```
+alter table test14
+  modify column name varchar(20) not null,
+  modify column age int not null,
+  modify column kor int not null,
+  modify column eng int not null,
+  modify column math int not null,
+  modify column sum int not null,
+  modify column aver float not null;
+```
+
+- 입력 테스트
+```
+insert into test14(no,name,age,kor,eng,math,sum,aver)
+  values(1,'aaa',20,100,100,100,300,100);
+  
+insert into test14(no,name,age,kor,eng,math,sum,aver)
+  values(2,'bbb',21,100,100,100,300,100);
+
+/* 다음은 name과 age의 값이 중복되기 때문에 입력 거절된다.*/  
+insert into test14(no,name,age,kor,eng,math,sum,aver)
+  values(3,'bbb',21,100,100,100,300,100);  
+```
+
+### 컬럼 값 자동 증가
+- 숫자 타입의 PK 컬럼인 경우 값을 1씩 자동 증가시킬 수 있다.
+- 즉 데이터를 입력할 때 해당 컬럼의 값을 넣지 않아도 자동으로 증가된다.
+- 단 삭제를 통해 중간에 비어있는 번호는 다시 채우지 않는다.
+  즉 증가된 번호는 계속 앞으로 증가할 뿐이다.
+
+- 테이블 생성 
+```
+create table test15(
+  no int not null,
+  name varchar(20) not null
+);
+``` 
+
+- 특정 컬럼의 값을 자동으로 증가되게 선언한다.
+- 단 반드시 primary key에 대해서 자동 증가 옵션을 붙일 수 있다.
+```
+alter table test15
+  add constraint primary key (no),
+  modify column no int not null auto_increment;
+```
+
+- 입력 테스트
+```
+insert into test15(name) values('aaa');
+insert into test15(name) values('bbb');
+insert into test15(name) values('ccc');
+insert into test15(name) values('ddd');
+insert into test15(name) values('eee');
+```
+
+## 뷰(view)
+- 조회 결과를 테이블처럼 사용하는 문법
+
+```
+create table test16 (
+  no int primary key auto_increment,
+  name varchar(20) not null,
+  class varchar(10) not null,
+  working char(1) not null,
+  tel varchar(20)
+);
+
+insert into test16(name,class,working) values('aaa','java100','Y');
+insert into test16(name,class,working) values('bbb','java100','N');
+insert into test16(name,class,working) values('ccc','java100','Y');
+insert into test16(name,class,working) values('ddd','java100','N');
+insert into test16(name,class,working) values('eee','java100','Y');
+insert into test16(name,class,working) values('kkk','java101','N');
+insert into test16(name,class,working) values('lll','java101','Y');
+insert into test16(name,class,working) values('mmm','java101','N');
+insert into test16(name,class,working) values('nnn','java101','Y');
+insert into test16(name,class,working) values('ooo','java101','N'); 
+```
+
+- 직장인만 조회
+```
+select no, name, class from test16 where working = 'Y';
+```
+
+- 직장인만 조회한 결과를 가상 테이블로 만들기
+```
+create view worker
+  as select no, name, class from test16 where working = 'Y';
+```
+
+- view가 참조하는 테이블에 데이터를 입력한 후 view를 조회하면?
+  => 새로 추가된 컬럼이 함께 조회된다.
+- 뷰를 조회할 때 마다 매번 select 문장을 실행한다.
+- 일종의 조회 함수 역할을 한다.
+- 목적은 복잡한 조회를 가상의 테이블로 표현할 수 있어 SQL문이 간결해진다.
+```
+insert into test16(name,class,working) values('ppp','java101','Y');
+select * from worker;
+```
+
+### 뷰 삭제
+```
+drop view worker;
+```
 
 
 
