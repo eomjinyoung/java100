@@ -51,8 +51,25 @@ insert into test17(name,tel)
 ```
 
 ## update 
+- 등록된 데이터를 변경할 때 사용하는 명령이다.
+```
+update 테이블명 set 컬럼명=값, 컬럼명=값, ... where 조건...;
+update test17 set tel='111', fax='222' where no = 4;
+update test17 set tel='222', fax='222' where no = 5;
 
+/* 조건을 지정하지 않으면, 모든 데이터에 대해 변경한다.*/
+update test17 set fax='333';
+```
 
+## delete
+- 데이터를 삭제할 때 사용하는 명령이다.
+```
+delete from 테이블명 where 조건;
+delete from test17 where no=4 or no=5 or no=6;
+
+/* 조건을 지정하지 않으면 모든 데이터가 삭제된다. 주의!*/
+delete from test17;
+```
 
 
 
