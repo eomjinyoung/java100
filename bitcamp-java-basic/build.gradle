@@ -34,6 +34,9 @@ repositories {
     jcenter()
 }
 dependencies {
+    // MySQL DBMS의 JDBC Driver
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+    
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'
 }
