@@ -1,11 +1,9 @@
-//: ## ver 37
-//: - HTTP 프로토콜을 이용하여 통신하게 하라!
-//: - 전용 클라이언트 프로그램 대신 웹브라우저를 클라이언트로 사용하라!
+//: ## ver38
+//: - DBMS를 사용하여 데이터를 저장하라!
 //: - 학습목표
-//:   - 프로토콜에 대한 개념을 이해한다.
-//:   - HTTP 프로토콜을 이해한다.
-//:   - HTTP 프로토콜에 따라 통신 프로그램을 작성할 수 있다.
-//: 
+//:   - JDBC API를 사용하는 방법을 훈련한다.
+//:   - SQL 사용 방법을 훈련한다. 
+//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -26,11 +24,9 @@ import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
-// => RequestProcessor를 HttpAgent로 이름을 변경한다.
-// => HttpAgent 클래스의 요청/응답 코드를 변경한다.
-// 1) HTTP 요청에서 명령어 부분만 추출한다.
-// 2) HTTP 응답에서 상태 정보보와 헤더를 출력한다.
-// 3) 명령어를 처리한 후 결과를 출력한다.
+// 1) 성적 정보, 회원 정보, 게시물 정보, 강의실 정보를 저장할 테이블을 준비한다.
+//    => bitcamp-docs/java-project.sql
+//
 public class App {
 
     ServerSocket ss;
