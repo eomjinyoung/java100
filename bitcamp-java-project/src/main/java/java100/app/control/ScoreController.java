@@ -119,7 +119,7 @@ public class ScoreController extends GenericController<Score> {
             while (rs.next()) {
                 int sum = rs.getInt("kor") + rs.getInt("eng") + rs.getInt("math");
                 float aver = sum / 3f;
-                out.printf("%4, %-4s, %4d, %6.1f\n",
+                out.printf("%4d, %-4s, %4d, %6.1f\n",
                         rs.getInt("no"),
                         rs.getString("name"), 
                         sum, aver);
@@ -132,17 +132,26 @@ public class ScoreController extends GenericController<Score> {
     }
 
     private void doAdd(Request request, Response response) {
-
-        Score score = new Score();
-        score.setName(request.getParameter("name"));
-        score.setKor(Integer.parseInt(request.getParameter("kor")));
-        score.setEng(Integer.parseInt(request.getParameter("eng")));
-        score.setMath(Integer.parseInt(request.getParameter("math")));
-        
-        list.add(score);
-        
         PrintWriter out = response.getWriter();
-        out.println("저장하였습니다.");
+        
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
+                "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
+             ){
+            
+            pstmt.setString(1, request.getParameter("name"));
+            pstmt.setInt(2, Integer.parseInt(request.getParameter("kor")));
+            pstmt.setInt(3, Integer.parseInt(request.getParameter("eng")));
+            pstmt.setInt(4, Integer.parseInt(request.getParameter("math")));
+            
+            pstmt.executeUpdate();
+            out.println("저장하였습니다.");
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // for developer
+            out.println(e.getMessage()); // for user
+        }
     }
     
     private Score findByName(String name) {
