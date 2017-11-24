@@ -65,45 +65,72 @@ public class ScoreController extends GenericController<Score> {
 
     private void doUpdate(Request request, Response response) {
         PrintWriter out = response.getWriter();
-        String name = request.getParameter("name");
-        
         out.println("[성적 변경]");
         
-        Score score = findByName(name);
-        
-        if (score == null) {
-            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-            return;
-        } 
-        
-        score.setKor(Integer.parseInt(request.getParameter("kor")));
-        score.setEng(Integer.parseInt(request.getParameter("eng")));
-        score.setMath(Integer.parseInt(request.getParameter("math")));
-        
-        out.println("변경하였습니다!");
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
+                "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
+             ){
+            
+            pstmt.setString(1, request.getParameter("name"));
+            pstmt.setInt(2, Integer.parseInt(request.getParameter("kor")));
+            pstmt.setInt(3, Integer.parseInt(request.getParameter("eng")));
+            pstmt.setInt(4, Integer.parseInt(request.getParameter("math")));
+            pstmt.setInt(5, Integer.parseInt(request.getParameter("no")));
+            
+            // executeUpdate()의 리턴 값은 변경된 레코드들의 개수이다.
+            // 만약 해당 번호와 일치하는 데이터를 찾지 못해 
+            // 변경한게 없다면 0을 리턴한다.
+            
+            if(pstmt.executeUpdate() > 0) {
+                out.println("변경하였습니다.");
+            } else {
+                out.printf("'%s'의 성적 정보가 없습니다.\n", 
+                        request.getParameter("no"));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // for developer
+            out.println(e.getMessage()); // for user
+        }
     }
 
     private void doView(Request request, Response response) {
+        
         PrintWriter out = response.getWriter();
-        
-        String name = request.getParameter("name");
-        
-        Score score = findByName(name);
-        
         out.println("[성적 상세 정보]");
         
-        if (score == null) {
-            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-            return;
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
+                "select no,name,kor,eng,math from ex_score where no=?");
+             ){
+            
+            pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                int sum = rs.getInt("kor") + rs.getInt("eng") + rs.getInt("math");
+                float aver = sum / 3f;
+                out.printf("번호: %d\n", rs.getInt("no"));
+                out.printf("이름: %s\n", rs.getString("name"));
+                out.printf("국어: %d\n", rs.getInt("kor"));
+                out.printf("영어: %d\n", rs.getInt("eng"));
+                out.printf("수학: %d\n", rs.getInt("math"));
+                out.printf("합계: %d\n", sum);
+                out.printf("평균: %.1f\n", aver);
+            } else {
+                out.printf("'%s'의 성적 정보가 없습니다.\n", 
+                        request.getParameter("no"));
+            }
+            rs.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // for developer
+            out.println(e.getMessage()); // for user
         }
-        
-        out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
-                score.getName(),
-                score.getKor(),
-                score.getEng(),
-                score.getMath(),
-                score.getSum(), 
-                score.getAver());
     }
 
     private void doList(Request request, Response response) {
