@@ -5,11 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Iterator;
 
-import java100.app.domain.Score;
-
-public class ScoreController extends GenericController<Score> {
+public class ScoreController implements Controller {
     
     @Override
     public void destroy() {}
@@ -47,19 +44,28 @@ public class ScoreController extends GenericController<Score> {
     }
     
     private void doDelete(Request request, Response response) {
+        
         PrintWriter out = response.getWriter();
-        
-        String name = request.getParameter("name");
-        
         out.println("[성적 삭제]");
         
-        Score score = findByName(name);
-        
-        if (score == null) {
-            out.printf("'%s'의 성적 정보가 없습니다.\n", name);
-        } else {
-            list.remove(score);
-            out.println("삭제했습니다.");
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
+                "delete from ex_score where no=?");
+             ){
+            
+            pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
+            
+            if (pstmt.executeUpdate() > 0) {
+                out.println("삭제했습니다.");
+            } else {
+                out.printf("'%s'의 성적 정보가 없습니다.\n", 
+                        request.getParameter("no"));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // for developer
+            out.println(e.getMessage()); // for user
         }
     }
 
@@ -181,16 +187,6 @@ public class ScoreController extends GenericController<Score> {
         }
     }
     
-    private Score findByName(String name) {
-        Iterator<Score> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Score score = iterator.next();
-            if (score.getName().equals(name)) {
-                return score;
-            }
-        }
-        return null;
-    }
 }
 
 
