@@ -52,7 +52,10 @@ public class App {
         
         controllerMap.put("/member", new MemberController("./data/member.csv"));
         controllerMap.put("/board", new BoardController("./data/board.csv"));
-        controllerMap.put("/room", new RoomController("./data/room.csv")); 
+        
+        RoomController roomController = new RoomController();
+        roomController.init();
+        controllerMap.put("/room", roomController); 
 
     }
 
