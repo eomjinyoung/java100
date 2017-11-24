@@ -50,7 +50,10 @@ public class App {
         scoreController.init();
         controllerMap.put("/score", scoreController);
         
-        controllerMap.put("/member", new MemberController("./data/member.csv"));
+        MemberController memberController = new MemberController();
+        memberController.init();
+        controllerMap.put("/member", memberController);
+        
         controllerMap.put("/board", new BoardController("./data/board.csv"));
         
         RoomController roomController = new RoomController();

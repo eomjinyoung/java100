@@ -28,7 +28,7 @@ create table ex_memb (
     no int not null,
     name varchar(30) not null,
     email varchar(50) not null,
-    pwd varchar(30) not null,
+    pwd varchar(100) not null,
     regdt datetime not null
 );
 
