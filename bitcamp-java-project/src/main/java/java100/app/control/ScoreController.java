@@ -1,65 +1,34 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Iterator;
 
 import java100.app.domain.Score;
 
 public class ScoreController extends GenericController<Score> {
     
-    private String dataFilePath;
-    
-    public ScoreController(String dataFilePath) {
-        this.dataFilePath = dataFilePath;
-        this.init();
-    }
-    
     @Override
-    public void destroy() {
-        
-        try (PrintWriter out = new PrintWriter(
-                                   new BufferedWriter(
-                                       new FileWriter(this.dataFilePath)))) {
-            for (Score score : this.list) {
-                out.println(score.toCSVString());
-            }
-            
-            // 버퍼에 남은 찌꺼기를 마저 출력한다.
-            // => 물론 close()가 호출되도 버퍼에 남은 찌꺼기가 출력될 것이다.
-            // => 그래도 가능한 명시적으로 출력하자!
-            out.flush();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            
-        }
-    }
+    public void destroy() {}
     
-    // CSV 형식으로 저장된 파일에서 성적 데이터를 읽어 
-    // ArrayList에 보관한다.
     @Override
     public void init() {
-        
-        try (BufferedReader in = new BufferedReader(
-                                   new FileReader(this.dataFilePath));) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            // => com.mysql.jdbc.Driver 클래스를 로딩한다.
+            // => static {} 블록을 수행한다.
+            //    => Driver 인스턴스를 생성한다.
+            //    => DriverManager에 그 인스턴스를 등록한다.
             
-            String csv = null;
-            while ((csv = in.readLine()) != null) {
-                try {
-                    list.add(new Score(csv));
-                } catch (CSVFormatException e) {
-                    System.err.println("CSV 데이터 형식 오류!");
-                    e.printStackTrace();
-                }
-            }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            // 이 예외가 발생하면 init()를 호출한 쪽에 예외를 던진다.
+            // 단 RuntimeException 예외인 경우 스텔스 방식으로 전달되기 때문에,
+            // 굳이 메서드 선언부에 어떤 예외를 던지는지 적시할 필요는 없다.
+            throw new RuntimeException(
+                    "JDBC 드라이버 클래스를 찾을 수 없습니다.");
         }
     }
     
@@ -141,13 +110,24 @@ public class ScoreController extends GenericController<Score> {
         PrintWriter out = response.getWriter();
         out.println("[성적 목록]");
         
-        Iterator<Score> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Score score = iterator.next();
-            out.printf("%-4s, %4d, %6.1f\n",  
-                    score.getName(), 
-                    score.getSum(), 
-                    score.getAver());
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
+                "select no,name,kor,eng,math from ex_score");
+             ResultSet rs = pstmt.executeQuery();){
+            
+            while (rs.next()) {
+                int sum = rs.getInt("kor") + rs.getInt("eng") + rs.getInt("math");
+                float aver = sum / 3f;
+                out.printf("%4, %-4s, %4d, %6.1f\n",
+                        rs.getInt("no"),
+                        rs.getString("name"), 
+                        sum, aver);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // for developer
+            out.println(e.getMessage()); // for user
         }
     }
 

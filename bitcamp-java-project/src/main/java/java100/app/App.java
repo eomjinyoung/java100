@@ -24,9 +24,18 @@ import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
-// 1) 성적 정보, 회원 정보, 게시물 정보, 강의실 정보를 저장할 테이블을 준비한다.
+// 0) JDBC API 사용 준비
+//    => build.gradle 파일에 의존 라이브러리 MySQL JDBC 드라이버를 등록한다.
+//    => "gradlew eclipse"를 실행하여 라이브러리를 다운로드하고 
+//       이클립스 설정 파일을 갱신한다.
+//    => 프로젝트를 리프래시 하여 상태를 갱신한다.
+//
+// 1) 성적, 회원, 게시물, 강의실 데이터를 저장할 테이블을 준비한다.
 //    => bitcamp-docs/java-project.sql
 //
+// 2) 성적관리 기능에 DBMS 적용
+//    => Score 클래스를 테이블 정의에 맞춰서 변경
+//    => ScoreController 클래스에 JDBC API 적용
 public class App {
 
     ServerSocket ss;
@@ -37,7 +46,10 @@ public class App {
             new HashMap<>();
 
     void init() {
-        controllerMap.put("/score", new ScoreController("./data/score.csv"));
+        ScoreController scoreController = new ScoreController();
+        scoreController.init();
+        controllerMap.put("/score", scoreController);
+        
         controllerMap.put("/member", new MemberController("./data/member.csv"));
         controllerMap.put("/board", new BoardController("./data/board.csv"));
         controllerMap.put("/room", new RoomController("./data/room.csv")); 
