@@ -36,6 +36,8 @@ import java100.app.control.ScoreController;
 // 2) 성적관리 기능에 DBMS 적용
 //    => Score 클래스를 테이블 정의에 맞춰서 변경
 //    => ScoreController 클래스에 JDBC API 적용
+// 3) 회원관리, 강의실관리, 게시물관리 기능에도 DBMS 적용
+//
 public class App {
 
     ServerSocket ss;
@@ -54,7 +56,9 @@ public class App {
         memberController.init();
         controllerMap.put("/member", memberController);
         
-        controllerMap.put("/board", new BoardController("./data/board.csv"));
+        BoardController boardController = new BoardController();
+        boardController.init();
+        controllerMap.put("/board", boardController);
         
         RoomController roomController = new RoomController();
         roomController.init();

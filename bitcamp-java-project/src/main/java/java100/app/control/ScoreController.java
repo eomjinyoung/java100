@@ -165,7 +165,9 @@ public class ScoreController implements Controller {
     }
 
     private void doAdd(Request request, Response response) {
+        
         PrintWriter out = response.getWriter();
+        out.println("[성적 등록]");
         
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/studydb", "study", "1111");
