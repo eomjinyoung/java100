@@ -1,12 +1,11 @@
 package java100.app.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.App;
 import java100.app.domain.Score;
 
 public class ScoreDao {
@@ -29,19 +28,8 @@ public class ScoreDao {
         }
     }
     
-    Connection con;
-    
-    public ScoreDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Score> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,name,kor,eng,math from ex_score");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -67,7 +55,7 @@ public class ScoreDao {
     }
     
     public int insert(Score score) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
              ){
             
@@ -84,7 +72,7 @@ public class ScoreDao {
     }
     
     public int update(Score score) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
              ){
             
@@ -102,7 +90,7 @@ public class ScoreDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "delete from ex_score where no=?");
              ){
             
@@ -116,7 +104,7 @@ public class ScoreDao {
     }
     
     public Score selectOne(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,name,kor,eng,math from ex_score where no=?");
              ){
             

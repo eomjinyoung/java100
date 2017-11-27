@@ -1,12 +1,11 @@
 package java100.app.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.App;
 import java100.app.domain.Room;
 
 public class RoomDao {
@@ -29,19 +28,8 @@ public class RoomDao {
         }
     }
     
-    Connection con;
-    
-    public RoomDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Room> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,loc,name,capacity from ex_room");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -65,7 +53,7 @@ public class RoomDao {
     }
     
     public int insert(Room room) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "insert into ex_room(loc,name,capacity) values(?,?,?)");
              ){
             
@@ -81,7 +69,7 @@ public class RoomDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "delete from ex_room where no=?");
              ){
             

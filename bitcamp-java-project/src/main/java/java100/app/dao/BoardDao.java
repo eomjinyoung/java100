@@ -1,12 +1,11 @@
 package java100.app.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.App;
 import java100.app.domain.Board;
 
 public class BoardDao {
@@ -29,19 +28,8 @@ public class BoardDao {
         }
     }
     
-    Connection con;
-    
-    public BoardDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Board> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,title,regdt,vwcnt from ex_board");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -65,7 +53,7 @@ public class BoardDao {
     }
     
     public int insert(Board board) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "insert into ex_board(title,conts,regdt)"
                 + " values(?,?,now())");
              ){
@@ -81,7 +69,7 @@ public class BoardDao {
     }
     
     public int update(Board board) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "update ex_board set title=?, conts=? where no=?");){
             
             pstmt.setString(1, board.getTitle());
@@ -96,7 +84,7 @@ public class BoardDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "delete from ex_board where no=?");
              ){
             
@@ -112,13 +100,13 @@ public class BoardDao {
     public Board selectOne(int no) {
         try {
             
-            try (PreparedStatement pstmt = con.prepareStatement(
+            try (PreparedStatement pstmt = App.con.prepareStatement(
                     "update ex_board set vwcnt = vwcnt + 1 where no=?")) {
                 pstmt.setInt(1, no);
                 pstmt.executeUpdate();
             } catch (Exception e) {throw e;}
             
-            try (PreparedStatement pstmt = con.prepareStatement(
+            try (PreparedStatement pstmt = App.con.prepareStatement(
                     "select no,title,conts,regdt,vwcnt from ex_board where no=?")) {
                 pstmt.setInt(1, no);
                 

@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -22,6 +24,7 @@ import java100.app.control.Request;
 import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
+import java100.app.dao.DaoException;
 
 // 기존 방식의 문제점
 // - DAO 객체의 각 메서드를 호출할 때마다 DBMS와 연결을 수행한다.
@@ -35,7 +38,7 @@ import java100.app.control.ScoreController;
 // - XxxDao 클래스를 변경한다.
 // - 문제점
 //   1) DAO 당 1 개의 커넥션을 유지해야 한다.
-//   2) 자주 사용되지 않는 DAO도 커넥션을 유지한다. 
+//   2) 자주 사용되지 않는 DAO도 자신만의 커넥션 객체를 유지한다. 
 //      즉 커넥션 객체가 낭비된다.
 //
 // 해결 방안 2:
@@ -53,7 +56,16 @@ public class App {
     HashMap<String,Controller> controllerMap = 
             new HashMap<>();
 
+    public static Connection con;
+    
     void init() {
+        try {
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        
         ScoreController scoreController = new ScoreController();
         scoreController.init();
         controllerMap.put("/score", scoreController);

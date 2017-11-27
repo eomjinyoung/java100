@@ -1,12 +1,11 @@
 package java100.app.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.App;
 import java100.app.domain.Member;
 
 public class MemberDao {
@@ -29,19 +28,8 @@ public class MemberDao {
         }
     }
     
-    Connection con;
-    
-    public MemberDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Member> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,name,email,regdt from ex_memb");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -65,7 +53,7 @@ public class MemberDao {
     }
     
     public int insert(Member member) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "insert into ex_memb(name,email,pwd,regdt)"
                 + " values(?,?,password(?),now())");
              ){
@@ -82,7 +70,7 @@ public class MemberDao {
     }
     
     public int update(Member member) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
              ){
             
@@ -99,7 +87,7 @@ public class MemberDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "delete from ex_memb where no=?");
              ){
             
@@ -113,7 +101,7 @@ public class MemberDao {
     }
     
     public Member selectOne(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (PreparedStatement pstmt = App.con.prepareStatement(
                 "select no,name,email,regdt from ex_memb where no=?");
              ){
             
