@@ -24,7 +24,6 @@ import java100.app.control.Request;
 import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
-import java100.app.dao.DaoException;
 
 // 기존 방식의 문제점
 // - DAO 객체의 각 메서드를 호출할 때마다 DBMS와 연결을 수행한다.
@@ -45,7 +44,49 @@ import java100.app.dao.DaoException;
 // - App에서 Connection 객체를 1개 준비하고 DAO는 그 객체를 공유하여 사용한다.
 // - 각각의 DAO가 자체 커넥션 객체를 유지할 필요가 없어서
 //   커넥션이 낭비되는 문제를 해결할 수 있다.
-//   
+// - 문제점
+//   => SQL 작업을 수동으로 commit/rollback할 때 문제가 된다.
+//   => commit()이나 rollback()은 Connection 객체에 대해 호출한다.
+//   => 즉 그 커넥션으로 수행한 모든 작업들이 commit()/rollback()된다.
+//   => 싱글 스레드에서 DAO를 사용하는 상황에서는 
+//      순차적으로 SQL 작업이 이루어지기 때문에 문제가 되지 않는다.
+//   => 멀티 스레드 상황에서는 동시에 여러 스레드에서
+//      같은 커넥션을 가지고 SQL 작업을 수행할 때 문제가 된다.
+//      여러 스레드 중에서 어느 하나가 commit()이나 rollback()을 하게되면
+//      그 커넥션을 공유한 다른 스레드가 수행한 작업까지
+//      모두가 commit()되고 rollback() 되는 치명적인 문제가 발생한다.
+//   => 결론!
+//      커넥션 객체는 스레드끼로 공유하는 것이 아니다!
+// 
+// 해결 방안 3:
+// - 그러면 다시 예전처럼 메서드가 호출될 때마다 커넥션 객체를 생성해야 하는가?
+//   => 그러면 다시 속도가 느려질 것이다!
+// - 그럼 커넥션 객체를 공유하지 않으면서 속도를 빠르게 할 방법이 없는가?
+//   => DVD대여점에서 비디오를 대여하는 방법을 사용하라!
+//   => DVD는 여러 고객이 공유할 수는 있지만,
+//      단 사용할 때는 한 명의 고객만이 사용한다.
+//      사용이 끝난 후에 다른 고객이 그 DVD를 사용할 수 있다.
+//   => 이렇게 함으로써 각 고객은 단독으로 DVD를 사용하고,
+//      사용이 끝나면 그 DVD를 다른 고객과 공유하기 때문에
+//      고객 수 만큼 DVD를 장만하지 않아도 된다. 
+// - 결론!
+//   => Connection 객체를 빌려주는 클래스를 만든다.
+//   => 각각의 DAO가 메서드를 실행할 때는 이 클래스를 통해 
+//      커넥션을 빌려서 작업한다. 
+//   => 작업이 끝난 후에는 다시 이 클래스에 커넥션을 반납한다.
+//   => 이렇게 함으로써 한 번 생성된 커넥션을 계속 사용하기 때문에
+//      매번 커넥션을 생성할 때 발생하는 실행 속도가 저하되는 문제를 해결한다.
+//   => 또한 각 메서드가 자신만의 커넥션을 사용하기 때문에
+//      멀티 스레드 상황에서 commit()/rollback() 할 때의 문제를 해결할 수 있다.
+//   => 공유하기 때문에 매번 커넥션 객체를 만들지 않는다.
+//      즉 가비지를 줄 일 수 있다.
+// - 용어!
+//   => 생성된 객체를 대여/반납을 통해 공유함으로써 
+//      메모리를 절약하는 개발 방식을 "Flyweight" 디자인 패턴이라 한다.
+//   => 여러 곳에서 사용되는 객체를 대여해주고 반납 받는 역할을 수행하는
+//      클래스를 Pool이라 부른다.
+//   => 그래서 Connection을 대여/반납해주는 클래스를 
+//      "DB Connection Pool"이라 부른다.
 //
 public class App {
 
@@ -63,7 +104,7 @@ public class App {
             con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/studydb", "study", "1111");
         } catch (Exception e) {
-            throw new DaoException(e);
+            e.printStackTrace();
         }
         
         ScoreController scoreController = new ScoreController();
