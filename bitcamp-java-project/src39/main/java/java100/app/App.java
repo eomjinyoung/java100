@@ -1,7 +1,8 @@
-//: ## ver 40
-//: - DAO의 메서드가 호출될 때마다 Connection 객체를 생성하는 문제점 해결
+//: ## ver38
+//: - DBMS를 사용하여 데이터를 저장하라!
 //: - 학습목표
-//:   - DBMS와의 연결을 효과적으로 관리하는 방법을 이해한다.
+//:   - JDBC API를 사용하는 방법을 훈련한다.
+//:   - SQL 사용 방법을 훈련한다. 
 //:   
 package java100.app;
 
@@ -23,26 +24,19 @@ import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 
-// 기존 방식의 문제점
-// - DAO 객체의 각 메서드를 호출할 때마다 DBMS와 연결을 수행한다.
-//   연결할 때마다 사용자 인증(authentication)과 권한 검사(authorization)를
-//   수행하기 때문에 일정한 시간을 소요한다.
+// 0) JDBC API 사용 준비
+//    => build.gradle 파일에 의존 라이브러리 MySQL JDBC 드라이버를 등록한다.
+//    => "gradlew eclipse"를 실행하여 라이브러리를 다운로드하고 
+//       이클립스 설정 파일을 갱신한다.
+//    => 프로젝트를 리프래시 하여 상태를 갱신한다.
 //
-// 해결 방안 1:
-// - DAO 객체를 생성할 때 DBMS에 연결을 수행한다.
-// - SQL문을 실행할 때는 기존에 Connection 객체를 사용한다.
-//   즉 SQL 문을 실행할 때마다 Connection을 수행하지 않는다.
-// - XxxDao 클래스를 변경한다.
-// - 문제점
-//   1) DAO 당 1 개의 커넥션을 유지해야 한다.
-//   2) 자주 사용되지 않는 DAO도 커넥션을 유지한다. 
-//      즉 커넥션 객체가 낭비된다.
+// 1) 성적, 회원, 게시물, 강의실 데이터를 저장할 테이블을 준비한다.
+//    => bitcamp-docs/java-project.sql
 //
-// 해결 방안 2:
-// - App에서 Connection 객체를 1개 준비하고 DAO는 그 객체를 공유하여 사용한다.
-// - 각각의 DAO가 자체 커넥션 객체를 유지할 필요가 없어서
-//   커넥션이 낭비되는 문제를 해결할 수 있다.
-//   
+// 2) 성적관리 기능에 DBMS 적용
+//    => Score 클래스를 테이블 정의에 맞춰서 변경
+//    => ScoreController 클래스에 JDBC API 적용
+// 3) 회원관리, 강의실관리, 게시물관리 기능에도 DBMS 적용
 //
 public class App {
 

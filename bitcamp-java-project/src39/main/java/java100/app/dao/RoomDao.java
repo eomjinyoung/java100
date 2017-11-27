@@ -29,19 +29,10 @@ public class RoomDao {
         }
     }
     
-    Connection con;
-    
-    public RoomDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Room> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "select no,loc,name,capacity from ex_room");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -65,7 +56,9 @@ public class RoomDao {
     }
     
     public int insert(Room room) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "insert into ex_room(loc,name,capacity) values(?,?,?)");
              ){
             
@@ -81,7 +74,9 @@ public class RoomDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "delete from ex_room where no=?");
              ){
             

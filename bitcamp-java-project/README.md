@@ -1,5 +1,13 @@
 # 자바 프로젝트
 
+## ver 40
+- DAO의 메서드가 호출될 때마다 Connection 객체를 생성하는 문제점 해결
+- 학습목표
+  - SQL 문을 매번 실행할 때 마다 DBMS에 연결하는 것 보다 
+    한 번 연결한 후에 그 연결 객체를 가지고 SQL 문을 실행하는 것이 
+    더 실행속도를 빠르게 한다는 것을 확인한다.
+  - DBMS에 연결된 Connection을 사용하는 방법을 연습한다.
+
 ## ver39
 - DAO(Data Access Object; data persistence 담당) 클래스 도입
 - Controller에 있는 JDBC 관련 코드를 별도의 클래스(DAO)로 분리시켜

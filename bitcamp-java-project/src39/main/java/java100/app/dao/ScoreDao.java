@@ -29,19 +29,10 @@ public class ScoreDao {
         }
     }
     
-    Connection con;
-    
-    public ScoreDao() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            throw new DaoException(e);
-        }
-    }
-    
     public List<Score> selectList() {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "select no,name,kor,eng,math from ex_score");
              ResultSet rs = pstmt.executeQuery();){
             
@@ -67,7 +58,9 @@ public class ScoreDao {
     }
     
     public int insert(Score score) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
              ){
             
@@ -84,7 +77,9 @@ public class ScoreDao {
     }
     
     public int update(Score score) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
              ){
             
@@ -102,7 +97,9 @@ public class ScoreDao {
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "delete from ex_score where no=?");
              ){
             
@@ -116,7 +113,9 @@ public class ScoreDao {
     }
     
     public Score selectOne(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb", "study", "1111");
+             PreparedStatement pstmt = con.prepareStatement(
                 "select no,name,kor,eng,math from ex_score where no=?");
              ){
             

@@ -1,4 +1,4 @@
-package java100.app.dao;
+package java100.app.dao.v01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.domain.Member;
+import java100.app.domain.Score;
 
-public class MemberDao {
+public class ScoreDao {
     
     static {
         try {
@@ -31,7 +31,7 @@ public class MemberDao {
     
     Connection con;
     
-    public MemberDao() {
+    public ScoreDao() {
         try {
             con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/studydb", "study", "1111");
@@ -40,21 +40,23 @@ public class MemberDao {
         }
     }
     
-    public List<Member> selectList() {
+    public List<Score> selectList() {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "select no,name,email,regdt from ex_memb");
+                "select no,name,kor,eng,math from ex_score");
              ResultSet rs = pstmt.executeQuery();){
             
-            ArrayList<Member> list = new ArrayList<>();
+            // ScoreController에게 성적 데이터를 리턴하기 위한 List 객체 준비.
+            ArrayList<Score> list = new ArrayList<>();
             
             while (rs.next()) {
-                Member member = new Member();
-                member.setNo(rs.getInt("no"));
-                member.setName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setCreatedDate(rs.getDate("regdt"));
+                Score score = new Score(
+                        rs.getInt("no"),
+                        rs.getString("name"),
+                        rs.getInt("kor"),
+                        rs.getInt("eng"),
+                        rs.getInt("math"));
                 
-                list.add(member);
+                list.add(score);
             }
             
             return list;
@@ -64,15 +66,15 @@ public class MemberDao {
         }
     }
     
-    public int insert(Member member) {
+    public int insert(Score score) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "insert into ex_memb(name,email,pwd,regdt)"
-                + " values(?,?,password(?),now())");
+                "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
              ){
             
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getEmail());
-            pstmt.setString(3, member.getPassword());
+            pstmt.setString(1, score.getName());
+            pstmt.setInt(2, score.getKor());
+            pstmt.setInt(3, score.getEng());
+            pstmt.setInt(4, score.getMath());
             
             return pstmt.executeUpdate();
             
@@ -81,15 +83,16 @@ public class MemberDao {
         }
     }
     
-    public int update(Member member) {
+    public int update(Score score) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
+                "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
              ){
             
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getEmail());
-            pstmt.setString(3, member.getPassword());
-            pstmt.setInt(4, member.getNo());
+            pstmt.setString(1, score.getName());
+            pstmt.setInt(2, score.getKor());
+            pstmt.setInt(3, score.getEng());
+            pstmt.setInt(4, score.getMath());
+            pstmt.setInt(5, score.getNo());
             
             return pstmt.executeUpdate();
             
@@ -100,7 +103,7 @@ public class MemberDao {
     
     public int delete(int no) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "delete from ex_memb where no=?");
+                "delete from ex_score where no=?");
              ){
             
             pstmt.setInt(1, no);
@@ -112,28 +115,28 @@ public class MemberDao {
         }
     }
     
-    public Member selectOne(int no) {
+    public Score selectOne(int no) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "select no,name,email,regdt from ex_memb where no=?");
+                "select no,name,kor,eng,math from ex_score where no=?");
              ){
             
             pstmt.setInt(1, no);
             
             ResultSet rs = pstmt.executeQuery();
             
-            Member member = null;
+            Score score = null;
             
             if (rs.next()) {
-                member = new Member();
-                member.setNo(no);
-                member.setName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setCreatedDate(rs.getDate("regdt"));
-                
+                score = new Score();
+                score.setNo(no);
+                score.setName(rs.getString("name"));
+                score.setKor(rs.getInt("kor"));
+                score.setEng(rs.getInt("eng"));
+                score.setMath(rs.getInt("math"));
             } 
             
             rs.close();
-            return member;
+            return score;
             
         } catch (Exception e) {
             throw new DaoException(e);

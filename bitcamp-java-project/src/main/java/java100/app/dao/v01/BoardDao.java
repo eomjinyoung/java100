@@ -1,4 +1,4 @@
-package java100.app.dao;
+package java100.app.dao.v01;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.domain.Member;
+import java100.app.domain.Board;
 
-public class MemberDao {
+public class BoardDao {
     
     static {
         try {
@@ -31,7 +31,7 @@ public class MemberDao {
     
     Connection con;
     
-    public MemberDao() {
+    public BoardDao() {
         try {
             con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/studydb", "study", "1111");
@@ -40,21 +40,21 @@ public class MemberDao {
         }
     }
     
-    public List<Member> selectList() {
+    public List<Board> selectList() {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "select no,name,email,regdt from ex_memb");
+                "select no,title,regdt,vwcnt from ex_board");
              ResultSet rs = pstmt.executeQuery();){
             
-            ArrayList<Member> list = new ArrayList<>();
+            ArrayList<Board> list = new ArrayList<>();
             
             while (rs.next()) {
-                Member member = new Member();
-                member.setNo(rs.getInt("no"));
-                member.setName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setCreatedDate(rs.getDate("regdt"));
+                Board board = new Board();
+                board.setNo(rs.getInt("no"));
+                board.setTitle(rs.getString("title"));
+                board.setRegDate(rs.getDate("regdt"));
+                board.setViewCount(rs.getInt("vwcnt"));
                 
-                list.add(member);
+                list.add(board);
             }
             
             return list;
@@ -64,15 +64,14 @@ public class MemberDao {
         }
     }
     
-    public int insert(Member member) {
+    public int insert(Board board) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "insert into ex_memb(name,email,pwd,regdt)"
-                + " values(?,?,password(?),now())");
+                "insert into ex_board(title,conts,regdt)"
+                + " values(?,?,now())");
              ){
             
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getEmail());
-            pstmt.setString(3, member.getPassword());
+            pstmt.setString(1, board.getTitle());
+            pstmt.setString(2, board.getContent());
             
             return pstmt.executeUpdate();
             
@@ -81,15 +80,13 @@ public class MemberDao {
         }
     }
     
-    public int update(Member member) {
+    public int update(Board board) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
-             ){
+                "update ex_board set title=?, conts=? where no=?");){
             
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getEmail());
-            pstmt.setString(3, member.getPassword());
-            pstmt.setInt(4, member.getNo());
+            pstmt.setString(1, board.getTitle());
+            pstmt.setString(2, board.getContent());
+            pstmt.setInt(3, board.getNo());
             
             return pstmt.executeUpdate();
             
@@ -100,7 +97,7 @@ public class MemberDao {
     
     public int delete(int no) {
         try (PreparedStatement pstmt = con.prepareStatement(
-                "delete from ex_memb where no=?");
+                "delete from ex_board where no=?");
              ){
             
             pstmt.setInt(1, no);
@@ -112,28 +109,36 @@ public class MemberDao {
         }
     }
     
-    public Member selectOne(int no) {
-        try (PreparedStatement pstmt = con.prepareStatement(
-                "select no,name,email,regdt from ex_memb where no=?");
-             ){
+    public Board selectOne(int no) {
+        try {
             
-            pstmt.setInt(1, no);
+            try (PreparedStatement pstmt = con.prepareStatement(
+                    "update ex_board set vwcnt = vwcnt + 1 where no=?")) {
+                pstmt.setInt(1, no);
+                pstmt.executeUpdate();
+            } catch (Exception e) {throw e;}
             
-            ResultSet rs = pstmt.executeQuery();
-            
-            Member member = null;
-            
-            if (rs.next()) {
-                member = new Member();
-                member.setNo(no);
-                member.setName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setCreatedDate(rs.getDate("regdt"));
+            try (PreparedStatement pstmt = con.prepareStatement(
+                    "select no,title,conts,regdt,vwcnt from ex_board where no=?")) {
+                pstmt.setInt(1, no);
                 
-            } 
-            
-            rs.close();
-            return member;
+                ResultSet rs = pstmt.executeQuery();
+                
+                Board board = null;
+                
+                if (rs.next()) {
+                    board = new Board();
+                    board.setNo(no);
+                    board.setTitle(rs.getString("title"));
+                    board.setContent(rs.getString("conts"));
+                    board.setRegDate(rs.getDate("regdt"));
+                    board.setViewCount(rs.getInt("vwcnt"));
+                    
+                } 
+                
+                rs.close();
+                return board;
+            } catch (Exception e) {throw e;}
             
         } catch (Exception e) {
             throw new DaoException(e);
