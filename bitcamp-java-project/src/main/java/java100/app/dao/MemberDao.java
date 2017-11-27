@@ -1,37 +1,26 @@
 package java100.app.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
 import java100.app.domain.Member;
+import java100.app.util.DataSource;
 
 public class MemberDao {
     
-    static {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            // => com.mysql.jdbc.Driver 클래스를 로딩한다.
-            //    단 한 번 로딩된 클래스는 다시 로딩하지 않는다.
-            // => static {} 블록을 수행한다.
-            //    => Driver 인스턴스를 생성한다.
-            //    => DriverManager에 그 인스턴스를 등록한다.
-            
-        } catch (ClassNotFoundException ex) {
-            // 이 예외가 발생하면 init()를 호출한 쪽에 예외를 던진다.
-            // 단 RuntimeException 예외인 경우 스텔스 방식으로 전달되기 때문에,
-            // 굳이 메서드 선언부에 어떤 예외를 던지는지 적시할 필요는 없다.
-            throw new RuntimeException(
-                    "JDBC 드라이버 클래스를 찾을 수 없습니다.");
-        }
-    }
-    
     public List<Member> selectList() {
-        try (PreparedStatement pstmt = App.con.prepareStatement(
-                "select no,name,email,regdt from ex_memb");
-             ResultSet rs = pstmt.executeQuery();){
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            con = DataSource.getConnection();
+            pstmt = con.prepareStatement(
+                    "select no,name,email,regdt from ex_memb");
+            rs = pstmt.executeQuery();
             
             ArrayList<Member> list = new ArrayList<>();
             
@@ -49,14 +38,22 @@ public class MemberDao {
             
         } catch (Exception e) {
             throw new DaoException(e);
+        } finally {
+            try {rs.close();} catch (Exception e) {}
+            try {pstmt.close();} catch (Exception e) {}
+            DataSource.returnConnection(con);
         }
     }
     
     public int insert(Member member) {
-        try (PreparedStatement pstmt = App.con.prepareStatement(
-                "insert into ex_memb(name,email,pwd,regdt)"
-                + " values(?,?,password(?),now())");
-             ){
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+            con = DataSource.getConnection();
+            pstmt = con.prepareStatement(
+                    "insert into ex_memb(name,email,pwd,regdt)"
+                            + " values(?,?,password(?),now())");
             
             pstmt.setString(1, member.getName());
             pstmt.setString(2, member.getEmail());
@@ -66,13 +63,20 @@ public class MemberDao {
             
         } catch (Exception e) {
             throw new DaoException(e);
+        } finally {
+            try {pstmt.close();} catch (Exception e) {}
+            DataSource.returnConnection(con);
         }
     }
     
     public int update(Member member) {
-        try (PreparedStatement pstmt = App.con.prepareStatement(
-                "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
-             ){
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+            con = DataSource.getConnection();
+            pstmt = con.prepareStatement(
+                    "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
             
             pstmt.setString(1, member.getName());
             pstmt.setString(2, member.getEmail());
@@ -83,13 +87,20 @@ public class MemberDao {
             
         } catch (Exception e) {
             throw new DaoException(e);
+        } finally {
+            try {pstmt.close();} catch (Exception e) {}
+            DataSource.returnConnection(con);
         }
     }
     
     public int delete(int no) {
-        try (PreparedStatement pstmt = App.con.prepareStatement(
-                "delete from ex_memb where no=?");
-             ){
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+            con = DataSource.getConnection();
+            pstmt = con.prepareStatement(
+                    "delete from ex_memb where no=?");
             
             pstmt.setInt(1, no);
             
@@ -97,17 +108,25 @@ public class MemberDao {
             
         } catch (Exception e) {
             throw new DaoException(e);
+        } finally {
+            try {pstmt.close();} catch (Exception e) {}
+            DataSource.returnConnection(con);
         }
     }
     
     public Member selectOne(int no) {
-        try (PreparedStatement pstmt = App.con.prepareStatement(
-                "select no,name,email,regdt from ex_memb where no=?");
-             ){
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            con = DataSource.getConnection();
+            pstmt = con.prepareStatement(
+                    "select no,name,email,regdt from ex_memb where no=?");
             
             pstmt.setInt(1, no);
             
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             
             Member member = null;
             
@@ -120,11 +139,14 @@ public class MemberDao {
                 
             } 
             
-            rs.close();
             return member;
             
         } catch (Exception e) {
             throw new DaoException(e);
+        } finally {
+            try {rs.close();} catch (Exception e) {}
+            try {pstmt.close();} catch (Exception e) {}
+            DataSource.returnConnection(con);
         }
     }
 }

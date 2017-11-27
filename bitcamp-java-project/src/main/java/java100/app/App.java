@@ -11,8 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -97,16 +95,7 @@ public class App {
     HashMap<String,Controller> controllerMap = 
             new HashMap<>();
 
-    public static Connection con;
-    
     void init() {
-        try {
-            con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/studydb", "study", "1111");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
         ScoreController scoreController = new ScoreController();
         scoreController.init();
         controllerMap.put("/score", scoreController);
