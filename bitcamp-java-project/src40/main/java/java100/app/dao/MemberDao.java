@@ -6,21 +6,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
 import java100.app.domain.Member;
 import java100.app.util.DataSource;
 
 public class MemberDao {
     
     public List<Member> selectList() {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,email,regdt from ex_memb");
             rs = pstmt.executeQuery();
@@ -44,18 +41,16 @@ public class MemberDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int insert(Member member) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_memb(name,email,pwd,regdt)"
                             + " values(?,?,password(?),now())");
@@ -70,18 +65,16 @@ public class MemberDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int update(Member member) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
             
@@ -96,18 +89,16 @@ public class MemberDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int delete(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_memb where no=?");
             
@@ -119,19 +110,17 @@ public class MemberDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public Member selectOne(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,email,regdt from ex_memb where no=?");
             
@@ -157,7 +146,7 @@ public class MemberDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
 }

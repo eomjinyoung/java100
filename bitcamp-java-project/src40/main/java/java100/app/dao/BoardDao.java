@@ -6,21 +6,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
 import java100.app.domain.Board;
 import java100.app.util.DataSource;
 
 public class BoardDao {
     
     public List<Board> selectList() {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                 "select no,title,regdt,vwcnt from ex_board");
             rs = pstmt.executeQuery();
@@ -45,18 +42,16 @@ public class BoardDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int insert(Board board) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_board(title,conts,regdt)"
                             + " values(?,?,now())");
@@ -70,18 +65,16 @@ public class BoardDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int update(Board board) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_board set title=?, conts=? where no=?");
             
@@ -95,18 +88,16 @@ public class BoardDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int delete(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_board where no=?");
             
@@ -118,17 +109,15 @@ public class BoardDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public Board selectOne(int no) {
-        DataSource ds = null;
         Connection con = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             
             try (PreparedStatement pstmt = con.prepareStatement(
                     "update ex_board set vwcnt = vwcnt + 1 where no=?")) {
@@ -161,7 +150,7 @@ public class BoardDao {
         } catch (Exception e) {
             throw new DaoException(e);
         } finally {
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
 }

@@ -6,21 +6,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
 import java100.app.domain.Room;
 import java100.app.util.DataSource;
 
 public class RoomDao {
     
     public List<Room> selectList() {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "select no,loc,name,capacity from ex_room");
             rs = pstmt.executeQuery();
@@ -44,18 +41,16 @@ public class RoomDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int insert(Room room) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_room(loc,name,capacity) values(?,?,?)");
             pstmt.setString(1, room.getLocation());
@@ -68,18 +63,16 @@ public class RoomDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int delete(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_room where no=?");
             pstmt.setInt(1, no);
@@ -90,7 +83,7 @@ public class RoomDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     

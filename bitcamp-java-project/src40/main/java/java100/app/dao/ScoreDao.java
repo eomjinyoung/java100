@@ -6,21 +6,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
 import java100.app.domain.Score;
 import java100.app.util.DataSource;
 
 public class ScoreDao {
     
     public List<Score> selectList() {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score");
             rs = pstmt.executeQuery();
@@ -47,18 +44,16 @@ public class ScoreDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int insert(Score score) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
             
@@ -73,18 +68,16 @@ public class ScoreDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int update(Score score) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
             pstmt.setString(1, score.getName());
@@ -99,18 +92,16 @@ public class ScoreDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public int delete(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_score where no=?");
             
@@ -122,19 +113,17 @@ public class ScoreDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
     
     public Score selectOne(int no) {
-        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
-            con = ds.getConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score where no=?");
             
@@ -160,7 +149,7 @@ public class ScoreDao {
         } finally {
             try {rs.close();} catch (Exception e) {}
             try {pstmt.close();} catch (Exception e) {}
-            ds.returnConnection(con);
+            DataSource.returnConnection(con);
         }
     }
 }
