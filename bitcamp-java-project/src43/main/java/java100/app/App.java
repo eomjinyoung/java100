@@ -1,7 +1,10 @@
-//: ## ver 44
-//: - DAO를 교체하기 쉽도록 하라!
+//: ## ver 43
+//: - 객체의 의존성 관리를 외부에서 처리하게 하라!
+//: - 즉 의존 객체를 직접 만드는 것이 아니라 외부에서 주입하는 방식으로 변경하라!
 //: - 학습목표
-//:  - 인터페이스 문법을 사용하여  규칙과 구현을 분리시키는 방법을 연습한다.
+//:   - IoC의 개념과 기능에 대해 이해한다.
+//:   - IoC와 DI의 관계를 이해한다.
+//:   - DI를 구현할 수 있다.
 //: 
 //:   
 package java100.app;
@@ -22,37 +25,41 @@ import java100.app.control.Request;
 import java100.app.control.Response;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
-import java100.app.dao.mysql.BoardDaoImpl;
-import java100.app.dao.mysql.MemberDaoImpl;
-import java100.app.dao.mysql.RoomDaoImpl;
-import java100.app.dao.mysql.ScoreDaoImpl;
+import java100.app.dao.BoardDao;
+import java100.app.dao.MemberDao;
+import java100.app.dao.RoomDao;
+import java100.app.dao.ScoreDao;
 import java100.app.util.DataSource;
 
 // 기존 방식의 문제점
-// - 컨트롤러에 주입되는 DAO는 클래스로 선언되어 있어서,
-//   다른 구현체로 바꾸기가 어렵다.
-// - 다른 구현체로 쉽게 바꿀 수 있으면, 그 클래스들의 상위 클래스을 정의하여
-//   그 상위 클래스를 DAO 레퍼런스로 사용해야 한다.
-// - 문제는 만약 어떤 DAO가 이미 다른 클래스를 상속받고 있다면,
-//   새로 정의한 클래스를 상속 받을 수 없다는 것이다.
-// - 그래서 이런 경우를 위해 자바에서는 좀 더 유현한 인터페이스라는 문법을 
-//   제공하고 있다.
-// - 의존 객체를 사용할 때 호출하는 메서드의 규칙을 인터페이스로 정의해 놓고,
-//   DAO 클래스는 그 인터페이스 규칙에 맞춰 구현하는 것이다.
-// - 이렇게 하면 어떤 클래스가 다른 클래스를 상속 받고 있다 하더라도
-//   문제가 되지 않는다.
+// - 컨트롤러는 자신이 사용할 DAO를 직접 생성해야 한다.
+// - DAO는 자신이 사용할 DataSource를 직접 준비해야 한다.
+// - 만약 DAO가 사용할 DataSource가 바뀌면 모든 DAO를 변경해야 한다.
+// - 만약 DAO를 교체하게 되면 DAO를 사용하는 컨트롤러를 모두 변경해야 한다.
 //
 // 해결 방안
-// - 컨트롤러가 의존하는 DAO의 메서드 사용 규칙을 분리하여 인터페이스로 정의한다.
-// - 기존의 DAO 클래스 이름으로 인터페이스를 만들고,
-//   기존 클래스는 새 이름을 부여한다.
-// - 변경코드  
-//   1) ScoreDao : ScoreDao(인터페이스), ScoreDaoImpl(클래스)
-//   2) BoardDao : BoardDao(인터페이스), BoardDaoImpl(클래스)
-//   3) MemberDao : MemberDao(인터페이스), MemberDaoImpl(클래스)
-//   4) RoomDao : RoomDao(인터페이스), RoomDaoImpl(클래스)
-//   5) App 클래스 변경
-//      - 각각의 DAO 인터페이스를 구현한 객체를 만들어 컨트롤러에 주입한다.
+// - 의존하는 객체를 중앙 관리자가 주입해주는 방식으로 변경한다.
+// - 변경 코드
+//   1) DAO 클래스에서는 DataSource를 주입 받을 수 있도록 변경한다.
+//      - DataSource 객체를 받기 위한 변수와 셋터를 준비한다.
+//   2) 컨트롤러 클래스는 자신이 사용할 DAO를 주입 받을 수 있도록 변경한다.
+//      - DAO를 저장할 변수와 셋터를 준비한다.
+//   3) App 클래스를 변경한다.
+//      - 이 클래스에서 모든 객체를 생성하고 의존 객체를 주입한다.
+//
+// IoC(Inversion of Control)
+// - 프로그램의 기본 실행흐름을 역행하는 방식으로 동작시키는 기법.
+// 예1) Event Listener
+//      - 이벤트가 발생했을 때 특정 함수를 실행하는 만드는 방법
+//      - 윈도우 프로그래밍에서 많이 사용한다.
+//      - "event-driven development"라고도 부른다.
+//      - 웹 페이지의 자바스크립트 프로그래밍도 이 방식을 사용한다.
+// 예2) Dependency Injection
+//      - 의존 객체를 외부에서 주입하는 방법
+//      - 예전 코딩 방식에서는 자신이 사용할 객체는 자신이 만들어서 사용했다.
+//      - 이 방식의 문제점은 객체를 바꿔야 할 경우 코드를 변경해야 한다.
+//      - 그러나 의존 객체를 주입 받는 방식으로 코딩을 하게 되면,
+//        객체를 교체할 때 그 객체를 사용하는 쪽에서는 코드를 변경할 필요가 없다.
 // 
 public class App {
 
@@ -67,16 +74,16 @@ public class App {
         ds.setPassword("1111");
         
         // DAO 생성 및 의존 객체 주입하기 
-        ScoreDaoImpl scoreDao = new ScoreDaoImpl();
+        ScoreDao scoreDao = new ScoreDao();
         scoreDao.setDataSource(ds);
         
-        MemberDaoImpl memberDao = new MemberDaoImpl();
+        MemberDao memberDao = new MemberDao();
         memberDao.setDataSource(ds);
         
-        BoardDaoImpl boardDao = new BoardDaoImpl();
+        BoardDao boardDao = new BoardDao();
         boardDao.setDataSource(ds);
         
-        RoomDaoImpl roomDao = new RoomDaoImpl();
+        RoomDao roomDao = new RoomDao();
         roomDao.setDataSource(ds);
         
         // 컨트롤러 생성 및 의존 객체 주입하기
