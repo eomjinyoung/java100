@@ -3,52 +3,47 @@ package java100.app.control;
 import java.io.PrintWriter;
 import java.util.List;
 
-import java100.app.dao.BoardDao;
-import java100.app.domain.Board;
+import java100.app.dao.MemberDao;
+import java100.app.domain.Member;
 
-public class BoardController implements Controller {
+public class MemberController implements Controller {
     
-    // BoardDao를 이 클래스에서 준비하지 않고 외부에서 주입받을 것이다.
-    BoardDao boardDao;
+    MemberDao memberDao = new MemberDao();
     
-    public void setBoardDao(BoardDao boardDao) {
-        this.boardDao = boardDao;
-    }
-
     @Override
     public void destroy() {}
     
     @Override
     public void init() {}
-
-    @Override
+    
+    @Override    
     public void execute(Request request, Response response) {
         switch (request.getMenuPath()) {
-        case "/board/list": this.doList(request, response); break;
-        case "/board/add": this.doAdd(request, response); break;
-        case "/board/view": this.doView(request, response); break;
-        case "/board/update": this.doUpdate(request, response); break;
-        case "/board/delete": this.doDelete(request, response); break;
+        case "/member/list": this.doList(request, response); break;
+        case "/member/add": this.doAdd(request, response); break;
+        case "/member/view": this.doView(request, response); break;
+        case "/member/update": this.doUpdate(request, response); break;
+        case "/member/delete": this.doDelete(request, response); break;
         default: 
             response.getWriter().println("해당 명령이 없습니다.");
         }
     }
     
     private void doList(Request request, Response response) {
-        
+
         PrintWriter out = response.getWriter();
-        out.println("[게시물 목록]");
+        out.println("[회원 목록]");
         
         try {
             
-            List<Board> list = boardDao.selectList();
+            List<Member> list = memberDao.selectList();
             
-            for (Board board : list) {
-                out.printf("%d, %s, %s, %d\n",
-                        board.getNo(),
-                        board.getTitle(), 
-                        board.getRegDate(),
-                        board.getViewCount());
+            for (Member member : list) {
+                out.printf("%d, %s, %s, %s\n",
+                        member.getNo(),
+                        member.getName(), 
+                        member.getEmail(),
+                        member.getCreatedDate());
             }
             
         } catch (Exception e) {
@@ -56,18 +51,21 @@ public class BoardController implements Controller {
             out.println(e.getMessage()); // for user
         }
     }
-
+    
     private void doAdd(Request request, Response response) {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 등록]");
+        out.println("[회원 등록]");
         
         try {
-            Board board = new Board();
-            board.setTitle(request.getParameter("title"));
-            board.setContent(request.getParameter("content"));
             
-            boardDao.insert(board);
+            Member member = new Member();
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
+            
+            memberDao.insert(member);
+            
             out.println("저장하였습니다.");
             
         } catch (Exception e) {
@@ -79,20 +77,20 @@ public class BoardController implements Controller {
     private void doView(Request request, Response response) {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 상세 정보]");
+        out.println("[회원 상세 정보]");
         
         try {
-            int no = Integer.parseInt(request.getParameter("no"));
-            Board board = boardDao.selectOne(no);
             
-            if (board != null) {
-                out.printf("번호: %d\n", board.getNo());
-                out.printf("제목: %s\n", board.getTitle());
-                out.printf("내용: %s\n", board.getContent());
-                out.printf("등록일: %s\n", board.getRegDate());
-                out.printf("조회수: %d\n", board.getViewCount());
+            int no = Integer.parseInt(request.getParameter("no"));
+            Member member = memberDao.selectOne(no);
+            
+            if (member != null) {
+                out.printf("번호: %d\n", member.getNo());
+                out.printf("이름: %s\n", member.getName());
+                out.printf("이메일: %s\n", member.getEmail());
+                out.printf("등록일: %s\n", member.getCreatedDate());
             } else {
-                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no);
+                out.printf("'%d'번의 회원 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {
@@ -104,18 +102,19 @@ public class BoardController implements Controller {
     private void doUpdate(Request request, Response response) {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 변경]");
+        out.println("[회원 변경]");
         
         try {
-            Board board = new Board();
-            board.setNo(Integer.parseInt(request.getParameter("no")));
-            board.setTitle(request.getParameter("title"));
-            board.setContent(request.getParameter("content"));
+            Member member = new Member();
+            member.setNo(Integer.parseInt(request.getParameter("no")));
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
             
-            if (boardDao.update(board) > 0) {
+            if (memberDao.update(member) > 0) {
                 out.println("변경하였습니다.");
             } else {
-                out.printf("'%d'번 게시물이 없습니다.\n", board.getNo());
+                out.printf("'%d'번 회원의 정보가 없습니다.\n", member.getNo()); 
             }
             
         } catch (Exception e) {
@@ -127,16 +126,16 @@ public class BoardController implements Controller {
     private void doDelete(Request request, Response response) {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 삭제]");
+        out.println("[회원 삭제]");
         
         try {
             
             int no = Integer.parseInt(request.getParameter("no"));
             
-            if (boardDao.delete(no) > 0) {
+            if (memberDao.delete(no) > 0) {
                 out.println("삭제했습니다.");
             } else {
-                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no); 
+                out.printf("'%d'번의 회원 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {
@@ -145,6 +144,8 @@ public class BoardController implements Controller {
         }
     }
 }
+
+
 
 
 

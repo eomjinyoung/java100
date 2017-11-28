@@ -8,13 +8,8 @@ import java100.app.domain.Board;
 
 public class BoardController implements Controller {
     
-    // BoardDao를 이 클래스에서 준비하지 않고 외부에서 주입받을 것이다.
-    BoardDao boardDao;
+    BoardDao boardDao = new BoardDao();
     
-    public void setBoardDao(BoardDao boardDao) {
-        this.boardDao = boardDao;
-    }
-
     @Override
     public void destroy() {}
     

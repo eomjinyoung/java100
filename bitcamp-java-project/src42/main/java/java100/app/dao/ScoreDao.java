@@ -6,30 +6,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.beans.ApplicationContext;
 import java100.app.domain.Score;
 import java100.app.util.DataSource;
 
 public class ScoreDao {
     
-    // 주입 받은 DataSource 객체를 저장할 인스턴스 변수를 준비한다.
-    DataSource ds;
-    
-    // 외부에서 DataSource 객체를 주입할 수 있도록 셋터를 준비한다.
-    public void setDataSource(DataSource ds) {
-        this.ds = ds;
-    }
-    
-    // DataSource를 주입 받았다 가정하고 다음 아래의 메서드들을 변경한다.
-    // => 이렇게하면 DataSource를 얻기 위해 ApplicationContext를 사용한
-    //    코드를 제거해도 된다. 
-    // => 즉 더이상 ApplicationContext에 종속되지 않는다.
-    //
     public List<Score> selectList() {
+        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score");
@@ -62,10 +52,12 @@ public class ScoreDao {
     }
     
     public int insert(Score score) {
+        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
@@ -86,10 +78,12 @@ public class ScoreDao {
     }
     
     public int update(Score score) {
+        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
@@ -110,10 +104,12 @@ public class ScoreDao {
     }
     
     public int delete(int no) {
+        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         
         try {
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_score where no=?");
@@ -131,11 +127,13 @@ public class ScoreDao {
     }
     
     public Score selectOne(int no) {
+        DataSource ds = null;
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
         try {
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score where no=?");
