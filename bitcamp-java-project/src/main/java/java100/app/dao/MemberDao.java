@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
+import java100.app.beans.ApplicationContext;
 import java100.app.domain.Member;
 import java100.app.util.DataSource;
 
@@ -19,7 +19,7 @@ public class MemberDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,email,regdt from ex_memb");
@@ -54,7 +54,7 @@ public class MemberDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_memb(name,email,pwd,regdt)"
@@ -80,7 +80,7 @@ public class MemberDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_memb set name=?,email=?,pwd=password(?) where no=?");
@@ -106,7 +106,7 @@ public class MemberDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_memb where no=?");
@@ -130,7 +130,7 @@ public class MemberDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,email,regdt from ex_memb where no=?");

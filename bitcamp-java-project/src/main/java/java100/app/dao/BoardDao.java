@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import java100.app.App;
+import java100.app.beans.ApplicationContext;
 import java100.app.domain.Board;
 import java100.app.util.DataSource;
 
@@ -19,7 +19,7 @@ public class BoardDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                 "select no,title,regdt,vwcnt from ex_board");
@@ -55,7 +55,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_board(title,conts,regdt)"
@@ -80,7 +80,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_board set title=?, conts=? where no=?");
@@ -105,7 +105,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_board where no=?");
@@ -127,7 +127,7 @@ public class BoardDao {
         Connection con = null;
         
         try {
-            ds = (DataSource) App.getBean("mysqlDataSource"); 
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             
             try (PreparedStatement pstmt = con.prepareStatement(
