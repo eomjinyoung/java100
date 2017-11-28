@@ -1,7 +1,10 @@
-//: ## ver 44
-//: - DAO를 교체하기 쉽도록 하라!
+//: ## ver 45
+//: - 컨트롤러와 DAO 객체를 자동 생성하라!
+//: - 자동 생성할 클래스 정보를 properties 파일에 등록한 다음,
+//:   프로그램을 시작할 때 해당 파일에 등록된 클래스의 객체를 자동생성한다. 
 //: - 학습목표
-//:  - 인터페이스 문법을 사용하여  규칙과 구현을 분리시키는 방법을 연습한다.
+//:   - 객체를 자동 생성하는 방법을 연습한다.
+//:   - Reflection API의 활용법을 이해한다.
 //: 
 //:   
 package java100.app;
@@ -29,43 +32,43 @@ import java100.app.dao.mysql.ScoreDaoImpl;
 import java100.app.util.DataSource;
 
 // 기존 방식의 문제점
-// - 컨트롤러에 주입되는 DAO는 클래스로 선언되어 있어서,
-//   다른 구현체로 바꾸기가 어렵다.
-// - 다른 구현체로 쉽게 바꿀 수 있으면, 그 클래스들의 상위 클래스을 정의하여
-//   그 상위 클래스를 DAO 레퍼런스로 사용해야 한다.
-// - 문제는 만약 어떤 DAO가 이미 다른 클래스를 상속받고 있다면,
-//   새로 정의한 클래스를 상속 받을 수 없다는 것이다.
-// - 그래서 이런 경우를 위해 자바에서는 좀 더 유현한 인터페이스라는 문법을 
-//   제공하고 있다.
-// - 의존 객체를 사용할 때 호출하는 메서드의 규칙을 인터페이스로 정의해 놓고,
-//   DAO 클래스는 그 인터페이스 규칙에 맞춰 구현하는 것이다.
-// - 이렇게 하면 어떤 클래스가 다른 클래스를 상속 받고 있다 하더라도
-//   문제가 되지 않는다.
+// - 컨트롤러나 DAO가 추가될 때마다 해당 객체를 생성하는 코드를 
+//   App 클래스에 추가해야 한다.
 //
 // 해결 방안
-// - 컨트롤러가 의존하는 DAO의 메서드 사용 규칙을 분리하여 인터페이스로 정의한다.
-// - 기존의 DAO 클래스 이름으로 인터페이스를 만들고,
-//   기존 클래스는 새 이름을 부여한다.
+// - 객체를 생성해야 하는 클래스 이름을 외부 파일에 등록한 후
+//   프로그램을 시작할 때 자동으로 생성되게 한다.
 // - 변경코드  
-//   1) ScoreDao : ScoreDao(인터페이스), ScoreDaoImpl(클래스)
-//   2) BoardDao : BoardDao(인터페이스), BoardDaoImpl(클래스)
-//   3) MemberDao : MemberDao(인터페이스), MemberDaoImpl(클래스)
-//   4) RoomDao : RoomDao(인터페이스), RoomDaoImpl(클래스)
-//   5) App 클래스 변경
-//      - 각각의 DAO 인터페이스를 구현한 객체를 만들어 컨트롤러에 주입한다.
+//   1) application-context.properties 파일 생성
+//      - 자동으로 생성할 객체의 클래스 이름을 등록한다.
+//   2) ApplicationContext 변경
+//      - 멤버를 개별적으로 관리할 수 있도록 인스턴스 멤버로 전환한다.
+//      - 생성자에 프로퍼티 파일을 경로를 넘겨주면, 해당 경로의 정보를 읽어서
+//        주어진 클래스의 인스턴스를 자동 생성한다.
+//      - 또한 각 인스턴스의 셋터 메서드를 찾아서 호출한다.
+//        즉 그 객체가 원하는 의존 객체를 주입한다.
 // 
 public class App {
 
     ServerSocket ss;
-    Scanner keyScan = new Scanner(System.in);
+
+    // 빈 관리 컨테이너 객체
+    ApplicationContext beanContainer;
     
     void init() {
+        
+        // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
+        // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
+        beanContainer = new ApplicationContext(
+                "./bin/application-context.properties");
+        
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
         ds.setUsername("study");
         ds.setPassword("1111");
         
+        /*
         // DAO 생성 및 의존 객체 주입하기 
         ScoreDaoImpl scoreDao = new ScoreDaoImpl();
         scoreDao.setDataSource(ds);
@@ -99,7 +102,7 @@ public class App {
         roomController.setRoomDao(roomDao);
         roomController.init();
         ApplicationContext.addBean("/room", roomController); 
-
+        */
     }
 
     void service() throws Exception {
@@ -122,7 +125,7 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Object controller = ApplicationContext.getBean(menuName);
+        Object controller = beanContainer.getBean(menuName);
 
         if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");
