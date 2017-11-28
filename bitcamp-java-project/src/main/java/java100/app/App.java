@@ -68,6 +68,18 @@ public class App {
         ds.setUsername("study");
         ds.setPassword("1111");
         
+        // 밖에서 만든 DataSource는 수동으로 빈 컨테이너에 추가한다.
+        beanContainer.addBean("mysqlDataSource", ds);
+        
+        // 빈 컨테이너에 DataSource를 포함한 객체가 제대로 보관되어 있는지 검사!
+        String[] names = beanContainer.getBeanDefinitionNames();
+        
+        for (String name : names) {
+            System.out.printf("%s = %s\n", 
+                    name, 
+                    beanContainer.getBean(name).getClass().getName());
+        }
+        
         /*
         // DAO 생성 및 의존 객체 주입하기 
         ScoreDaoImpl scoreDao = new ScoreDaoImpl();
