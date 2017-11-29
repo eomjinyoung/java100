@@ -6,15 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import java100.app.annotation.Component;
 import java100.app.dao.DaoException;
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 import java100.app.util.DataSource;
 
-//기존에 있던 MemberDao 클래스에서 컨트롤러가 호출하는 기본 메서드 
-//호출 규칙을 별도의 인터페이스로 분리하고,
-//이 클래스는 그 인터페이스를 구현한 클래스로 전환한다.
-//
+@Component  // 이 클래스의 객체를 자동 생성해야 함을 표시!
 public class MemberDaoImpl implements MemberDao {
     
     // 주입 받은 DataSource 객체를 저장할 인스턴스 변수를 준비한다.

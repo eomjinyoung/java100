@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 
-// 1) 빈 컨테이너를 여러 개 만들어 쓸 수 있도록
-//    변수와 메서드를 인스턴스 멤버로 전환한다.
-//
 public class ApplicationContext {
     
     // 객체를 보관할 컬렉션
@@ -18,13 +15,14 @@ public class ApplicationContext {
     // 프로퍼티 파일을 로딩하지 않을 경우를 대비하여 기본 생성자를 만든다.
     public ApplicationContext() {} 
     
-    // 2) 생성자에서 프로퍼티 파일을 읽어서 
-    //    등록된 클래스의 인스턴스를 생성한다.
-    //
-    public ApplicationContext(String propPath) {
-        Properties props = new Properties();
+    public ApplicationContext(String classpath) {
         
-        try (FileReader in = new FileReader(propPath)){
+        // 1) classpath에 있는 모든 .class 파일의 이름을 알아낸다.
+        // 2) 그 이름으로 클래스를 로딩한다.
+        // 3) Class 도구를 이용하여 객체를 생성한다.
+        // 4) 그리고 의존 객체를 주입한다.
+        
+        try (FileReader in = new FileReader(classpath)){
             
             props.load(in); // 주어진 프로퍼티 파일을 읽어 들인다.
             
