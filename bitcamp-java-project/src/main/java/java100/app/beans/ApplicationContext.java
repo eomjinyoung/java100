@@ -1,13 +1,21 @@
 package java100.app.beans;
 
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.List;
 import java.util.Set;
 
+import java100.app.annotation.Component;
+
 public class ApplicationContext {
+    
+    // 클래스를 찾아야 할 기준 디렉토리 
+    String baseDir;
+    int startIndexOfPackageName;
     
     // 객체를 보관할 컬렉션
     HashMap<String,Object> pool = new HashMap<>();
@@ -15,38 +23,76 @@ public class ApplicationContext {
     // 프로퍼티 파일을 로딩하지 않을 경우를 대비하여 기본 생성자를 만든다.
     public ApplicationContext() {} 
     
+    public static void main(String[] args) {
+        new ApplicationContext("./bin");
+    }
+    
     public ApplicationContext(String classpath) {
         
-        // 1) classpath에 있는 모든 .class 파일의 이름을 알아낸다.
-        // 2) 그 이름으로 클래스를 로딩한다.
-        // 3) Class 도구를 이용하여 객체를 생성한다.
-        // 4) 그리고 의존 객체를 주입한다.
+        File dir = new File(classpath);
+        if (!dir.isDirectory())
+            return;
         
-        try (FileReader in = new FileReader(classpath)){
+        try {
+            // 1) classpath에 있는 모든 .class 파일의 이름을 알아낸다.
+            ArrayList<String> classnames = new ArrayList<>();
+            this.baseDir = dir.getCanonicalPath();
+            this.startIndexOfPackageName = baseDir.length() + 1;
+            this.findClassFile(classnames, dir);
             
-            props.load(in); // 주어진 프로퍼티 파일을 읽어 들인다.
-            
-            Set<Object> keySet = props.keySet();
-            for (Object key : keySet) {
+            for (String classname : classnames) {
+                // 2) 그 이름으로 클래스를 로딩한다.
+                Class<?> clazz = Class.forName(classname);
                 
-                String name = (String)key;
+                // 3) @Component 애노테이션이 붙었는지 검사한다.
+                Component compAnno = clazz.getAnnotation(Component.class);
+                if (compAnno == null) continue;
                 
-                // 1) Properties 객체에서 name으로 저장된 클래스명을 가져온다.
-                //    그런 후 Class.forName()을 호출하여 클래스를 로딩한다.
-                Class<?> clazz = Class.forName(props.getProperty(name));
-                
-                // 2) 로딩된 클래스 정보를 바탕으로 인스턴스를 생성한다.
+                // 4) @Component 애노테이션이 붙은 클래스라면,
+                //    인스턴스를 생성한다.
                 Object obj = clazz.newInstance();
                 
-                // 3) 빈 컨테이너에 생성한 객체를 저장한다.
-                pool.put(name, obj);
+                // 5) 객체를 저장할 때 사용할 이름을 꺼낸다.
+                if (compAnno.value().length() == 0) {
+                    // 이름을 설정되지 않았다면 클래스 이름으로 저장한다.
+                    pool.put(clazz.getName(), obj);
+                } else {
+                    // 이름이 있으면 그 이름을 사용하여 저장한다.
+                    pool.put(compAnno.value(), obj);
+                }
             }
             
-            // 인스턴스를 다 만들었으면 의존 객체를 주입한다.
+            // 6) 인스턴스를 다 만들었으면 의존 객체를 주입한다.
             injectDependency();
             
         } catch (Exception e) {
             throw new BeansException("프로퍼티 파일 로딩 중 오류 발생!", e);
+        }
+        
+    }
+    
+    private void findClassFile(List<String> classnames, File dir) 
+            throws Exception {
+        
+        File[] files = dir.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isFile() && !pathname.getName().endsWith(".class"))
+                    return false;
+                return true ;
+            }
+        });
+        
+        for (File f : files) {
+            if (f.isDirectory()) {
+                findClassFile(classnames, f);
+            } else {
+                classnames.add(f.getCanonicalPath()
+                         .substring(this.startIndexOfPackageName)
+                         .replaceAll("/", ".")
+                         .replaceAll("\\\\", ".")
+                         .replaceAll(".class", ""));
+            }
         }
     }
     

@@ -7,7 +7,7 @@ import java100.app.annotation.Component;
 import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 
-@Component  // 이 클래스의 객체를 자동 생성해야 함을 표시! 
+@Component("/score")  // 이 클래스의 객체를 자동 생성해야 함을 표시! 
 public class ScoreController implements Controller {
     
     ScoreDao scoreDao;

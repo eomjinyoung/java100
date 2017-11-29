@@ -47,8 +47,7 @@ public class App {
         
         // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
         // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
-        beanContainer = new ApplicationContext(
-                "./bin/application-context.properties");
+        beanContainer = new ApplicationContext("./bin");
         
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
