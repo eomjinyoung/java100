@@ -1,12 +1,8 @@
-//: ## ver 47
-//: - 오픈소스 Reflections 라이브러리를 사용하여 애노케이션이 붙은 클래스를 
-//:   좀 더 쉽게 찾아라!
+//: ## ver 46
+//: - 자동으로 인스턴스를 생성할 클래스에 대해 애노테이션으로 표시하라!
+//: - 프로그램을 실행할 때 애노테이션으로 표시된 클래스만 인스턴스를 생성하라!
 //: - 학습목표
-//:   - 오픈 소스 Reflections 라이브러리를 사용하는 방법을 익힌다.
-//:   - 오픈 소스의 유용성에 대해 이해한다.
-//:   - 많이 사람이 참여하여 유지보수를 하고 있다. 
-//:     => 관리가 잘되고, 버그가 적다. 
-//:     => 문서화가 잘되어 있고, 스택오버플로우 사이트에 많은 유용한 답변이 있다.
+//:   - 애노테이션을 활용하는 방법을 연습한다.
 //: 
 //:   
 package java100.app;
@@ -25,23 +21,20 @@ import java100.app.control.Response;
 import java100.app.util.DataSource;
 
 // 기존 방식의 문제점
-// - 클래스를 찾는 디렉토리 경로를 세세하게 제어하지 못한다.
-// - 현재는 프로젝트 폴더에서 디렉토리를 찾게끔 되어 있다.
+// - 컨트롤러나 DAO 클래스를 추가할 때 마다 .properties 파일을 변경해야 한다.
 //
 // 해결 방안
-// - 특정 타입의 클래스를 쉽게 찾을 수 있도록 오픈 소스 라이브러리를 이용한다.
-// - 이미 많은 프로젝트와 개발자에 의해 검증된 라이브러리이기 때문에
-//   직접 만들어 쓰는 것 보다 안정성이 높다.
+// - 자동으로 객체를 생성할 클래스라면, 클래스 파일을 정의할 때 
+//   클래스 선언부에 애노테이션으로 표시를 한다.
 // - 변경코드  
-//   0) 오픈 소스 Reflections 라이브러리를 다운로드 받는다. 
-//      => mvnrepository.com에서 Reflections 라이브러리를 찾는다.
-//      => build.gradle에 의존 라이브러리 정보를 등록한다.
-//      => "gradlew eclipse"를 실행하여 이클립스 설정 파일을 갱신한다. 
-//      => 이클립스 프로젝트를 "Refresh" 한다.
-//
-//   1) @Component 애노테이션이 붙은 클래스를 찾는 부분에 
-//      오픈 소스 Reflections 라이브러리를 적용한다.
-//      => ApplicationContext 변경
+//   1) 클래스 선언부에 자동 생성 객체임을 표시할 때 사용할 애노테이션 정의.
+//      => Component 애노테이션 
+//   2) 자동으로 객체를 생성해야 하는 클래스에 Component 애노테이션을 붙인다.
+//      => 컨트롤러와 DAO 클래스
+//   3) ApplicationContext 변경
+//      => .properties 파일을 읽어들이는 대신, 
+//         클래스 파일을 로딩하여 @Component가 붙었는지 검사하고,
+//         @Component가 붙은 클래스인 경우 객체를 생성한다.
 //
 public class App {
 
@@ -54,7 +47,7 @@ public class App {
         
         // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
         // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
-        beanContainer = new ApplicationContext("java100.app");
+        beanContainer = new ApplicationContext("./bin");
         
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");

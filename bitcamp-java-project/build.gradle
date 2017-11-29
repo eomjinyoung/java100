@@ -36,6 +36,9 @@ repositories {
 dependencies {
     // MySQL DBMS의 JDBC Driver
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+    
+    // Reflection 작업을 도와주는 라이브러리
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
  
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'

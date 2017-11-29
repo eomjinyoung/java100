@@ -1,15 +1,21 @@
 package java100.app.beans;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
-
-import org.reflections.Reflections;
 
 import java100.app.annotation.Component;
 
 public class ApplicationContext {
+    
+    // 클래스를 찾아야 할 기준 디렉토리 
+    String baseDir;
+    int startIndexOfPackageName;
     
     // 객체를 보관할 컬렉션
     HashMap<String,Object> pool = new HashMap<>();
@@ -17,16 +23,26 @@ public class ApplicationContext {
     // 프로퍼티 파일을 로딩하지 않을 경우를 대비하여 기본 생성자를 만든다.
     public ApplicationContext() {} 
     
-    public ApplicationContext(String basePackage) {
+    public static void main(String[] args) {
+        new ApplicationContext("./bin");
+    }
+    
+    public ApplicationContext(String classpath) {
+        
+        File dir = new File(classpath);
+        if (!dir.isDirectory())
+            return;
+        
         try {
-            // 1) 클래스를 찾을 패키지를 지정한다.
-            //    => 물론 지정한 패키지의 하위 패키지도 뒤진다.
-            Reflections reflections = new Reflections(basePackage);
+            // 1) classpath에 있는 모든 .class 파일의 이름을 알아낸다.
+            ArrayList<String> classnames = new ArrayList<>();
+            this.baseDir = dir.getCanonicalPath();
+            this.startIndexOfPackageName = baseDir.length() + 1;
+            this.findClassFile(classnames, dir);
             
-            // 2) @Component 애노테이션이 붙은 모든 클래스를 찾아낸다.
-            Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Component.class);
-            
-            for (Class<?> clazz : classes) {
+            for (String classname : classnames) {
+                // 2) 그 이름으로 클래스를 로딩한다.
+                Class<?> clazz = Class.forName(classname);
                 
                 // 3) @Component 애노테이션이 붙었는지 검사한다.
                 Component compAnno = clazz.getAnnotation(Component.class);
@@ -53,6 +69,31 @@ public class ApplicationContext {
             throw new BeansException("프로퍼티 파일 로딩 중 오류 발생!", e);
         }
         
+    }
+    
+    private void findClassFile(List<String> classnames, File dir) 
+            throws Exception {
+        
+        File[] files = dir.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.isFile() && !pathname.getName().endsWith(".class"))
+                    return false;
+                return true ;
+            }
+        });
+        
+        for (File f : files) {
+            if (f.isDirectory()) {
+                findClassFile(classnames, f);
+            } else {
+                classnames.add(f.getCanonicalPath()
+                         .substring(this.startIndexOfPackageName)
+                         .replaceAll("/", ".")
+                         .replaceAll("\\\\", ".")
+                         .replaceAll(".class", ""));
+            }
+        }
     }
     
     public Object getBean(String name) {
