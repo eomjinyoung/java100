@@ -15,8 +15,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import java100.app.beans.ApplicationContext;
 import java100.app.control.Controller;
 import java100.app.control.Request;
 import java100.app.control.Response;
@@ -38,9 +40,22 @@ import java100.app.util.DataSource;
 //      => "gradlew eclipse"를 실행하여 이클립스 설정 파일을 갱신한다. 
 //      => 이클립스 프로젝트를 "Refresh" 한다.
 //
-//   1) @Component 애노테이션이 붙은 클래스를 찾는 부분에 
-//      오픈 소스 Reflections 라이브러리를 적용한다.
-//      => ApplicationContext 변경
+//   1) App 클래스 변경
+//      => 우리가 만든 ApplicationContext 대신에 Spring의 ApplicationContext를
+//         사용한다.
+//      => 스프링에서 규정한 방식에 맞춰 설정 관련 애노테이션을 붙인다.
+//
+//   2) 컨트롤러와 DAO 클래스 변경 
+//      => 우리가 만든 @Component 애노테이션 대신 
+//         스프링에서 제공하는 @Component 애노테이션으로 바꾼다.
+//
+//   3) 의존 객체를 주입받으려면 셋터에 @Autowired 또는 @Inject를 붙여라!
+//      => 컨트롤러에서는 DAO를 주입받는 셋터에 붙여라!
+//      => DAO에서는 DataSource를 주입받는 셋터에 붙여라!
+//  
+//   4) @Autowired를 셋터에 붙이는 대신 필드에 직접 붙여라!
+//      => 셋터에 붙이지 않고 필드에 붙여도 된다.
+//      => 그러면 셋터는 지워도 된다.
 //
 // Spring IoC 컨테이너 = Bean Container + Dependency Injection
 // => AnnotationConfigApplicationContext
@@ -54,6 +69,13 @@ import java100.app.util.DataSource;
 //    - 설정 정보를 XML 파일에 저장한다.
 //    - 설정 정보가 들어 있는 XML 파일이 기타 임의의 위치에 놓여 있다.
 //
+
+//이 클래스가 스프링 IoC 컨테이너를 위한 설정 클래스임을 표시!
+@Configuration 
+
+//@Component 붙은 클래스가 어느 패키지에 있는지 표시
+@ComponentScan("java100.app") 
+
 public class App {
 
     ServerSocket ss;
@@ -61,23 +83,23 @@ public class App {
     // Spring IoC 컨테이너 객체
     AnnotationConfigApplicationContext iocContainer;
     
-    void init() {
-        
-        // 애노테이션을 이용하여 IoC 컨테이너를 설정하는 객체 준비
-        // => 파라미터로는 애노테이션이 붙은 클래스를 알려준다.
-        iocContainer = new AnnotationConfigApplicationContext(App.class);
-        
+    // 스프링 IoC 컨테이너에게 getDataSource() 메서드를 호출해서
+    // 이 메서드가 리턴한 객체를 꼭 컨테이너에 보관해달고 표시!
+    @Bean 
+    DataSource getDataSource() {
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
         ds.setUsername("study");
         ds.setPassword("1111");
+        return ds;
+    }
+    
+    void init() {
+        // 애노테이션을 이용하여 IoC 컨테이너를 설정하는 객체 준비
+        // => 파라미터로는 설정 관련 애노테이션이 붙은 클래스를 알려준다.
+        iocContainer = new AnnotationConfigApplicationContext(App.class);
         
-        // 밖에서 만든 DataSource는 수동으로 빈 컨테이너에 추가한다.
-        beanContainer.addBean("mysqlDataSource", ds);
-        
-        // 다시 의존 객체 주입을 해야 한다.
-        beanContainer.refreshBeanFactory();
     }
 
     void service() throws Exception {
@@ -100,7 +122,7 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Object controller = beanContainer.getBean(menuName);
+        Object controller = iocContainer.getBean(menuName);
 
         if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");

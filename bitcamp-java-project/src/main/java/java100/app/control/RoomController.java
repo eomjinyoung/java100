@@ -3,19 +3,19 @@ package java100.app.control;
 import java.io.PrintWriter;
 import java.util.List;
 
-import java100.app.annotation.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 
 @Component("/room")  // 이 클래스의 객체를 자동 생성해야 함을 표시!
 public class RoomController implements Controller {
     
+    // 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
+    @Autowired
     RoomDao roomDao;
     
-    public void setRoomDao(RoomDao roomDao) {
-        this.roomDao = roomDao;
-    }
-
     @Override
     public void destroy() {}
     
