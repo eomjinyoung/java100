@@ -1,13 +1,9 @@
-//: ## ver 47
-//: - 오픈소스 Reflections 라이브러리를 사용하여 애노케이션이 붙은 클래스를 
-//:   좀 더 쉽게 찾아라!
+//: ## ver 48
+//: - Spring IoC 컨테이너를 사용하여 객체 관리(Bean Container) 및 
+//:   의존 객체 주입(DI)을 자동화하라!
 //: - 학습목표
-//:   - 오픈 소스 Reflections 라이브러리를 사용하는 방법을 익힌다.
-//:   - 오픈 소스의 유용성에 대해 이해한다.
-//:   - 많이 사람이 참여하여 유지보수를 하고 있다. 
-//:     => 관리가 잘되고, 버그가 적다. 
-//:     => 문서화가 잘되어 있고, 스택오버플로우 사이트에 많은 유용한 답변이 있다.
-//: 
+//:   - Spring IoC 컨테이너의 설정 및 사용방법을 익힌다.
+//:   - Spring IoC 컨테이너의 역할을 이해한다.
 //:   
 package java100.app;
 
@@ -18,6 +14,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java100.app.beans.ApplicationContext;
 import java100.app.control.Controller;
 import java100.app.control.Request;
@@ -25,16 +23,17 @@ import java100.app.control.Response;
 import java100.app.util.DataSource;
 
 // 기존 방식의 문제점
-// - 클래스를 찾는 디렉토리 경로를 세세하게 제어하지 못한다.
-// - 현재는 프로젝트 폴더에서 디렉토리를 찾게끔 되어 있다.
+// - 객체 관리 및 의존 객체 주입 기능이 단순하다. 
+// - 외부 파일을 이용한 객체 관리 뿐만아니라 애노테이션을 이용한 객체 관리 
+//   방법을 모두 제공하고 싶다. 
 //
 // 해결 방안
-// - 특정 타입의 클래스를 쉽게 찾을 수 있도록 오픈 소스 라이브러리를 이용한다.
-// - 이미 많은 프로젝트와 개발자에 의해 검증된 라이브러리이기 때문에
-//   직접 만들어 쓰는 것 보다 안정성이 높다.
+// - 이미 검증되고 널리 사용되는(best practice) 오픈 소스를 활용하여 
+//   객체 관리와 의존 객체 주입을 자동화 하자!
+// - Spring IoC 컨테이너를 도입하여 처리한다.
 // - 변경코드  
-//   0) 오픈 소스 Reflections 라이브러리를 다운로드 받는다. 
-//      => mvnrepository.com에서 Reflections 라이브러리를 찾는다.
+//   0) 오픈 소스 Spring IoC 컨테이너 라이브러리를 다운로드 받는다. 
+//      => mvnrepository.com에서 spring-context 라이브러리를 찾는다.
 //      => build.gradle에 의존 라이브러리 정보를 등록한다.
 //      => "gradlew eclipse"를 실행하여 이클립스 설정 파일을 갱신한다. 
 //      => 이클립스 프로젝트를 "Refresh" 한다.
@@ -43,18 +42,30 @@ import java100.app.util.DataSource;
 //      오픈 소스 Reflections 라이브러리를 적용한다.
 //      => ApplicationContext 변경
 //
+// Spring IoC 컨테이너 = Bean Container + Dependency Injection
+// => AnnotationConfigApplicationContext
+//    - 애노테이션을 이용하여 클래스에 설정 정보를 붙인다.
+
+// => ClassPathXmlApplicationContext
+//    - 설정 정보를 XML 파일에 저장한다.
+//    - 설정 정보가 들어 있는 XML 파일이 자바 클래스 경로에 놓여 있다.
+//
+// => FileSystemXmlApplicationContext
+//    - 설정 정보를 XML 파일에 저장한다.
+//    - 설정 정보가 들어 있는 XML 파일이 기타 임의의 위치에 놓여 있다.
+//
 public class App {
 
     ServerSocket ss;
 
-    // 빈 관리 컨테이너 객체
-    ApplicationContext beanContainer;
+    // Spring IoC 컨테이너 객체
+    AnnotationConfigApplicationContext iocContainer;
     
     void init() {
         
-        // 빈 관리 컨테이너를 생성할 때 "프로퍼티" 파일의 경로를 넘겨주어
-        // 프로퍼티 파일에 등록된 클래스의 객체를 자동 생성하게 한다.
-        beanContainer = new ApplicationContext("java100.app");
+        // 애노테이션을 이용하여 IoC 컨테이너를 설정하는 객체 준비
+        // => 파라미터로는 애노테이션이 붙은 클래스를 알려준다.
+        iocContainer = new AnnotationConfigApplicationContext(App.class);
         
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
