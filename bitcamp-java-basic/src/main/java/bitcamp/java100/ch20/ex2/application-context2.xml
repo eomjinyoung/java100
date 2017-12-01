@@ -6,12 +6,17 @@
 
     <!-- 생성자 호출 -->
     
-    <!-- 기본 생성자 호출하기 -->
+    <!-- 기본 생성자 호출하기 
+        Object obj = new MyClass();
+    -->
     <bean class="bitcamp.java100.ch20.ex2.MyClass"/>
     
     <!-- 파라미터가 있는 생성자 호출하기 
         생성자의 파라미터 타입이 지정되지 않으면 
-        String 타입의 파라미터 값을 받는 생성자부터 찾는다.-->
+        String 타입의 파라미터 값을 받는 생성자부터 찾는다.
+        
+        Object obj = new MyClass("홍길동");
+    -->
     <bean class="bitcamp.java100.ch20.ex2.MyClass">
         <constructor-arg><value>홍길동</value></constructor-arg>
     </bean>
@@ -45,7 +50,10 @@
     </bean>
     
     <!-- 파라미터의 값이 길지 않고 단순 문자열이나 숫자라면 
-         value 태그를 사용하는 대신에 contructor-arg의 value 속성을 사용하라! -->
+         value 태그를 사용하는 대신에 contructor-arg의 value 속성을 사용하라! 
+         
+         Object obj = new MyClass(100, "홍길동");
+    -->
     <bean class="bitcamp.java100.ch20.ex2.MyClass">
         <constructor-arg type="int" index="0" value="100"/>
         <constructor-arg type="String" index="1" value="홍길동"/>
