@@ -41,6 +41,17 @@
         </property>
     </bean>
     
+    <bean id="c3" class="bitcamp.java100.ch20.ex4.Car">
+        <property name="tires">
+          <set> <!-- 배열 객체를 생성한다. -->
+            <bean class="bitcamp.java100.ch20.ex4.Tire" p:maker="한국타이어"/>
+            <bean class="bitcamp.java100.ch20.ex4.Tire" p:maker="한국타이어"/>
+            <bean class="bitcamp.java100.ch20.ex4.Tire" p:maker="금호타이어"/>
+            <bean class="bitcamp.java100.ch20.ex4.Tire" p:maker="금호타이어"/>
+          </set>
+        </property>
+    </bean>
+    
 </beans>
 
 

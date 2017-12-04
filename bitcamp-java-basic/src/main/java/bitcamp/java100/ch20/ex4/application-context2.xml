@@ -44,6 +44,16 @@
         </property>
     </bean>
     
+    <bean id="c3" class="bitcamp.java100.ch20.ex4.Car">
+        <property name="seats">
+          <set> <!-- List 객체를 생성한다. -->
+            <bean class="bitcamp.java100.ch20.ex4.Seat" p:type="가죽"/>
+            <bean class="bitcamp.java100.ch20.ex4.Seat" p:type="가죽"/>
+            <bean class="bitcamp.java100.ch20.ex4.Seat" p:type="가죽"/>
+          </set>
+        </property>
+    </bean>
+    
 </beans>
 
 

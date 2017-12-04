@@ -2,6 +2,8 @@ package bitcamp.java100.ch20.ex4;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Car {
     private String model;
@@ -10,6 +12,8 @@ public class Car {
     private Engine engine;
     private Tire[] tires;
     private List<Seat> seats;
+    private Set<CD> jukebox;
+    private Map<String,String> options;
     
     public Car() {
         System.out.println("Car()");
@@ -18,7 +22,23 @@ public class Car {
     @Override
     public String toString() {
         return "Car [model=" + model + ", color=" + color + ", capacity=" + capacity + ", engine=" + engine + ", tires="
-                + Arrays.toString(tires) + ", seats=" + seats + "]";
+                + Arrays.toString(tires) + ", seats=" + seats + ", jukebox=" + jukebox + ", options=" + options + "]";
+    }
+
+    public Map<String, String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
+    }
+
+    public Set<CD> getJukebox() {
+        return jukebox;
+    }
+
+    public void setJukebox(Set<CD> jukebox) {
+        this.jukebox = jukebox;
     }
 
     public List<Seat> getSeats() {
