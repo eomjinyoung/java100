@@ -1,6 +1,6 @@
-// Spring IoC(Inversion of Control) 컨테이너 - 값 주입하기
+// Spring IoC(Inversion of Control) 컨테이너 - 팩토리 메서드를 사용한 객체 생성
 // 
-package bitcamp.java100.ch20.ex5;
+package bitcamp.java100.ch20.ex6;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -10,9 +10,11 @@ public class Test1 {
         
         ClassPathXmlApplicationContext appCtx = 
                 new ClassPathXmlApplicationContext(
-                        "bitcamp/java100/ch20/ex5/application-context1.xml");
+                        "bitcamp/java100/ch20/ex6/application-context1.xml");
         
         System.out.println(appCtx.getBean("c1"));
+        System.out.println(appCtx.getBean("c2"));
+        System.out.println(appCtx.getBean("c3"));
     }
 }
 
