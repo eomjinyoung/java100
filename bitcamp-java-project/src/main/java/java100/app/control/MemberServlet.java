@@ -10,7 +10,7 @@ import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
 @Component("/member")  // 이 클래스의 객체를 자동 생성해야 함을 표시!
-public class MemberController implements Controller {
+public class MemberServlet implements Controller {
     
     // 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
     @Autowired

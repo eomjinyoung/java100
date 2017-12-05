@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import org.springframework.stereotype.Component;
 
 @Component("/hello")  // 이 클래스의 객체를 자동 생성해야 함을 표시!
-public class HelloController implements Controller {
+public class HelloServlet implements Controller {
     
     @Override
     public void destroy() {}
