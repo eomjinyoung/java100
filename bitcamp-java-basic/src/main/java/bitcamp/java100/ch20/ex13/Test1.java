@@ -1,6 +1,6 @@
-// Spring IoC(Inversion of Control) 컨테이너 - @Qualifier
+// Spring IoC(Inversion of Control) 컨테이너 - 필드에 애노테이션 붙이기
 // 
-package bitcamp.java100.ch20.ex11;
+package bitcamp.java100.ch20.ex13;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -10,18 +10,14 @@ public class Test1 {
         
         ClassPathXmlApplicationContext appCtx = 
                 new ClassPathXmlApplicationContext(
-                        "bitcamp/java100/ch20/ex11/application-context1.xml");
+                        "bitcamp/java100/ch20/ex13/application-context1.xml");
         
-        // 같은 타입의 의존 객체가 여러 개 있을 경우 오류 발생!
-        // 해결책?
-        // @Qualifier를 사용하여 주입할 객체를 지정하라!
+        // @Resource,@Autowired, @Qualifier를 셋터 대신에 필드에 붙일 수 있다.
+        // 필드에 붙이게 되면 셋터가 필요없다.
         Car car = (Car) appCtx.getBean("c1");
         System.out.println(car);
         
         System.out.println("------------------------------------------");
-        // <context:annotation-config/> 태그가 등록시키는 클래스를 알아보자!
-        // => 현재 Spring IoC 컨테이너에 등록된 모든 객체를 출력해보면 알 수 있다.
-        
         String[] names = appCtx.getBeanDefinitionNames();
         for (String name : names) {
             System.out.println(appCtx.getBean(name));

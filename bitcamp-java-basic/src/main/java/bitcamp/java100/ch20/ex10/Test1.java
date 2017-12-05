@@ -1,4 +1,4 @@
-// Spring IoC(Inversion of Control) 컨테이너 - 의존 객체 주입 III
+// Spring IoC(Inversion of Control) 컨테이너 - @Autowired의 required 속성
 // 
 package bitcamp.java100.ch20.ex10;
 
