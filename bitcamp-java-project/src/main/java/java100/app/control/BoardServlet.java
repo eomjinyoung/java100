@@ -52,7 +52,7 @@ public class BoardServlet implements Servlet {
     
     @Override
     public String getServletInfo() {
-        return "성적관리 서블릿";
+        return "게시물관리 서블릿";
     }
 
     @Override

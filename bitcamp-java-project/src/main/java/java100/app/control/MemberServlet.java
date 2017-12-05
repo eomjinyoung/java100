@@ -3,14 +3,20 @@ package java100.app.control;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.Servlet;
+import javax.servlet.annotation.WebServlet;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
-@Component("/member")  // 이 클래스의 객체를 자동 생성해야 함을 표시!
-public class MemberServlet implements Controller {
+//urlPatterns 속성
+//- 클라이언트가 "/member/xxx" URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
+//- /member/xxx 요청이 들어오면 서블릿 컨테이너는 이 서블릿 객체를 실행한다.
+//
+@WebServlet("/member/*")
+public class MemberServlet implements Servlet {
     
     // 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
     @Autowired
