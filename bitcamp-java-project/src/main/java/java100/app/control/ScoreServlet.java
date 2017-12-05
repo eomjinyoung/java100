@@ -78,12 +78,15 @@ public class ScoreServlet implements Servlet {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
-        switch (httpRequest.getServletPath()) {
-        case "/score/add": this.doAdd(httpRequest, httpResponse); break;
-        case "/score/list": this.doList(httpRequest, httpResponse); break;
-        case "/score/view": this.doView(httpRequest, httpResponse); break;
-        case "/score/update": this.doUpdate(httpRequest, httpResponse); break;
-        case "/score/delete": this.doDelete(httpRequest, httpResponse); break;
+        // 출력하는 콘텐츠의 문자표 이름(character set)을 웹브라우저에게 알려줘라!
+        httpResponse.setContentType("text/plain;charset=UTF-8");
+        
+        switch (httpRequest.getPathInfo()) {
+        case "/add": this.doAdd(httpRequest, httpResponse); break;
+        case "/list": this.doList(httpRequest, httpResponse); break;
+        case "/view": this.doView(httpRequest, httpResponse); break;
+        case "/update": this.doUpdate(httpRequest, httpResponse); break;
+        case "/delete": this.doDelete(httpRequest, httpResponse); break;
         default: 
             response.getWriter().println("해당 명령이 없습니다.");
         }

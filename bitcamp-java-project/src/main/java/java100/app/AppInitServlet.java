@@ -54,8 +54,43 @@ import java100.app.util.DataSource;
 //         JavaEE에서 제공하는 Servlet 인터페이스를 구현한다.
 //      => 컨트롤러에 @WebServlet을 붙여 서블릿 컨테이너가 알아 볼 수 있게 한다.
 //
+//   3) 서블릿 컨테이너 제품 중에 하나인 "톰캣"을 다운로드 받는다.
+//      => tomcat.apache.org 사이트에 간다.
+//      => servlet 3.1 규격에 따라 만든 8.5.x 버전을 다운로드 받는다.
+//      => window(c:\Users\사용자폴더\ 에 압축을 푼다), linux/macOS(홈폴더에 푼다)
 //
-
+//   4) 톰캣 웹 애플리케이션 폴더에 이 프로그램을 배치한다.
+//      => $tomcat_home/webapps/bitcamp 폴더를 생성한다.
+//      => bitcamp/classes 폴더를 생성한다.
+//         이 폴더에 우리가 만든 클래스 파일(.class)을 둔다.
+//      => bitcamp/lib 폴더를 생성한다.
+//         이 폴더에 우리가 사용한 라이브러리 파일(.jar)을 둔다.
+//      => 이 모든 것을 한 방에 배치할 수 있는 방법이 있으니,
+//         gradle 빌드 도구를 사용하는 것이다.
+//         - "gradlew build"를 실행한다.
+//         - 프로젝트폴더/build/libs/프로젝트명.war 파일이 생성되었을 것이다.
+//         - 이 war(Web ARchive 파일)에 우리가 만든 클래스들과 라이브러리 파일들이
+//           묶여서 들어 있다.
+//         - 이 파일을 $tomcat_home/webapps/ 폴더에 복사해 놓으면 된다.
+//         - 웹 애플리케이션 이름은 .war 파일명이 될 것이다.
+//
+//   5) 톰캣 서버의 포트 번호를 8080에서 9999로 변경한다.
+//      => 이유? 
+//         운영체제에 이미 8080을 사용하는 프로그램이 있을 수 있다.
+//         특히 오라클 DBMS를 설치하면 오라클 기본 웹서버가 8080을 사용한다.
+//      => 이런 경우를 방지하고자 그냥 무조건 포트번호를 9999로 바꾼다.
+//      => 톰캣홈/conf/server.xml 파일에서 8080 포트 부분을 찾아 9999로 바꾼다.
+//
+//   6) 톰캣 서버를 실행한다.
+//      => "echo %JAVA_HOME%"을 실행하여 JDK 폴더가 제대로 설정되었는지 확인한다.
+//         linux/macOS 는 "echo $JAVA_HOME"을 실행한다.
+//      => "java -version" 을 실행하여 JDK 버전과 일치하는 지 확인한다.
+//      => "javac -version" 을 실행하여 JDK 버전과 일치하는 지 확인한다.
+//      => 파일 탐색기에서 "톰캣홈/bin/startup.bat"를 실행한다.
+//         linux/macOS
+//         > cd 톰캣홈/bin
+//         > chmod 755 *.sh  를 실행하여 쉘스크립트 파일을 실행가능한 상태로 만든다.
+//         > ./startup.sh를 실행한다.
 // 작업
 // 1) App 클래스의 이름을 AppInitServlet 클래스로 변경한다.
 // 2) Servlet 규격에 맞추어 클래스를 만든다.
@@ -66,7 +101,10 @@ import java100.app.util.DataSource;
 //    - name 속성을 이용하여 서블릿의 별명을 지정하라!
 //    - 사용자가 요청하지 않아도 자동으로 생성되게 loadOnStartup 속성을 추가하라!
 //
-@WebServlet(name="AppInitServlet", loadOnStartup=1)
+@WebServlet(
+        urlPatterns="/init",
+        name="AppInitServlet", 
+        loadOnStartup=1)
 @Configuration 
 @ComponentScan("java100.app") 
 public class AppInitServlet implements Servlet {
