@@ -1,17 +1,25 @@
 package java100.app;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class Test {
 
+    @Bean
+    String getName() {
+        return "Hello";
+    }
+    
     public static void main(String[] args) {
-        String[] path = 
-                "/score/add?name=aaa&kor=100&eng=100".split("\\?");
+        AnnotationConfigApplicationContext iocContainer = 
+                new AnnotationConfigApplicationContext(Test.class);
         
-        String[] arr = path[1].split("&");
-        for (String param : arr) {
-            String[] kv = param.split("=");
-            System.out.printf("%s : %s\n", kv[0], kv[1]);
+        String[] names = iocContainer.getBeanDefinitionNames();
+        for (String name : names) {
+            System.out.printf("%s => %s\n", name, iocContainer.getBean(name));
         }
-
     }
 
 }
