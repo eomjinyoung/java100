@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1"
+  metadata-complete="false">
+
+  <!-- 애노테이션으로도 배치정보를 설정할 수 있게 하려면 
+       위의 metadata-complete 속성의 값을 "false"로 설정해야 한다. -->
+
+    <!-- 배포할 서블릿 정보를 등록한다. -->
+    <servlet>
+        <!-- 서블릿 이름은 마음대로 작성해도 된다.
+             다만 유지보수할 때 해당 클래스를 쉽게 찾을 수 있도록
+             의미가 통하는 이름으로 작성하라! -->
+        <servlet-name>Servlet03</servlet-name>
+        
+        <!-- 패키지 이름을 포함한 FQName 으로 서블릿 클래스명을 설정해야 한다. -->
+        <servlet-class>step1.Servlet03</servlet-class>
+    </servlet>
+
+
+    <!-- 서블릿과 URL을 연결해야 한다.
+         그래야 클라이언트에서 해당 URL로 요청을 할 것이다.
+     -->
+    <servlet-mapping>
+        <!-- 위에서 지정한 서블릿 이름 -->
+        <servlet-name>Servlet03</servlet-name>
+        
+        <!-- 클라이언트에서 요청할 때 사용할 URL -->
+        <url-pattern>/step1/Servlet03</url-pattern>
+    </servlet-mapping>    
+</web-app>
+
+
+
+
+
+
+
+
+
+
