@@ -1,4 +1,4 @@
-package java100.app.control;
+package java100.app.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
