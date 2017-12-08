@@ -9,10 +9,27 @@
   <!-- 애노테이션으로도 배치정보를 설정할 수 있게 하려면 
        위의 metadata-complete 속성의 값을 "false"로 설정해야 한다. -->
 
+    <!-- 리스너를 포함하여 서블릿, 필터 등 모든 웹 애플리케이션 멤버들이 
+         사용할 수 있는 값은 컨텍스트 파라미터로 선언한다. -->
+    <context-param>
+        <param-name>driver</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param> 
+        <param-name>url</param-name>
+        <param-value>jdbc:mysql://localhost:3306/studydb</param-value>
+    </context-param>
+
     <!-- 배치할 리스너 정보를 등록한다. -->
     <listener>
         <listener-class>step3.Listener02</listener-class>
     </listener>
+
+    <listener>
+        <listener-class>step6.Listener01</listener-class>
+    </listener>
+
+
 
     <!-- 배치할 필터 정보를 등록한다. -->
     <filter>

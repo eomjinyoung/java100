@@ -30,6 +30,7 @@ public class Filter01 implements Filter {
             throws IOException, ServletException {
         
         String charset = config.getInitParameter("charset");
+        System.out.println("step6.Filter01=>" + charset);
         
         request.setCharacterEncoding(charset);
 
