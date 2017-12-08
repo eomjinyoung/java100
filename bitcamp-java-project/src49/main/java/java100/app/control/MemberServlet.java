@@ -13,28 +13,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.dao.BoardDao;
-import java100.app.domain.Board;
-import java100.app.listener.ContextLoaderListener;
+import java100.app.AppInitServlet;
+import java100.app.dao.MemberDao;
+import java100.app.domain.Member;
 
 //urlPatterns 속성
-//- 클라이언트가 "/board/"로 시작하는 URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
-//- /board/로 시작하는 요청이 들어오면 서블릿 컨테이너는 이 서블릿 객체를 실행한다.
+//- 클라이언트가 "/member/xxx" URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
+//- /member/xxx 요청이 들어오면 서블릿 컨테이너는 이 서블릿 객체를 실행한다.
 //
-@WebServlet(urlPatterns="/board/*")
-public class BoardServlet implements Servlet {
+@WebServlet("/member/*")
+public class MemberServlet implements Servlet {
     
     // init()가 호출될 때 받은 파라미터 값을 저장할 변수
     ServletConfig servletConfig;
     
-    // BoardServlet 객체는 스프링 IoC 컨테이너가 더이상 관리하지 않는다.
+    // MemberServlet 객체는 스프링 IoC 컨테이너가 더이상 관리하지 않는다.
     // 대신 서블릿 컨테이너가 관리한다.
-    // 따라서 BoardDao 객체를 자동으로 주입 받을 수 없다.
+    // 따라서 MemberDao 객체를 자동으로 주입 받을 수 없다.
     // 해결책?
     // init()가 호출될 때 직접 스프링 IoC 컨테이너에서 
-    // BoardDao 객체를 꺼내 주입하라!
+    // MemberDao 객체를 꺼내 주입하라!
     //
-    BoardDao boardDao;
+    MemberDao memberDao;
     
     @Override
     public void destroy() {}
@@ -42,7 +42,7 @@ public class BoardServlet implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.servletConfig = config;
-        boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        memberDao = AppInitServlet.iocContainer.getBean(MemberDao.class);
     }
     
     @Override
@@ -52,9 +52,9 @@ public class BoardServlet implements Servlet {
     
     @Override
     public String getServletInfo() {
-        return "게시물관리 서블릿";
+        return "회원관리 서블릿";
     }
-
+    
     @Override
     public void service(ServletRequest request, ServletResponse response) 
             throws ServletException, IOException {
@@ -76,7 +76,7 @@ public class BoardServlet implements Servlet {
         //
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        
+
         // 출력하는 콘텐츠의 문자표 이름(character set)을 웹브라우저에게 알려줘라!
         httpResponse.setContentType("text/plain;charset=UTF-8");
         
@@ -93,20 +93,20 @@ public class BoardServlet implements Servlet {
     
     private void doList(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
+
         PrintWriter out = response.getWriter();
-        out.println("[게시물 목록]");
+        out.println("[회원 목록]");
         
         try {
             
-            List<Board> list = boardDao.selectList();
+            List<Member> list = memberDao.selectList();
             
-            for (Board board : list) {
-                out.printf("%d, %s, %s, %d\n",
-                        board.getNo(),
-                        board.getTitle(), 
-                        board.getRegDate(),
-                        board.getViewCount());
+            for (Member member : list) {
+                out.printf("%d, %s, %s, %s\n",
+                        member.getNo(),
+                        member.getName(), 
+                        member.getEmail(),
+                        member.getCreatedDate());
             }
             
         } catch (Exception e) {
@@ -114,19 +114,22 @@ public class BoardServlet implements Servlet {
             out.println(e.getMessage()); // for user
         }
     }
-
+    
     private void doAdd(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 등록]");
+        out.println("[회원 등록]");
         
         try {
-            Board board = new Board();
-            board.setTitle(request.getParameter("title"));
-            board.setContent(request.getParameter("content"));
             
-            boardDao.insert(board);
+            Member member = new Member();
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
+            
+            memberDao.insert(member);
+            
             out.println("저장하였습니다.");
             
         } catch (Exception e) {
@@ -139,20 +142,20 @@ public class BoardServlet implements Servlet {
             throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 상세 정보]");
+        out.println("[회원 상세 정보]");
         
         try {
-            int no = Integer.parseInt(request.getParameter("no"));
-            Board board = boardDao.selectOne(no);
             
-            if (board != null) {
-                out.printf("번호: %d\n", board.getNo());
-                out.printf("제목: %s\n", board.getTitle());
-                out.printf("내용: %s\n", board.getContent());
-                out.printf("등록일: %s\n", board.getRegDate());
-                out.printf("조회수: %d\n", board.getViewCount());
+            int no = Integer.parseInt(request.getParameter("no"));
+            Member member = memberDao.selectOne(no);
+            
+            if (member != null) {
+                out.printf("번호: %d\n", member.getNo());
+                out.printf("이름: %s\n", member.getName());
+                out.printf("이메일: %s\n", member.getEmail());
+                out.printf("등록일: %s\n", member.getCreatedDate());
             } else {
-                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no);
+                out.printf("'%d'번의 회원 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {
@@ -165,18 +168,19 @@ public class BoardServlet implements Servlet {
             throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 변경]");
+        out.println("[회원 변경]");
         
         try {
-            Board board = new Board();
-            board.setNo(Integer.parseInt(request.getParameter("no")));
-            board.setTitle(request.getParameter("title"));
-            board.setContent(request.getParameter("content"));
+            Member member = new Member();
+            member.setNo(Integer.parseInt(request.getParameter("no")));
+            member.setName(request.getParameter("name"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
             
-            if (boardDao.update(board) > 0) {
+            if (memberDao.update(member) > 0) {
                 out.println("변경하였습니다.");
             } else {
-                out.printf("'%d'번 게시물이 없습니다.\n", board.getNo());
+                out.printf("'%d'번 회원의 정보가 없습니다.\n", member.getNo()); 
             }
             
         } catch (Exception e) {
@@ -189,16 +193,16 @@ public class BoardServlet implements Servlet {
             throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
-        out.println("[게시물 삭제]");
+        out.println("[회원 삭제]");
         
         try {
             
             int no = Integer.parseInt(request.getParameter("no"));
             
-            if (boardDao.delete(no) > 0) {
+            if (memberDao.delete(no) > 0) {
                 out.println("삭제했습니다.");
             } else {
-                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no); 
+                out.printf("'%d'번의 회원 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {
@@ -207,6 +211,8 @@ public class BoardServlet implements Servlet {
         }
     }
 }
+
+
 
 
 

@@ -1,6 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 
 eclipse {
@@ -54,7 +53,6 @@ dependencies {
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'
 }
-mainClassName = 'App'
 
 
 

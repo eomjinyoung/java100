@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.AppInitServlet;
 import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
+import java100.app.listener.ContextLoaderListener;
 
 // urlPatterns 속성
 // - 클라이언트가 "/score/"로 시작하는 URL을 요청할 때 
@@ -43,7 +43,7 @@ public class ScoreServlet implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.servletConfig = config;
-        scoreDao = AppInitServlet.iocContainer.getBean(ScoreDao.class);
+        scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
     }
     
     @Override

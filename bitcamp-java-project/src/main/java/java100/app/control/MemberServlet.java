@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.AppInitServlet;
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
+import java100.app.listener.ContextLoaderListener;
 
 //urlPatterns 속성
 //- 클라이언트가 "/member/xxx" URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
@@ -42,7 +42,7 @@ public class MemberServlet implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.servletConfig = config;
-        memberDao = AppInitServlet.iocContainer.getBean(MemberDao.class);
+        memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
     }
     
     @Override

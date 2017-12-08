@@ -13,9 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java100.app.AppInitServlet;
 import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
-import java100.app.listener.ContextLoaderListener;
 
 //urlPatterns 속성
 //- 클라이언트가 "/board/"로 시작하는 URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
@@ -42,7 +42,7 @@ public class BoardServlet implements Servlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.servletConfig = config;
-        boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        boardDao = AppInitServlet.iocContainer.getBean(BoardDao.class);
     }
     
     @Override
