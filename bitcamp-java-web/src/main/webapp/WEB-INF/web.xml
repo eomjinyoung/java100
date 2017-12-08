@@ -26,6 +26,19 @@
         <url-pattern>/step3/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>step6.Filter01</filter-name>
+        <filter-class>step6.Filter01</filter-class>
+        <init-param>
+            <param-name>charset</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>step6.Filter01</filter-name>
+        <url-pattern>/step6/*</url-pattern>
+    </filter-mapping>
+    
     <!-- 배치할 서블릿 정보를 등록한다. -->
     <servlet>
         <!-- 서블릿 이름은 마음대로 작성해도 된다.
@@ -49,7 +62,23 @@
         <url-pattern>/step1/Servlet03</url-pattern>
     </servlet-mapping>  
     
-    
+    <servlet>
+        <servlet-name>step6.Servlet01</servlet-name>
+        <servlet-class>step6.Servlet01</servlet-class>
+        <init-param> <!-- 서블릿이 사용할 값을 설정하는 태그 -->
+            <!-- 이 값은 오직 이 설블릿만 사용할 수 있다. -->
+            <param-name>driver</param-name>
+            <param-value>com.mysql.jdbc.Driver</param-value>
+        </init-param>
+        <init-param> 
+            <param-name>url</param-name>
+            <param-value>jdbc:mysql://localhost:3306/studydb</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>step6.Servlet01</servlet-name>
+        <url-pattern>/step6/Servlet01</url-pattern>
+    </servlet-mapping> 
       
 </web-app>
 
