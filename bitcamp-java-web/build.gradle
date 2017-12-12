@@ -32,6 +32,9 @@ dependencies {
     // This dependency is found on compile classpath of this component and consumers.
     compile 'com.google.guava:guava:23.0'
 
+    // https://mvnrepository.com/artifact/com.servlets/cos
+    compile group: 'com.servlets', name: 'cos', version: '09May2002'
+
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
 }
