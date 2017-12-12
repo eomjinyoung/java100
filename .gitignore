@@ -13,4 +13,5 @@
 *.log
 *.project
 *.DS_Store
+**/ch2/
 !build.gradle
