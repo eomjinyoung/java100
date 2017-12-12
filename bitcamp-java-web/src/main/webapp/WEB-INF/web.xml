@@ -66,7 +66,7 @@
         <!-- 패키지 이름을 포함한 FQName 으로 서블릿 클래스명을 설정해야 한다. -->
         <servlet-class>step1.Servlet03</servlet-class>
     </servlet>
-
+    
 
     <!-- 서블릿과 URL을 연결해야 한다.
          그래야 클라이언트에서 해당 URL로 요청을 할 것이다.
