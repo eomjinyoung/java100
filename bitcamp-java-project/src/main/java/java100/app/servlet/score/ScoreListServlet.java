@@ -24,16 +24,30 @@ public class ScoreListServlet extends HttpServlet {
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
                 ScoreDao.class);
         
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
-        out.println("[성적 목록]");
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>성적관리</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>성적 목록</h1>");
+
+        out.println("<table>");
+        out.println("<thead>");
+        out.println("<tr>");
+        out.println("<th>번호</th><th>이름</th><th>합계</th><th>평균</th>");
+        out.println("</tr>");
+        out.println("</thead>");
+        out.println("<tbody>");
         
         try {
             List<Score> list = scoreDao.selectList();
             
             for (Score score : list) {
-                out.printf("%4d, %-4s, %4d, %6.1f\n",
+                out.printf("<td>%d</td><td>%s</td><td>%d</td><td>%3.1f</td>\n",
                         score.getNo(),
                         score.getName(), 
                         score.getSum(), 
@@ -44,6 +58,11 @@ public class ScoreListServlet extends HttpServlet {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
+        
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("</body>");
+        out.println("</html>");
     }
 }
 
