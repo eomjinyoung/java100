@@ -32,13 +32,20 @@ public class RoomListServlet extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<title>강의실관리</title>");
+        out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
+        out.println("<style>");
+        out.println(".container {");
+        out.println("    width: 680px;");
+        out.println("}");
+        out.println("</style>");
         out.println("</head>");
         out.println("<body>");
+        out.println("<div class='container'>");
         out.println("<h1>강의실 목록</h1>");
 
-        out.println("<p><a href='add'>추가</a></p>");
+        out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
         
-        out.println("<table>");
+        out.println("<table class='table table-hover'>");
         out.println("<thead>");
         out.println("<tr>");
         out.println("<th>번호</th><th>지역</th><th>강의실명</th><th>수용인원</th><th>삭제</th>");
@@ -52,7 +59,7 @@ public class RoomListServlet extends HttpServlet {
             
             for (Room room : list) {
                 out.printf("<tr><td>%d</td><td>%s</td><td>%s</td>"
-                        + "<td>%d</td><td><a href='delete?no=%d'>삭제</a></td></tr>\n",
+                        + "<td>%d</td><td><a href='delete?no=%d' class='btn btn-danger btn-sm'>삭제</a></td></tr>\n",
                         room.getNo(),
                         room.getLocation(),
                         room.getName(),
@@ -66,6 +73,7 @@ public class RoomListServlet extends HttpServlet {
         }
         out.println("</tbody>");
         out.println("</table>");
+        out.println("</div>");
         out.println("</body>");
         out.println("</html>");
     }
