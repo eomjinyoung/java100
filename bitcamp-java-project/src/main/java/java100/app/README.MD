@@ -15,4 +15,15 @@
   - java-project/src/main/webapp 폴더로 이동한다.
   - `npm init` 실행한다.
   - package.json 파일이 생성되었는지 확인한다.
+- Bootstrap 라이브러리를 다운로드 받는다.
+  - `npm install bootstrap@4.0.0-beta.2 --save`
+
+
+
+
+
+
+
+
+
   
