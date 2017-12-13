@@ -31,13 +31,20 @@ public class ScoreListServlet extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<title>성적관리</title>");
+        out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
+        out.println("<style>");
+        out.println(".container {");
+        out.println("    width: 680px;");
+        out.println("}");
+        out.println("</style>");
         out.println("</head>");
         out.println("<body>");
+        out.println("<div class='container'>");
         out.println("<h1>성적 목록</h1>");
 
-        out.println("<p><a href='add'>추가</a></p>");
+        out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
         
-        out.println("<table>");
+        out.println("<table class='table table-hover'>");
         out.println("<thead>");
         out.println("<tr>");
         out.println("<th>번호</th><th>이름</th><th>합계</th><th>평균</th>");
@@ -66,6 +73,7 @@ public class ScoreListServlet extends HttpServlet {
         
         out.println("</tbody>");
         out.println("</table>");
+        out.println("</div>");
         out.println("</body>");
         out.println("</html>");
     }

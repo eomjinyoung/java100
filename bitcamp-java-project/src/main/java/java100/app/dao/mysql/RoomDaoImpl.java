@@ -70,7 +70,7 @@ public class RoomDaoImpl implements RoomDao {
                     "insert into ex_room(loc,name,capacity) values(?,?,?)");
             pstmt.setString(1, room.getLocation());
             pstmt.setString(2, room.getName());
-            pstmt.setInt(3, room.getNo());
+            pstmt.setInt(3, room.getCapacity());
             
             return pstmt.executeUpdate();
             

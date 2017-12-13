@@ -36,7 +36,7 @@ public class RoomAddServlet extends HttpServlet {
         out.println("<input id='location' type='text' name='location'>");
         out.println("</div>");
         out.println("<div>");
-        out.println("<label for='name'>이름</label>");
+        out.println("<label for='name'>강의실명</label>");
         out.println("<input id='name' type='text' name='name'>");
         out.println("</div>");
         out.println("<div>");
