@@ -47,7 +47,10 @@ public class ScoreListServlet extends HttpServlet {
             List<Score> list = scoreDao.selectList();
             
             for (Score score : list) {
-                out.printf("<td>%d</td><td>%s</td><td>%d</td><td>%3.1f</td>\n",
+                out.printf("<tr><td>%d</td><td>"
+                        + "<a href='view?no=%d'>%s</a>"
+                        + "</td><td>%d</td><td>%3.1f</td></tr>\n",
+                        score.getNo(),
                         score.getNo(),
                         score.getName(), 
                         score.getSum(), 
