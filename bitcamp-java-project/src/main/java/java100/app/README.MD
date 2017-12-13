@@ -1,12 +1,18 @@
-# ver 52
-- HTML을 이용하여 결과를 출력하라!
+# ver 53
+- 오픈 소스 CSS 라이브러리인 "Bootstrap"을 화면을 꾸며라!
+- npm(node package manager)이라는 패키지 관리자를 사용하여 CSS 라이브러리를 관리한다. 
 - 학습목표
-  - HTML 사용법을 익힌다.
+  - CSS를 활용하는 방법과 그 효과를 이해한다.
+  - CSS, JavaScript 라이브러리를 효과적으로 관리하는 방법을 익힌다. 
+
 
 ## 작업 목록 
-- 요청 데이터의 문자 집합을 지정할 Filter 추가
-  - CharacterEncodingFilter 추가
-  - web.xml에서 필터의 초기화 파라미터를 이용하여 문자집합 설정  
-- 각 Servlet의 출력 내용을 HTML로 만든다.
-  - doGet()과 doPost()를 이용하여 GET과 POST 요청을 구분하여 처리한다.
-  - 출력 내용을 HTML로 변경한다.  
+
+### Bootstrap CSS 라이브러리를 다운로드 받는다.
+- npm 설치 확인
+  - `npm -v`   
+- 웹애플리케이션 루트 디렉토리에 패키지 설정 파일을 만든다.
+  - java-project/src/main/webapp 폴더로 이동한다.
+  - `npm init` 실행한다.
+  - package.json 파일이 생성되었는지 확인한다.
+  
