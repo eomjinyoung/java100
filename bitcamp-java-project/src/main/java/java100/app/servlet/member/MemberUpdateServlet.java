@@ -17,16 +17,22 @@ import java100.app.listener.ContextLoaderListener;
 @WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
     
-    public void service(HttpServletRequest request, HttpServletResponse response) 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
                 MemberDao.class);
         
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
-        out.println("[회원 변경]");
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>회원관리</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>회원 변경 결과</h1>");
         
         try {
             Member member = new Member();
@@ -36,15 +42,18 @@ public class MemberUpdateServlet extends HttpServlet {
             member.setPassword(request.getParameter("password"));
             
             if (memberDao.update(member) > 0) {
-                out.println("변경하였습니다.");
+                out.println("<p>변경하였습니다.</p>");
             } else {
-                out.printf("'%d'번 회원의 정보가 없습니다.\n", member.getNo()); 
+                out.printf("<p>'%d'번 회원의 정보가 없습니다.</p>\n", member.getNo()); 
             }
             
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
+        out.println("<p><a href='list'>목록</a></p>");
+        out.println("</body>");
+        out.println("</html>");
     }
 }
 
