@@ -17,7 +17,7 @@ import java100.app.listener.ContextLoaderListener;
 @WebServlet(urlPatterns="/score/view")   
 public class ScoreViewServlet extends HttpServlet {
     
-    public void service(HttpServletRequest request, HttpServletResponse response) 
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
@@ -77,6 +77,7 @@ public class ScoreViewServlet extends HttpServlet {
                             score.getAver());
                 out.println("</div>");
                 out.println("<button>변경</button>");
+                out.printf("<a href='delete?no=%d'>삭제</a>\n", score.getNo());
                 out.println("</form>");
                 
             } else {

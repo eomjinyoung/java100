@@ -18,7 +18,7 @@ import java100.app.listener.ContextLoaderListener;
 @WebServlet(urlPatterns="/score/list")   
 public class ScoreListServlet extends HttpServlet {
     
-    public void service(HttpServletRequest request, HttpServletResponse response) 
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
@@ -35,6 +35,8 @@ public class ScoreListServlet extends HttpServlet {
         out.println("<body>");
         out.println("<h1>성적 목록</h1>");
 
+        out.println("<p><a href='add'>추가</a></p>");
+        
         out.println("<table>");
         out.println("<thead>");
         out.println("<tr>");

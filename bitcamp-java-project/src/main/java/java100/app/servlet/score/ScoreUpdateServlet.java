@@ -17,16 +17,22 @@ import java100.app.listener.ContextLoaderListener;
 @WebServlet(urlPatterns="/score/update")   
 public class ScoreUpdateServlet extends HttpServlet {
     
-    public void service(HttpServletRequest request, HttpServletResponse response) 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
                 ScoreDao.class);
         
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
-        out.println("[성적 변경]");
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>성적관리</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>성적 변경</h1>");
         
         try {
             Score score = new Score();
@@ -37,15 +43,18 @@ public class ScoreUpdateServlet extends HttpServlet {
             score.setMath(Integer.parseInt(request.getParameter("math")));
             
             if(scoreDao.update(score) > 0) {
-                out.println("변경하였습니다.");
+                out.println("<p>변경하였습니다.</p>");
             } else {
-                out.printf("'%s'의 성적 정보가 없습니다.\n", score.getNo());
+                out.printf("<p>'%s'의 성적 정보가 없습니다.</p>\n", score.getNo());
             }
             
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
+        out.println("<p><a href='list'>목록</a></p>");
+        out.println("</body>");
+        out.println("</html>");
     }
 }
 
