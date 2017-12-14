@@ -33,14 +33,7 @@ public class ScoreListServlet extends HttpServlet {
         out.println("<head>");
         out.println("<title>성적관리</title>");
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
-        out.println("<style>");
-        out.println(".container {");
-        out.println("    width: 680px;");
-        out.println("}");
-        out.println("footer {");
-        out.println("    text-align: center;");
-        out.println("}");
-        out.println("</style>");
+        out.println("<link rel='stylesheet' href='../css/common.css'>");
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");

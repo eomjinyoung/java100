@@ -3,6 +3,7 @@ package java100.app.servlet.score;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,45 +31,13 @@ public class ScoreDeleteServlet extends HttpServlet {
         out.println("<head>");
         out.println("<title>성적관리</title>");
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
-        out.println("<style>");
-        out.println(".container {");
-        out.println("    width: 680px;");
-        out.println("}");
-        out.println("footer {");
-        out.println("    text-align: center;");
-        out.println("}");
-        out.println("</style>");
+        out.println("<link rel='stylesheet' href='../css/common.css'>");
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");
-        
-        out.println("<header>");
-        out.println("<nav class='navbar navbar-expand-lg navbar-light bg-light'>");
-        out.println("<a class='navbar-brand' href='../index.html'>");
-        out.println("  <img src='../images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>");
-        out.println("  비트캠프");
-        out.println("</a>");
-        out.println("<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>");
-        out.println("  <span class='navbar-toggler-icon'></span>");
-        out.println("</button>");
-        out.println("<div class='collapse navbar-collapse' id='navbarNav'>");
-        out.println("<ul class='navbar-nav'>");
-        out.println("  <li class='nav-item'>");
-        out.println("    <a class='nav-link' href='../score/list'>성적</a>");
-        out.println("  </li>");
-        out.println("  <li class='nav-item'>");
-        out.println("    <a class='nav-link' href='../member/list'>회원</a>");
-        out.println("  </li>");
-        out.println("  <li class='nav-item'>");
-        out.println("    <a class='nav-link' href='../board/list'>게시판</a>");
-        out.println("  </li>");
-        out.println("  <li class='nav-item'>");
-        out.println("    <a class='nav-link' href='../room/list'>강의실</a>");
-        out.println("  </li>");
-        out.println("</ul>");
-        out.println("</div>");
-        out.println("</nav>");
-        out.println("</header>");
+
+        RequestDispatcher rd = request.getRequestDispatcher("/header");
+        rd.include(request, response);
         
         out.println("<h1>성적 삭제</h1>");
         
@@ -87,9 +56,9 @@ public class ScoreDeleteServlet extends HttpServlet {
         }
         
         out.println("<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>");
-        out.println("<footer>");
-        out.println("    비트캠프 자바100기@2017");
-        out.println("</footer>");
+
+        rd = request.getRequestDispatcher("/footer");
+        rd.include(request, response);
         
         out.println("</div>");
         
