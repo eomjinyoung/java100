@@ -1,33 +1,18 @@
-## ver 55
-- 모든 페이지에 공통으로 실행될 코드를 별도의 서블릿으로 분리하라!
-- including 기법을 사용하여 분리된 기능을 포함시켜라!
-- 공통 CSS 코드를 별도의 파일을 분리하여 웹페이지에 삽입하라!
+## ver 56
+- 모든 서블릿을 JSP로 전환하라!
 - 학습목표
-  - 다른 서블릿의 실행 결과를 포함시키는 including 기법을 연습한다.
-  - 인클루딩 기법을 통해 공통 코드를 관리하는 방법의 이점을 이해한다.
-  - CSS 코드를 외부 파일로 분리하는 방법과 웹페이지에 넣는 방법을 연습한다.
+  - JSP의 사용법을 익힌다.
   
 ## 작업 목록 
 
-### 각 페이지 상단 내용을 출력할 서블릿을 만든다.
-- HeaderServlet 추가
-- 상단 내용을 출력하는 코드를 넣는다.
+### 각각의 입력 폼을 JSP로 전환한다.
+- /webapp/score/form.jsp
+- /webapp/board/form.jsp
+- /webapp/member/form.jsp
+- /webapp/room/form.jsp
 
-### 각 페이지 하단 내용을 출력할 서블릿을 만든다.
-- FooterServlet 추가
-- 하단 내용을 출력하는 코드를 넣는다.
-
-### 각 서블릿에 상단과 하단을 출력하는 서블릿을 포함시킨다.
-
-### 공통 CSS 코드를 별도의 파일로 분리하기
-- /webapp/css/common.css 파일을 생성한다.
-- 이 파일에 공통으로 사용할 CSS 코드를 넣는다.
-- 각 웹 페이지에 <link> 태그로 이 CSS 파일을 삽입한다.
-
-
-
-
-
-
-
-  
+### 데이터 입력을 처리하는 서블릿을 JSP로 전환한다.
+- /webapp/score/app.jsp
+- /webapp/board/app.jsp
+- /webapp/member/app.jsp
+- /webapp/room/app.jsp

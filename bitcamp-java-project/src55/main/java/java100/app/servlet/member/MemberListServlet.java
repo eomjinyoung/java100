@@ -1,4 +1,4 @@
-package java100.app.servlet.room;
+package java100.app.servlet.member;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,28 +11,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.dao.RoomDao;
-import java100.app.domain.Room;
+import java100.app.dao.MemberDao;
+import java100.app.domain.Member;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/room/list")
-public class RoomListServlet extends HttpServlet {
+@WebServlet("/member/list")
+public class MemberListServlet extends HttpServlet {
     
     public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
-                RoomDao.class);
+        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
+                MemberDao.class);
         
-
         response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>강의실관리</title>");
+        out.println("<title>회원관리</title>");
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<link rel='stylesheet' href='../css/common.css'>");
         out.println("</head>");
@@ -42,30 +41,31 @@ public class RoomListServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/header");
         rd.include(request, response);
         
-        out.println("<h1>강의실 목록</h1>");
-
-        out.println("<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>");
+        out.println("<h1>회원 목록</h1>");
+        
+        out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
         
         out.println("<table class='table table-hover'>");
         out.println("<thead>");
         out.println("<tr>");
-        out.println("<th>번호</th><th>지역</th><th>강의실명</th><th>수용인원</th><th>삭제</th>");
+        out.println("<th>번호</th><th>이름</th><th>이메일</th><th>가입일</th>");
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
         
-        
         try {
-            List<Room> list = roomDao.selectList();
             
-            for (Room room : list) {
-                out.printf("<tr><td>%d</td><td>%s</td><td>%s</td>"
-                        + "<td>%d</td><td><a href='delete?no=%d' class='btn btn-danger btn-sm'>삭제</a></td></tr>\n",
-                        room.getNo(),
-                        room.getLocation(),
-                        room.getName(),
-                        room.getCapacity(),
-                        room.getNo());
+            List<Member> list = memberDao.selectList();
+            
+            for (Member member : list) {
+                out.printf("<tr><td>%d</td><td>"
+                        + "<a href='view?no=%d'>%s</a>"
+                        + "</td><td>%s</td><td>%s</td></tr>\n",
+                        member.getNo(),
+                        member.getNo(),
+                        member.getName(), 
+                        member.getEmail(),
+                        member.getCreatedDate());
             }
             
         } catch (Exception e) {

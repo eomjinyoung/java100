@@ -1,8 +1,7 @@
-package java100.app.servlet.room;
+package java100.app.servlet.board;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,28 +10,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.dao.RoomDao;
-import java100.app.domain.Room;
+import java100.app.dao.BoardDao;
+import java100.app.domain.Board;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/room/list")
-public class RoomListServlet extends HttpServlet {
+@WebServlet("/board/update")
+public class BoardUpdateServlet extends HttpServlet {
     
-    public void doGet(HttpServletRequest request, HttpServletResponse response) 
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
-        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
-                RoomDao.class);
-        
 
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>강의실관리</title>");
+        out.println("<title>게시판</title>");
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<link rel='stylesheet' href='../css/common.css'>");
         out.println("</head>");
@@ -42,38 +41,25 @@ public class RoomListServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/header");
         rd.include(request, response);
         
-        out.println("<h1>강의실 목록</h1>");
-
-        out.println("<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>");
-        
-        out.println("<table class='table table-hover'>");
-        out.println("<thead>");
-        out.println("<tr>");
-        out.println("<th>번호</th><th>지역</th><th>강의실명</th><th>수용인원</th><th>삭제</th>");
-        out.println("</tr>");
-        out.println("</thead>");
-        out.println("<tbody>");
-        
+        out.println("<h1>게시물 변경 결과</h1>");
         
         try {
-            List<Room> list = roomDao.selectList();
+            Board board = new Board();
+            board.setNo(Integer.parseInt(request.getParameter("no")));
+            board.setTitle(request.getParameter("title"));
+            board.setContent(request.getParameter("content"));
             
-            for (Room room : list) {
-                out.printf("<tr><td>%d</td><td>%s</td><td>%s</td>"
-                        + "<td>%d</td><td><a href='delete?no=%d' class='btn btn-danger btn-sm'>삭제</a></td></tr>\n",
-                        room.getNo(),
-                        room.getLocation(),
-                        room.getName(),
-                        room.getCapacity(),
-                        room.getNo());
+            if (boardDao.update(board) > 0) {
+                out.println("<p>변경하였습니다.</p>");
+            } else {
+                out.printf("<p>'%d'번 게시물이 없습니다.</p>\n", board.getNo());
             }
             
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-        out.println("</tbody>");
-        out.println("</table>");
+        out.println("<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>");
 
         rd = request.getRequestDispatcher("/footer");
         rd.include(request, response);
@@ -87,9 +73,8 @@ public class RoomListServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
     }
+
 }
-
-
 
 
 

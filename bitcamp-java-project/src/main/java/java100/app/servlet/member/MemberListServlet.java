@@ -43,7 +43,7 @@ public class MemberListServlet extends HttpServlet {
         
         out.println("<h1>회원 목록</h1>");
         
-        out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
+        out.println("<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>");
         
         out.println("<table class='table table-hover'>");
         out.println("<thead>");
