@@ -19,13 +19,10 @@ ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
 <body>
 <div class='container'>
 
+<jsp:include page="/header.jsp"/>
+
+<h1>성적 변경</h1>
 <%
-out.flush();
-RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
-rd.include(request, response);
-
-out.println("<h1>성적 변경</h1>");
-
 try {
     Score score = new Score();
     score.setNo(Integer.parseInt(request.getParameter("no")));
@@ -49,11 +46,9 @@ try {
 }%>
 
 <p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
-<%
-out.flush();
-rd = request.getRequestDispatcher("/footer.jsp");
-rd.include(request, response);
-%>
+
+<jsp:include page="/footer.jsp"/>
+
 </div>
 
 <%@ include file="../jslib.txt"%>

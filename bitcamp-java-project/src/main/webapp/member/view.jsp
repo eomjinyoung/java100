@@ -18,11 +18,9 @@ MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
 </head>
 <body>
 <div class='container'>
-<%
-out.flush();
-RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
-rd.include(request, response);
-%>
+
+<jsp:include page="/header.jsp"/>
+
 <h1>회원 상세 정보</h1>
 <%
 try {
@@ -81,11 +79,10 @@ try {
     e.printStackTrace(); // for developer%>
     <%=e.getMessage() %>
 <%    
-}
-out.flush();
-rd = request.getRequestDispatcher("/footer.jsp");
-rd.include(request, response);
-%>
+}%>
+
+<jsp:include page="/footer.jsp"/>
+
 </div>
 
 <%@ include file="../jslib.txt"%>

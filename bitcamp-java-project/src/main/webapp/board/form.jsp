@@ -11,12 +11,9 @@
 </head>
 <body>
 <div class='container'>
-<%
-out.flush();
 
-RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
-rd.include(request, response);
-%>
+<jsp:include page="/header.jsp"/>
+
 <h1>새 게시물</h1>
 <form action="add.jsp" method='post'>
 <div class='form-group row'>
@@ -37,12 +34,9 @@ rd.include(request, response);
 </div>
 </div>
 </form>
-<%
-out.flush();
 
-rd = request.getRequestDispatcher("/footer.jsp");
-rd.include(request, response);
-%>
+<jsp:include page="/footer.jsp"/>
+
 </div>
 
 <%@ include file="../jslib.txt"%>

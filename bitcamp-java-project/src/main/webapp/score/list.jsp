@@ -20,12 +20,9 @@ ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
 </head>
 <body>
 <div class='container'>
-<%
-out.flush();
 
-RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
-rd.include(request, response);
-%>
+<jsp:include page="/header.jsp"/>
+
 <h1>성적 목록</h1>
 
 <p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
@@ -60,12 +57,8 @@ try {
 
 </tbody>
 </table>
-<%
-out.flush();
 
-rd = request.getRequestDispatcher("/footer.jsp");
-rd.include(request, response);
-%>
+<jsp:include page="/footer.jsp"/>
 
 </div>
 
