@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>스크립트릿(scriptlet element)</h1>
-<p>JSP 페이지에 자바 코드를 넣을 사용한다.</p>
+<p>JSP 페이지에 자바 코드를 넣을 때 사용한다.</p>
 
 <h2>JSP 스크립트릿</h2>
 <pre class="jsp">

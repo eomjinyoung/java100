@@ -41,16 +41,15 @@ rd.include(request, response);
 try {
     List<Score> list = scoreDao.selectList();
     
-    PrintWriter out2 = new PrintWriter(out);
     for (Score score : list) {
-        out2.printf("<tr><td>%d</td><td>"
-                + "<a href='view?no=%d'>%s</a>"
-                + "</td><td>%d</td><td>%3.1f</td></tr>\n",
-                score.getNo(),
-                score.getNo(),
-                score.getName(), 
-                score.getSum(), 
-                score.getAver());
+%>
+    <tr>
+        <td><%=score.getNo()%></td>
+        <td><a href='view.jsp?no=<%=score.getNo()%>'><%=score.getName()%></a></td>
+        <td><%=score.getSum() %></td>
+        <td><%=score.getAver() %></td>
+    </tr>
+<%
     }
     
 } catch (Exception e) {

@@ -32,8 +32,9 @@ try {
     score.setMath(Integer.parseInt(request.getParameter("math")));
 
     scoreDao.insert(score);
-    out.println("<p>저장하였습니다.</p>");
-
+%>
+    <p>저장하였습니다.</p>
+<%
 } catch (Exception e) {
     e.printStackTrace(); // for developer
     out.println(e.getMessage()); // for user
