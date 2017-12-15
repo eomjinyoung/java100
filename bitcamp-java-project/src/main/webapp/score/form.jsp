@@ -14,7 +14,7 @@
 <%
 out.flush();
 
-RequestDispatcher rd = request.getRequestDispatcher("/header");
+RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
 rd.include(request, response);
 %>
 <h1>성적 상세 정보</h1>
@@ -52,7 +52,7 @@ rd.include(request, response);
 <%
 out.flush();
 
-rd = request.getRequestDispatcher("/footer");
+rd = request.getRequestDispatcher("/footer.jsp");
 rd.include(request, response);
 %>
 </div>

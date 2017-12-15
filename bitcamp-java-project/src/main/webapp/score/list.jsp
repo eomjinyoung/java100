@@ -23,7 +23,7 @@ ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
 <%
 out.flush();
 
-RequestDispatcher rd = request.getRequestDispatcher("/header");
+RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
 rd.include(request, response);
 %>
 <h1>성적 목록</h1>
@@ -53,17 +53,17 @@ try {
     }
     
 } catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+    e.printStackTrace(); // for developer%>
+    <%=e.getMessage()%>
+<%
+}%>
 
 </tbody>
 </table>
 <%
 out.flush();
 
-rd = request.getRequestDispatcher("/footer");
+rd = request.getRequestDispatcher("/footer.jsp");
 rd.include(request, response);
 %>
 

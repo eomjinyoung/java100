@@ -17,7 +17,7 @@
 <%
 out.flush();
 
-RequestDispatcher rd = request.getRequestDispatcher("/header");
+RequestDispatcher rd = request.getRequestDispatcher("/header.jsp");
 rd.include(request, response);
 %>
 <h1>성적 등록 결과</h1>
@@ -36,16 +36,16 @@ try {
     <p>저장하였습니다.</p>
 <%
 } catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+    e.printStackTrace(); // for developer%>
+    <%=e.getMessage()%>
+<%
+}%>
 
-<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
+<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 <%
 out.flush();
 
-rd = request.getRequestDispatcher("/footer");
+rd = request.getRequestDispatcher("/footer.jsp");
 rd.include(request, response);
 %>
 </div>
