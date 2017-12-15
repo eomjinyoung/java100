@@ -9,7 +9,7 @@
 <link rel='stylesheet' href='../common.css'>
 </head>
 <body>
-<h2>jsp:include</h2>
+<h1>jsp:include</h1>
 JSP 페이지에 이 태그를 넣으면,<br>
 서블릿 클래스를 만들 때,<br>
 RequestDispatcher의 include()를 실행하는 코드가 삽입된다.<br>
