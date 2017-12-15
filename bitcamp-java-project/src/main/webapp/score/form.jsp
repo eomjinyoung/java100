@@ -56,9 +56,9 @@ rd = request.getRequestDispatcher("/footer.jsp");
 rd.include(request, response);
 %>
 </div>
-<script src='../node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<%@ include file="../jslib.txt"%>
+
 </body>
 </html>
     
