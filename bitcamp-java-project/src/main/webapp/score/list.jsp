@@ -17,7 +17,7 @@
 
 <h1>성적 목록</h1>
 
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 
 <table class='table table-hover'>
 <thead>

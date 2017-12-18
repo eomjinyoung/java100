@@ -1,6 +1,3 @@
-<%@page import="java100.app.domain.Score"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
@@ -18,27 +15,9 @@
 <jsp:include page="/header.jsp"/>
 
 <h1>성적 등록 결과</h1>
-<%
-ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
-        ScoreDao.class);
-try {
-    Score score = new Score();
-    score.setName(request.getParameter("name"));
-    score.setKor(Integer.parseInt(request.getParameter("kor")));
-    score.setEng(Integer.parseInt(request.getParameter("eng")));
-    score.setMath(Integer.parseInt(request.getParameter("math")));
+<p>저장하였습니다.</p>
 
-    scoreDao.insert(score);
-%>
-    <p>저장하였습니다.</p>
-<%
-} catch (Exception e) {
-    e.printStackTrace(); // for developer%>
-    <%=e.getMessage()%>
-<%
-}%>
-
-<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
+<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
 
