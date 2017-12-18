@@ -1,11 +1,17 @@
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.RoomDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%
+RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
+        RoomDao.class);
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>성적관리</title>
+<title>강의실관리</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
 </head>
@@ -14,26 +20,24 @@
 
 <jsp:include page="/header.jsp"/>
 
-<h1>성적 삭제</h1>
-<jsp:useBean id="count" type="java.lang.Integer" scope="request"></jsp:useBean>
+<h1>강의실 삭제 결과</h1>
 <%
 try {
-    if (count > 0) {%>
+    int no = Integer.parseInt(request.getParameter("no"));
+    
+    if (roomDao.delete(no) > 0) {%>
         <p>삭제했습니다.</p>
 <%        
     } else {%>
-        <p>'${param.no}'의 성적 정보가 없습니다.</p>
-<%
+        <p>'${param.no}'의 강의실 정보가 없습니다.</p>
+<%         
     }
-    
 } catch (Exception e) {
     e.printStackTrace(); // for developer%>
-    <%=e.getMessage()%>
-<%
-}%>
-
-<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
-
+    <%=e.getMessage() %>
+<%    
+} %>
+<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
 
@@ -43,4 +47,4 @@ try {
 
 </body>
 </html>
-
+    

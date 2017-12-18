@@ -1,7 +1,14 @@
+<%@page import="java100.app.domain.Score"%>
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%
+ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+        ScoreDao.class);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +22,16 @@
 <jsp:include page="/header.jsp"/>
 
 <h1>성적 변경</h1>
-<jsp:useBean id="count" type="java.lang.Integer" scope="request"></jsp:useBean>
 <%
 try {
-    if(count > 0) {%>
+    Score score = new Score();
+    score.setNo(Integer.parseInt(request.getParameter("no")));
+    score.setName(request.getParameter("name"));
+    score.setKor(Integer.parseInt(request.getParameter("kor")));
+    score.setEng(Integer.parseInt(request.getParameter("eng")));
+    score.setMath(Integer.parseInt(request.getParameter("math")));
+    
+    if(scoreDao.update(score) > 0) {%>
         <p>변경하였습니다.</p>
 <%
     } else {%>
@@ -32,7 +45,7 @@ try {
 <%
 }%>
 
-<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
+<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
 

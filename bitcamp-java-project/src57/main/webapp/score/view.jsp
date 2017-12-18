@@ -1,8 +1,14 @@
 <%@page import="java100.app.domain.Score"%>
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%
+ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+        ScoreDao.class);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,12 +22,15 @@
 <jsp:include page="/header.jsp"/>
 
 <h1>성적 상세 정보</h1>
-<jsp:useBean id="score" type="java100.app.domain.Score" scope="request"></jsp:useBean>
 <% 
 try {
+    int no = Integer.parseInt(request.getParameter("no"));
+    Score score = scoreDao.selectOne(no);
+    
     if (score != null) {
+        pageContext.setAttribute("score", score);
 %>
-        <form action='update' method='post'>
+        <form action='update.jsp' method='post'>
         <div class='form-group row'>
         <label for='no' class='col-sm-2 col-form-label'>번호</label>
         <div class='col-sm-10'>
@@ -75,7 +84,7 @@ try {
         <div class='form-group row'>
         <div class='col-sm-10'>
         <button class='btn btn-primary btn-sm'>변경</button>
-        <a href='delete?no=${score.no}' class='btn btn-primary btn-sm'>삭제</a> 
+        <a href='delete.jsp?no=${score.no}' class='btn btn-primary btn-sm'>삭제</a> 
         </div>
         </div>
         </form>

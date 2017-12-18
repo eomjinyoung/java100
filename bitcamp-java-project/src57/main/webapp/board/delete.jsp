@@ -1,11 +1,17 @@
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.BoardDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%
+BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+        BoardDao.class);
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>성적관리</title>
+<title>게시판</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
 </head>
@@ -14,25 +20,26 @@
 
 <jsp:include page="/header.jsp"/>
 
-<h1>성적 변경</h1>
-<jsp:useBean id="count" type="java.lang.Integer" scope="request"></jsp:useBean>
+<h1>게시물 삭제 결과</h1>
+
 <%
 try {
-    if(count > 0) {%>
-        <p>변경하였습니다.</p>
+    int no = Integer.parseInt(request.getParameter("no"));
+    
+    if (boardDao.delete(no) > 0) {%>
+        <p>삭제했습니다.</p>
 <%
     } else {%>
-        <p>'${param.no}'의 성적 정보가 없습니다.</p>
+        <p>'${param.no}'번의 게시물 정보가 없습니다.</p>
 <%
     }
-    
 } catch (Exception e) {
     e.printStackTrace(); // for developer%>
     <%=e.getMessage()%>
-<%
-}%>
+<%    
+} %>
 
-<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
+<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
 
@@ -42,4 +49,4 @@ try {
 
 </body>
 </html>
-
+    

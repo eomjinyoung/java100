@@ -1,8 +1,16 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java100.app.domain.Score"%>
+<%@page import="java.util.List"%>
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%
+ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+        ScoreDao.class);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,15 +34,16 @@
 </tr>
 </thead>
 <tbody>
-<jsp:useBean id="list" type="java.util.List<Score>" scope="request"></jsp:useBean>
 <%
 try {
+    List<Score> list = scoreDao.selectList();
+    
     for (Score score : list) {
         pageContext.setAttribute("score", score);
 %>
     <tr>
         <td>${score.no}</td>
-        <td><a href='view?no=${score.no}'>${score.name}</a></td>
+        <td><a href='view.jsp?no=${score.no}'>${score.name}</a></td>
         <td>${score.sum}</td>
         <td>${score.aver}</td>
     </tr>

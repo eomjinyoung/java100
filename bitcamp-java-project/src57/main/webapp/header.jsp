@@ -14,16 +14,16 @@
 <div class='collapse navbar-collapse' id='navbarNav'>
 <ul class='navbar-nav'>
   <li class='nav-item'>
-    <a class='nav-link' href='../score/list'>성적</a>
+    <a class='nav-link' href='../score/list.jsp'>성적</a>
   </li>
   <li class='nav-item'>
-    <a class='nav-link' href='../member/list'>회원</a>
+    <a class='nav-link' href='../member/list.jsp'>회원</a>
   </li>
   <li class='nav-item'>
-    <a class='nav-link' href='../board/list'>게시판</a>
+    <a class='nav-link' href='../board/list.jsp'>게시판</a>
   </li>
   <li class='nav-item'>
-    <a class='nav-link' href='../room/list'>강의실</a>
+    <a class='nav-link' href='../room/list.jsp'>강의실</a>
   </li>
 </ul>
 </div>

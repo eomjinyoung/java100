@@ -1,4 +1,6 @@
 <%@page import="java100.app.domain.Score"%>
+<%@page import="java100.app.listener.ContextLoaderListener"%>
+<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
@@ -15,57 +17,34 @@
 
 <jsp:include page="/header.jsp"/>
 
-<h1>성적 목록</h1>
-
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
-
-<table class='table table-hover'>
-<thead>
-<tr>
-<th>번호</th><th>이름</th><th>합계</th><th>평균</th>
-</tr>
-</thead>
-<tbody>
-<jsp:useBean id="list" type="java.util.List<Score>" scope="request"></jsp:useBean>
+<h1>성적 등록 결과</h1>
 <%
+ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+        ScoreDao.class);
 try {
-    for (Score score : list) {
-        pageContext.setAttribute("score", score);
+    Score score = new Score();
+    score.setName(request.getParameter("name"));
+    score.setKor(Integer.parseInt(request.getParameter("kor")));
+    score.setEng(Integer.parseInt(request.getParameter("eng")));
+    score.setMath(Integer.parseInt(request.getParameter("math")));
+
+    scoreDao.insert(score);
 %>
-    <tr>
-        <td>${score.no}</td>
-        <td><a href='view?no=${score.no}'>${score.name}</a></td>
-        <td>${score.sum}</td>
-        <td>${score.aver}</td>
-    </tr>
+    <p>저장하였습니다.</p>
 <%
-    }
-    
 } catch (Exception e) {
     e.printStackTrace(); // for developer%>
     <%=e.getMessage()%>
 <%
 }%>
 
-</tbody>
-</table>
+<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
 
 </div>
-
 <%@ include file="../jslib.txt"%>
-
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-
+    
