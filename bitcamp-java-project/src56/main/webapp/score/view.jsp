@@ -28,69 +28,68 @@ try {
     Score score = scoreDao.selectOne(no);
     
     if (score != null) {
-        pageContext.setAttribute("score", score);
 %>
         <form action='update.jsp' method='post'>
         <div class='form-group row'>
         <label for='no' class='col-sm-2 col-form-label'>번호</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='no' type='number' 
-               name='no' value='${score.no}'> 
+               name='no' value='<%=score.getNo()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='name' class='col-sm-2 col-form-label'>이름</label>
         <div class='col-sm-10'>
         <input class='form-control' id='name' type='text' 
-               name='name' value='${score.name}'> 
+               name='name' value='<%=score.getName()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='kor' class='col-sm-2 col-form-label'>국어</label>
         <div class='col-sm-10'>
         <input class='form-control' id='kor' type='number' 
-               name='kor' value='${score.kor}'> 
+               name='kor' value='<%=score.getKor()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='eng' class='col-sm-2 col-form-label'>영어</label>
         <div class='col-sm-10'>
         <input class='form-control' id='eng' type='number' 
-                name='eng' value='${score.eng}'> 
+                name='eng' value='<%=score.getEng()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='math' class='col-sm-2 col-form-label'>수학</label>
         <div class='col-sm-10'>
         <input class='form-control' id='math' type='number' 
-                name='math' value='${score.math}'> 
+                name='math' value='<%=score.getMath()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='sum' class='col-sm-2 col-form-label'>합계</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='sum' type='text' 
-                value='${score.sum}'> 
+                value='<%=score.getSum()%>'> 
         </div>
         </div>
         <div class='form-group row'>
         <label for='aver' class='col-sm-2 col-form-label'>평균</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='aver' type='text' 
-                value='${score.aver}'> 
+                value='<%=score.getAver()%>'> 
                     
         </div>
         </div>
         <div class='form-group row'>
         <div class='col-sm-10'>
         <button class='btn btn-primary btn-sm'>변경</button>
-        <a href='delete.jsp?no=${score.no}' class='btn btn-primary btn-sm'>삭제</a> 
+        <a href='delete.jsp?no=<%=score.getNo()%>' class='btn btn-primary btn-sm'>삭제</a> 
         </div>
         </div>
         </form>
 <%        
     } else {%>
-        <p>'${param.no}'의 성적 정보가 없습니다.</p>
+        <p>'<%=no%>'의 성적 정보가 없습니다.</p>
 <% 
     }
     

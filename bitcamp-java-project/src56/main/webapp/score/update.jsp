@@ -1,3 +1,4 @@
+<%@page import="java100.app.domain.Score"%>
 <%@page import="java100.app.listener.ContextLoaderListener"%>
 <%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
@@ -20,16 +21,21 @@ ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
 
 <jsp:include page="/header.jsp"/>
 
-<h1>성적 삭제</h1>
+<h1>성적 변경</h1>
 <%
 try {
-    int no = Integer.parseInt(request.getParameter("no"));
+    Score score = new Score();
+    score.setNo(Integer.parseInt(request.getParameter("no")));
+    score.setName(request.getParameter("name"));
+    score.setKor(Integer.parseInt(request.getParameter("kor")));
+    score.setEng(Integer.parseInt(request.getParameter("eng")));
+    score.setMath(Integer.parseInt(request.getParameter("math")));
     
-    if (scoreDao.delete(no) > 0) {%>
-        <p>삭제했습니다.</p>
-<%        
+    if(scoreDao.update(score) > 0) {%>
+        <p>변경하였습니다.</p>
+<%
     } else {%>
-        <p>'${param.no}'의 성적 정보가 없습니다.</p>
+        <p>'<%=score.getNo()%>'의 성적 정보가 없습니다.</p>
 <%
     }
     
@@ -40,7 +46,6 @@ try {
 }%>
 
 <p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
-
 
 <jsp:include page="/footer.jsp"/>
 

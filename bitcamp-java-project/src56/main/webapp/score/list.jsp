@@ -1,3 +1,6 @@
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java100.app.domain.Score"%>
+<%@page import="java.util.List"%>
 <%@page import="java100.app.listener.ContextLoaderListener"%>
 <%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" 
@@ -20,16 +23,29 @@ ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
 
 <jsp:include page="/header.jsp"/>
 
-<h1>성적 삭제</h1>
+<h1>성적 목록</h1>
+
+<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+
+<table class='table table-hover'>
+<thead>
+<tr>
+<th>번호</th><th>이름</th><th>합계</th><th>평균</th>
+</tr>
+</thead>
+<tbody>
 <%
 try {
-    int no = Integer.parseInt(request.getParameter("no"));
+    List<Score> list = scoreDao.selectList();
     
-    if (scoreDao.delete(no) > 0) {%>
-        <p>삭제했습니다.</p>
-<%        
-    } else {%>
-        <p>'${param.no}'의 성적 정보가 없습니다.</p>
+    for (Score score : list) {
+%>
+    <tr>
+        <td><%=score.getNo()%></td>
+        <td><a href='view.jsp?no=<%=score.getNo()%>'><%=score.getName()%></a></td>
+        <td><%=score.getSum() %></td>
+        <td><%=score.getAver() %></td>
+    </tr>
 <%
     }
     
@@ -39,8 +55,8 @@ try {
 <%
 }%>
 
-<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
-
+</tbody>
+</table>
 
 <jsp:include page="/footer.jsp"/>
 
@@ -50,4 +66,14 @@ try {
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
