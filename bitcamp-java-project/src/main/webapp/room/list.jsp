@@ -38,13 +38,15 @@ RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
 try {
     List<Room> list = roomDao.selectList();
     
-    for (Room room : list) {%>
+    for (Room room : list) {
+        pageContext.setAttribute("room", room);
+    %>
         <tr>
-        <td><%=room.getNo()%></td>
-        <td><%=room.getLocation()%></td>
-        <td><%=room.getName()%></td>
-        <td><%=room.getCapacity()%></td>
-        <td><a href='delete.jsp?no=<%=room.getNo()%>' class='btn btn-danger btn-sm'>삭제</a></td>
+        <td>${room.no}</td>
+        <td>${room.location}</td>
+        <td>${room.name}</td>
+        <td>${room.capacity}</td>
+        <td><a href='delete.jsp?no=${room.no}' class='btn btn-danger btn-sm'>삭제</a></td>
         </tr>
 <%                
     }

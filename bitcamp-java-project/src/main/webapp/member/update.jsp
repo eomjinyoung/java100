@@ -34,7 +34,7 @@ try {
         <p>변경하였습니다.</p>
 <%        
     } else {%>
-        <p>'<%=member.getNo()%>'번 회원의 정보가 없습니다.</p>
+        <p>'${param.no}'번 회원의 정보가 없습니다.</p>
 <%         
     }
 } catch (Exception e) {

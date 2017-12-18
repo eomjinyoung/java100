@@ -27,27 +27,29 @@ try {
     int no = Integer.parseInt(request.getParameter("no"));
     Member member = memberDao.selectOne(no);
     
-    if (member != null) {%>
+    if (member != null) {
+        pageContext.setAttribute("member", member);
+    %>
         <form action='update.jsp' method='post'>
         <div class='form-group row'>
         <label for='no' class='col-sm-2 col-form-label'>번호</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='no' type='number' 
-                name='no' value='<%=member.getNo()%>'>
+                name='no' value='${member.no}'>
         </div>
         </div>
         <div class='form-group row'>
         <label for='name' class='col-sm-2 col-form-label'>이름</label>
         <div class='col-sm-10'>
         <input class='form-control' id='name' type='text' 
-                name='name' value='<%=member.getName()%>'>
+                name='name' value='${member.name}'>
         </div>
         </div>
         <div class='form-group row'>
         <label for='email' class='col-sm-2 col-form-label'>이메일</label>
         <div class='col-sm-10'>
         <input class='form-control' id='email' type='email' 
-                name='email' value='<%=member.getEmail()%>'>
+                name='email' value='${member.email}'>
         </div>
         </div>
         <div class='form-group row'>
@@ -60,19 +62,19 @@ try {
         <label for='regdate' class='col-sm-2 col-form-label'>등록일</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='regdate' type='date' 
-                value='<%=member.getCreatedDate()%>'>
+                value='${member.createdDate}'>
         </div>
         </div>
         <div class='form-group row'>
         <div class='col-sm-10'>
         <button class='btn btn-primary btn-sm'>변경</button>
-        <a href='delete.jsp?no=<%=member.getNo()%>' class='btn btn-primary btn-sm'>삭제</a>
+        <a href='delete.jsp?no=${member.no}' class='btn btn-primary btn-sm'>삭제</a>
         </div>
         </div>
         </form>
 <%        
     } else {%>
-        <p>'<%=no%>'번의 회원 정보가 없습니다.</p>
+        <p>'${param.no}'번의 회원 정보가 없습니다.</p>
 <%        
     }
 } catch (Exception e) {

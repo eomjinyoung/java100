@@ -38,12 +38,14 @@ try {
     
     List<Board> list = boardDao.selectList();
     
-    for (Board board : list) {%>
+    for (Board board : list) {
+        pageContext.setAttribute("board", board);
+    %>
         <tr>
-        <td><%=board.getNo() %></td>
-        <td><a href='view.jsp?no=<%=board.getNo()%>'><%=board.getTitle()%></a></td>
-        <td><%=board.getRegDate() %></td>
-        <td><%=board.getViewCount()%></td>
+        <td>${board.no}</td>
+        <td><a href='view.jsp?no=${board.no}'>${board.title}</a></td>
+        <td>${board.regDate}</td>
+        <td>${board.viewCount}</td>
         </tr>
 <%
     }

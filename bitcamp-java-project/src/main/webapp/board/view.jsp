@@ -27,53 +27,55 @@ try {
     int no = Integer.parseInt(request.getParameter("no"));
     Board board = boardDao.selectOne(no);
     
-    if (board != null) {%>
+    if (board != null) {
+        pageContext.setAttribute("board", board);
+    %>
         <form action='update.jsp' method='post'>
         <div class='form-group row'>
         <label for='no' class='col-sm-2 col-form-label'>번호</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='no' type='number' 
-                name='no' value='<%=board.getNo()%>'>
+                name='no' value='${board.no}'>
         </div>
         </div>
         <div class='form-group row'>
         <label for='title' class='col-sm-2 col-form-label'>제목</label>
         <div class='col-sm-10'>
         <input class='form-control' id='title' type='text' 
-                name='title' value='<%=board.getTitle()%>'>
+                name='title' value='${board.title}'>
         </div>
         </div>
         <div class='form-group row'>
         <label for='content' class='col-sm-2 col-form-label'>내용</label>
         <div class='col-sm-10'>
         <textarea class='form-control' id='content' 
-                    name='content'><%=board.getContent() %></textarea>
+                    name='content'>${board.content}</textarea>
         </div>
         </div>
         <div class='form-group row'>
         <label for='regdate' class='col-sm-2 col-form-label'>등록일</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='regdate' type='date' 
-                value='<%=board.getRegDate()%>'>
+                value='${board.regDate}'>
         </div>
         </div>
         <div class='form-group row'>
         <label for='viewcnt' class='col-sm-2 col-form-label'>조회수</label>
         <div class='col-sm-10'>
         <input class='form-control' readonly id='viewcnt' type='number' 
-                value='<%=board.getViewCount()%>'>
+                value='${board.viewCount}'>
         </div>
         </div>
         <div class='form-group row'>
         <div class='col-sm-10'>
         <button class='btn btn-primary btn-sm'>변경</button>
-        <a href='delete.jsp?no=<%=board.getNo()%>' class='btn btn-primary btn-sm'>삭제</a>
+        <a href='delete.jsp?no=${board.no}' class='btn btn-primary btn-sm'>삭제</a>
         </div>
         </div>
         </form>
 <%        
     } else {%>
-        <p>'<%=no%>'번의 게시물 정보가 없습니다.</p>
+        <p>'${param.no}'번의 게시물 정보가 없습니다.</p>
 <%
     }
 } catch (Exception e) {

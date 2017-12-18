@@ -37,12 +37,14 @@ MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
 try {
     List<Member> list = memberDao.selectList();
     
-    for (Member member : list) {%>
+    for (Member member : list) {
+        pageContext.setAttribute("member", member);
+    %>
         <tr>
-        <td><%=member.getNo() %></td>
-        <td><a href='view.jsp?no=<%=member.getNo() %>'><%=member.getName() %></a></td>
-        <td><%=member.getEmail() %></td>
-        <td><%=member.getCreatedDate() %></td>
+        <td>${member.no}</td>
+        <td><a href='view.jsp?no=${member.no}'>${member.name}</a></td>
+        <td>${member.email}</td>
+        <td>${member.createdDate}</td>
         </tr>
 <%
     }
