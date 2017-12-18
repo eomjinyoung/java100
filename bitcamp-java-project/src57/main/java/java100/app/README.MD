@@ -1,18 +1,8 @@
-## ver 56
-- 모든 서블릿을 JSP로 전환하라!
+## ver 57
+- JSP에 EL을 적용하여 값을 처리하라!
 - 학습목표
-  - JSP의 사용법을 익힌다.
-  
+  - JSP에서 EL을 사용하는 연습을 한다.
+
 ## 작업 목록 
 
-### 각각의 입력 폼을 JSP로 전환한다.
-- /webapp/score/form.jsp
-- /webapp/board/form.jsp
-- /webapp/member/form.jsp
-- /webapp/room/form.jsp
-
-### 데이터 입력을 처리하는 서블릿을 JSP로 전환한다.
-- /webapp/score/app.jsp
-- /webapp/board/app.jsp
-- /webapp/member/app.jsp
-- /webapp/room/app.jsp
+### 각 JSP 페이지에 있는 Expression Element를 EL로 전환한다.

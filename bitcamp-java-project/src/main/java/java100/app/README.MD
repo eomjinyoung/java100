@@ -1,18 +1,13 @@
-## ver 56
-- 모든 서블릿을 JSP로 전환하라!
+## ver 59
+- JSTL을 도입하여 JSP 페이지에서 자바 코드를 제거한다.
 - 학습목표
-  - JSP의 사용법을 익힌다.
+  - JSTL의 사용법을 익힌다.
   
 ## 작업 목록 
 
-### 각각의 입력 폼을 JSP로 전환한다.
-- /webapp/score/form.jsp
-- /webapp/board/form.jsp
-- /webapp/member/form.jsp
-- /webapp/room/form.jsp
+### JSTL 라이브러리를 가져온다.
+- build.gradle 파일에 라이브러리 정보 추가한다.
+- "gradlew elcipse" 실행하여 이클립스 설정 파일 갱신한다.
+- 라이브러리 추가되었는지 확인한다. 
 
-### 데이터 입력을 처리하는 서블릿을 JSP로 전환한다.
-- /webapp/score/app.jsp
-- /webapp/board/app.jsp
-- /webapp/member/app.jsp
-- /webapp/room/app.jsp
+### 각 JSP 페이지의 반복문, 조건문 등을 JSTL 태그로 바꾼다.

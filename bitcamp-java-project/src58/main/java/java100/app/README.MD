@@ -1,18 +1,10 @@
-## ver 56
-- 모든 서블릿을 JSP로 전환하라!
+## ver 58
+- JSP에서 자바 코드를 분리하여 서블릿에 둔다. 
+- 즉 업무와 관련된 로직을 처리하는 역할은 서블릿에서 담당하고,
+  화면 출력과 관련된 일은 JSP가 담당하는 방식으로 구조를 변경한다.
 - 학습목표
-  - JSP의 사용법을 익힌다.
+  - MVC(Model-View-Control) 아키텍처를 이해하고 구현할 수 있다. 
   
 ## 작업 목록 
 
-### 각각의 입력 폼을 JSP로 전환한다.
-- /webapp/score/form.jsp
-- /webapp/board/form.jsp
-- /webapp/member/form.jsp
-- /webapp/room/form.jsp
-
-### 데이터 입력을 처리하는 서블릿을 JSP로 전환한다.
-- /webapp/score/app.jsp
-- /webapp/board/app.jsp
-- /webapp/member/app.jsp
-- /webapp/room/app.jsp
+### 각 JSP에 대응하는 서블릿 클래스를 만들고 JSP 페이지의 자바 코드를 옮긴다.
