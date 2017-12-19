@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>게시판</title>
+<title>성적관리</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
 </head>
@@ -15,17 +15,29 @@
 
 <jsp:include page="/header.jsp"/>
 
-<h1>게시물 삭제 결과</h1>
+<h1>성적 목록</h1>
 
-<c:if test="${count > 0}">
-        <p>삭제했습니다.</p>
-</c:if>
-<c:if test="${count == 0}">
-        <p>'${param.no}' 번의 게시물 정보가 없습니다.</p>
-</c:if>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 
+<table class='table table-hover'>
+<thead>
+<tr>
+<th>번호</th><th>이름</th><th>합계</th><th>평균</th>
+</tr>
+</thead>
+<tbody>
 
-<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
+<c:forEach items="${list}" var="score">
+    <tr>
+        <td>${score.no}</td>
+        <td><a href='view?no=${score.no}'>${score.name}</a></td>
+        <td>${score.sum}</td>
+        <td>${score.aver}</td>
+    </tr>
+</c:forEach>
+
+</tbody>
+</table>
 
 <jsp:include page="/footer.jsp"/>
 
@@ -35,4 +47,14 @@
 
 </body>
 </html>
-    
+
+
+
+
+
+
+
+
+
+
+
