@@ -24,8 +24,8 @@ public class ScoreDeleteServlet extends HttpServlet {
         int no = Integer.parseInt(request.getParameter("no"));
         scoreDao.delete(no);
         
-        // 다시 목록 페이지를 요청하라고 응답한다.
-        response.sendRedirect("list");
+        // 프론트 컨트롤러가 실행할 JSP URL을 등록한다.
+        request.setAttribute("viewName", "redirect:list.do");
     }
 }
 

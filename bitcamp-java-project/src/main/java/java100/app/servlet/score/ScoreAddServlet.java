@@ -31,8 +31,8 @@ public class ScoreAddServlet extends HttpServlet {
         
         scoreDao.insert(score);
         
-        // 입력 한 후 목록으로 리다이렉트 시킨다.
-        response.sendRedirect("list");
+        // 프론트 컨트롤러가 실행할 JSP URL을 등록한다.
+        request.setAttribute("viewName", "redirect:list.do");
     }
 }
 
