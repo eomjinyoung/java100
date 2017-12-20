@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
@@ -17,16 +18,13 @@ public class MemberViewController {
     
     @RequestMapping
     public String view(
+            @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        int no = Integer.parseInt(request.getParameter("no"));
+
         Member member = memberDao.selectOne(no);
-        
-        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("member", member);
-        
         return "/member/view.jsp";
-        
     }
 }
 

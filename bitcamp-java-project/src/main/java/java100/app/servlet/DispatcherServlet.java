@@ -1,7 +1,6 @@
 package java100.app.servlet;
 
-import static org.reflections.ReflectionUtils.getMethods;
-import static org.reflections.ReflectionUtils.withAnnotation;
+import static org.reflections.ReflectionUtils.*;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -102,15 +101,63 @@ public class DispatcherServlet extends HttpServlet {
                 // 파라미터에 붙인 @RequestParam 정보를 가져온다.
                 RequestParam anno = params[i].getAnnotation(RequestParam.class);
                 
-                // 애노테이션의 value 값으로 클라이언트가 보낸 값을 찾는다.
-                String value = request.getParameter(anno.value());
-                values[i] = toParamTypeValue(params[i], value);
+                if (anno != null) {
+                    // 애노테이션의 value 값으로 클라이언트가 보낸 값을 찾는다.
+                    String value = request.getParameter(anno.value());
+                    values[i] = toParamTypeValue(params[i], value);
+                } else {
+                    // @RequestParam이 붙지 않았다면,
+                    // 해당 파라미터 타입을 분석하여 객체를 생성한 후
+                    // 그 객체에 값을 넣어서 배열에 저장한다.
+                    values[i] = toParamTypeObject(params[i], request);
+                }
             }
         }
         
         return values;
     }
     
+    private Object toParamTypeObject(
+            Parameter parameter, HttpServletRequest request) {
+        
+        // 파라미터의 타입 정보를 가져온다.
+        Class<?> clazz = parameter.getType();
+        
+        try {
+            // 타입으로 객체를 생성한다.
+            Object obj = clazz.newInstance();
+            
+            // 타입의 셋터 메서드를 추출한다.
+            @SuppressWarnings("unchecked")
+            Set<Method> setters = getMethods(clazz, 
+                    withPrefix("set"), withParametersCount(1));
+            
+            for (Method setter : setters) {
+                String propName = getPropertyName(setter);
+                String value = request.getParameter(propName);
+                if (value == null) continue;
+                
+                // 프로퍼티 이름에 해당하는 클라이언트가 보낸 값이 있다면
+                // 셋터 메서드를 호출하여 값을 객체에 담는다.
+                Parameter param = setter.getParameters()[0];
+                Object paramValue = toParamTypeValue(param, value);
+                setter.invoke(obj, paramValue);
+            }
+            
+            return obj;
+            
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    private String getPropertyName(Method method) {
+        String name = method.getName().replace("set", "");
+        return String.format("%c%s", 
+                Character.toLowerCase(name.charAt(0)),
+                name.substring(1));
+    }
+
     private Object toParamTypeValue(Parameter param, String value) {
         
         Class<?> type = param.getType();

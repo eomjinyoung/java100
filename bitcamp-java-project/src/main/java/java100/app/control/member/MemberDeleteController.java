@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.MemberDao;
 
 @Component("/member/delete")
@@ -16,11 +17,11 @@ public class MemberDeleteController {
     
     @RequestMapping
     public String delete(
+            @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        int no = Integer.parseInt(request.getParameter("no"));
+
         memberDao.delete(no);
-        
         return "redirect:list.do";
     }
 }

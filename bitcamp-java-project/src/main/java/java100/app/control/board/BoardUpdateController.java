@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
 
@@ -17,13 +18,16 @@ public class BoardUpdateController {
     
     @RequestMapping
     public String update(
+            @RequestParam("no") int no,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
         Board board = new Board();
-        board.setNo(Integer.parseInt(request.getParameter("no")));
-        board.setTitle(request.getParameter("title"));
-        board.setContent(request.getParameter("content"));
+        board.setNo(no);
+        board.setTitle(title);
+        board.setContent(content);
         
         boardDao.update(board);
         
