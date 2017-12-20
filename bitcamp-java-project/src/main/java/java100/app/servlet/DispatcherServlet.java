@@ -5,6 +5,7 @@ import static org.reflections.ReflectionUtils.withAnnotation;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.listener.ContextLoaderListener;
 
 // 프론트 컨트롤러(Front Controller) 
@@ -56,10 +58,14 @@ public class DispatcherServlet extends HttpServlet {
         // 메서드 목록에서 첫 번째 메서드를 꺼낸다.
         Method requestHandler = (Method)methods.toArray()[0];
         
+        // 메서드의 파라미터를 분석하여 그 파라미터가 원하는 값을 준비한다.
+        Object[] paramValues = getParamValuesFor(
+                requestHandler, request, response);
+        
         try {
             // 페이지 컨트롤러를 요청 핸들러를 호출한다.
             String viewName = (String)requestHandler.invoke(
-                    pageController, request, response);
+                    pageController, paramValues);
             
             if (viewName.startsWith("redirect:")) {
                 response.sendRedirect(viewName.substring(9));
@@ -73,6 +79,63 @@ public class DispatcherServlet extends HttpServlet {
             }
         } catch (Exception e) {
             throw new ServletException(e);
+        }
+    }
+
+    private Object[] getParamValuesFor(
+            Method method, 
+            HttpServletRequest request, 
+            HttpServletResponse response) {
+        
+        // 메서드에 파라미터 목록을 가져온다.
+        Parameter[] params = method.getParameters();
+        
+        // 파라미터 개수 만큼 값을 담을 배열을 준비한다.
+        Object[] values = new Object[params.length];
+        
+        for (int i = 0; i < params.length; i++) {
+            if (params[i].getType() == HttpServletRequest.class) {
+                values[i] = request;
+            } else if (params[i].getType() == HttpServletResponse.class) {
+                values[i] = response;
+            } else {
+                // 파라미터에 붙인 @RequestParam 정보를 가져온다.
+                RequestParam anno = params[i].getAnnotation(RequestParam.class);
+                
+                // 애노테이션의 value 값으로 클라이언트가 보낸 값을 찾는다.
+                String value = request.getParameter(anno.value());
+                values[i] = toParamTypeValue(params[i], value);
+            }
+        }
+        
+        return values;
+    }
+    
+    private Object toParamTypeValue(Parameter param, String value) {
+        
+        Class<?> type = param.getType();
+        
+        // 파라미터의 타입에 따라 String 값을 그 타입의 값으로 형변환한다.
+        if (type == byte.class) {
+            return Byte.parseByte(value);
+        } else if (type == short.class) {
+            return Short.parseShort(value);
+        } else if (type == int.class) {
+            return Integer.parseInt(value);
+        } else if (type == long.class) {
+            return Long.parseLong(value);
+        } else if (type == float.class) {
+            return Float.parseFloat(value);
+        } else if (type == double.class) {
+            return Double.parseDouble(value);
+        } else if (type == boolean.class) {
+            return Boolean.parseBoolean(value);
+        } else if (type == char.class) {
+            return value.charAt(0);
+        } else if (type == String.class){
+            return value;
+        } else {
+            return null;
         }
     }
 }
