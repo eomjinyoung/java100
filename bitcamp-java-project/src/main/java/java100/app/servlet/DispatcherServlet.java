@@ -133,14 +133,26 @@ public class DispatcherServlet extends HttpServlet {
                     withPrefix("set"), withParametersCount(1));
             
             for (Method setter : setters) {
+                
+                // 셋터의 이름에서 프로퍼티 이름을 추출한다.
                 String propName = getPropertyName(setter);
+                
+                // 그 프로퍼티 이름으로 클라이언트가 보낸 데이터를 찾는다.
                 String value = request.getParameter(propName);
+                
+                // 셋터가 원하는 파라미터의 값을 클라이언트가 보내지 않았으면,
+                // 셋터를 호출하지 않는다.
                 if (value == null) continue;
                 
                 // 프로퍼티 이름에 해당하는 클라이언트가 보낸 값이 있다면
                 // 셋터 메서드를 호출하여 값을 객체에 담는다.
                 Parameter param = setter.getParameters()[0];
                 Object paramValue = toParamTypeValue(param, value);
+                
+                // String 값을 바꾸지 못했으면 셋터가 원하는 타입의 값으로 
+                // 바꾸지 못했으면 셋터를 호출하지 않는다.
+                if (paramValue == null) continue;  
+                
                 setter.invoke(obj, paramValue);
             }
             

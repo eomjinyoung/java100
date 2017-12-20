@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
-import java100.app.annotation.RequestParam;
 import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 
@@ -18,23 +17,11 @@ public class ScoreUpdateController {
     
     @RequestMapping
     public String update(
-            @RequestParam("no") int no,
-            @RequestParam("name") String name,
-            @RequestParam("kor") int kor,
-            @RequestParam("eng") int eng,
-            @RequestParam("math") int math,
+            Score score,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        Score score = new Score();
-        score.setNo(no);
-        score.setName(name);
-        score.setKor(kor);
-        score.setEng(eng);
-        score.setMath(math);
-        
         scoreDao.update(score);
-        
         return "redirect:list.do";
     }
 }
