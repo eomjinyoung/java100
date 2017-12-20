@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.ScoreDao;
 
 @Component("/score/delete")
@@ -16,12 +17,11 @@ public class ScoreDeleteController {
     
     @RequestMapping
     public String delete(
+            @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        int no = Integer.parseInt(request.getParameter("no"));
         scoreDao.delete(no);
-        
         return "redirect:list.do";
     }
 }
