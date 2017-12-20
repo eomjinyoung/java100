@@ -1,11 +1,6 @@
 package java100.app.servlet;
 
-import static org.reflections.ReflectionUtils.getMethods;
-import static org.reflections.ReflectionUtils.withAnnotation;
-
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.annotation.RequestMapping;
+import java100.app.control.PageController;
 import java100.app.listener.ContextLoaderListener;
 
 // 프론트 컨트롤러(Front Controller) 
@@ -36,30 +31,17 @@ public class DispatcherServlet extends HttpServlet {
         String pageControllerPath = request.getServletPath().replace(".do", "");
         
         // 스프링 IoC 컨테이너에서 페이지 컨트롤러를 찾는다.
-        Object pageController = 
-          ContextLoaderListener.iocContainer.getBean(pageControllerPath);
+        PageController pageController = 
+          (PageController)ContextLoaderListener.iocContainer.getBean(pageControllerPath);
         
+        // 만약 못 찾았으면 오류를 출력한다.
         if (pageController == null) {
-            throw new ServletException("페이지 컨트롤러를 찾을 수 없습니다.");
+            throw new ServletException("해당 서블릿을 찾을 수 없습니다.");
         }
-
-        // 페이지 컨트롤러 객체에서 @RequestMapping이 붙은 메서드를 찾는다.
-        @SuppressWarnings("unchecked")
-        Set<Method> methods = getMethods(pageController.getClass(),
-                withAnnotation(RequestMapping.class));
-        
-        if (methods.size() == 0) {
-            throw new ServletException(
-                    "페이지 컨트롤러의 요청 핸들러를 찾을 수 없습니다.");
-        }
-        
-        // 메서드 목록에서 첫 번째 메서드를 꺼낸다.
-        Method requestHandler = (Method)methods.toArray()[0];
         
         try {
-            // 페이지 컨트롤러를 요청 핸들러를 호출한다.
-            String viewName = (String)requestHandler.invoke(
-                    pageController, request, response);
+            // 페이지 컨트롤러를 찾았으면 호출한다.
+            String viewName = pageController.service(request, response);
             
             if (viewName.startsWith("redirect:")) {
                 response.sendRedirect(viewName.substring(9));
