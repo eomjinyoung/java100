@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java100.app.annotation.RequestMappingHandlerMapping;
 import java100.app.util.DataSource;
 
 // 웹 애플리케이션이 시작될 때 
@@ -35,6 +36,10 @@ public class ContextLoaderListener implements ServletContextListener {
             // AppConfig 클래스에 설정된 대로
             // Spring IoC 컨테이너를 준비한다.
             iocContainer = new AnnotationConfigApplicationContext(configClass);
+            
+            // 스프링 IoC 컨테이너에서 페이지 컨트롤러를 찾는다.
+            RequestMappingHandlerMapping mapping = 
+                    new RequestMappingHandlerMapping(iocContainer);
             
         } catch (Exception e) {
             e.printStackTrace();

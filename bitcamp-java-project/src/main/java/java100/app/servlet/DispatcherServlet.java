@@ -35,7 +35,7 @@ public class DispatcherServlet extends HttpServlet {
         // 클라이언트가 요청한 URL에서 .do를 제외한 
         // 페이지 컨트롤로의 경로를 추출한다.
         String pageControllerPath = request.getServletPath().replace(".do", "");
-        
+
         // 스프링 IoC 컨테이너에서 페이지 컨트롤러를 찾는다.
         Object pageController = 
           ContextLoaderListener.iocContainer.getBean(pageControllerPath);
