@@ -23,6 +23,10 @@
     URL 정보를 별도로 관리한다.
 - RequestMappingHandlerMapping 클래스를 정의한다.
 
+### 프론트 컨트롤러를 변경
+- 스프링 IoC 컨테이너에서 직접 요청 핸들러를 찾지 않고,
+  RequestMappingHandlerMapping에서 찾아 호출한다.
+  
 
 
 

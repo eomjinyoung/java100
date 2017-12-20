@@ -1,6 +1,8 @@
 package java100.app.servlet;
 
-import static org.reflections.ReflectionUtils.*;
+import static org.reflections.ReflectionUtils.getMethods;
+import static org.reflections.ReflectionUtils.withParametersCount;
+import static org.reflections.ReflectionUtils.withPrefix;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestMappingHandlerMapping.RequestHandler;
 import java100.app.annotation.RequestParam;
 import java100.app.listener.ContextLoaderListener;
 
@@ -32,39 +34,27 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        // 클라이언트가 요청한 URL에서 .do를 제외한 
-        // 페이지 컨트롤로의 경로를 추출한다.
-        String pageControllerPath = request.getServletPath().replace(".do", "");
+        // 클라이언트가 요청한 URL에서 .do를 제외한 서블릿 경로를 추출한다.
+        String servletPath = request.getServletPath().replace(".do", "");
 
-        // 스프링 IoC 컨테이너에서 페이지 컨트롤러를 찾는다.
-        Object pageController = 
-          ContextLoaderListener.iocContainer.getBean(pageControllerPath);
+        // 요청 핸들러 맵에서 클라이언트 요청을 처리할 핸들러를 찾는다.
+        RequestHandler requestHandler = 
+          ContextLoaderListener.handlerMapping.getRequestHandler(
+                  servletPath);
         
-        if (pageController == null) {
-            throw new ServletException("페이지 컨트롤러를 찾을 수 없습니다.");
-        }
-
-        // 페이지 컨트롤러 객체에서 @RequestMapping이 붙은 메서드를 찾는다.
-        @SuppressWarnings("unchecked")
-        Set<Method> methods = getMethods(pageController.getClass(),
-                withAnnotation(RequestMapping.class));
-        
-        if (methods.size() == 0) {
+        if (requestHandler == null) {
             throw new ServletException(
-                    "페이지 컨트롤러의 요청 핸들러를 찾을 수 없습니다.");
+                    "요청 핸들러를 찾을 수 없습니다.");
         }
-        
-        // 메서드 목록에서 첫 번째 메서드를 꺼낸다.
-        Method requestHandler = (Method)methods.toArray()[0];
         
         // 메서드의 파라미터를 분석하여 그 파라미터가 원하는 값을 준비한다.
         Object[] paramValues = getParamValuesFor(
-                requestHandler, request, response);
+                requestHandler.method, request, response);
         
         try {
             // 페이지 컨트롤러를 요청 핸들러를 호출한다.
-            String viewName = (String)requestHandler.invoke(
-                    pageController, paramValues);
+            String viewName = (String)requestHandler.method.invoke(
+                    requestHandler.instance, paramValues);
             
             if (viewName.startsWith("redirect:")) {
                 response.sendRedirect(viewName.substring(9));

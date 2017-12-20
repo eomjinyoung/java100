@@ -16,6 +16,7 @@ import java100.app.util.DataSource;
 public class ContextLoaderListener implements ServletContextListener {
     
     public static AnnotationConfigApplicationContext iocContainer;
+    public static RequestMappingHandlerMapping handlerMapping;
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -37,9 +38,10 @@ public class ContextLoaderListener implements ServletContextListener {
             // Spring IoC 컨테이너를 준비한다.
             iocContainer = new AnnotationConfigApplicationContext(configClass);
             
-            // 스프링 IoC 컨테이너에서 페이지 컨트롤러를 찾는다.
-            RequestMappingHandlerMapping mapping = 
-                    new RequestMappingHandlerMapping(iocContainer);
+            // 스프링 IoC 컨테이너에 들어있는 페이지 컨트롤러를 찾는다.
+            // 그리고 페이지 컨트롤러에서 요청 핸들러를 찾아 맵을 구성한다.
+            // 이렇게 구성된 맵은 프론트 컨트롤러가 사용할 것이다.
+            handlerMapping = new RequestMappingHandlerMapping(iocContainer);
             
         } catch (Exception e) {
             e.printStackTrace();
