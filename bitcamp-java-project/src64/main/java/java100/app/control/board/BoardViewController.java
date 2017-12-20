@@ -7,22 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
 
-@Component("/board/add")
-public class BoardAddController {
+@Component("/board/view")
+public class BoardViewController {
     
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String add(
-            Board board,
+    public String view(
+            @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
+
+        Board board = boardDao.selectOne(no);
+        request.setAttribute("board", board);
+        return "/board/view.jsp";
         
-        boardDao.insert(board);
-        return "redirect:list.do";
     }
 }
 

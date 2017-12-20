@@ -7,22 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
+import java100.app.annotation.RequestParam;
 import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 
-@Component("/member/update")
-public class MemberUpdateController {
+@Component("/member/view")
+public class MemberViewController {
     
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String update(
-            Member member,
+    public String view(
+            @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        
-        memberDao.update(member);
-        return "redirect:list.do";
+
+        Member member = memberDao.selectOne(no);
+        request.setAttribute("member", member);
+        return "/member/view.jsp";
     }
 }
 

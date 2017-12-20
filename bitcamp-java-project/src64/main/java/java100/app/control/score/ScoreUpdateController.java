@@ -1,4 +1,4 @@
-package java100.app.control.board;
+package java100.app.control.score;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,21 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java100.app.annotation.RequestMapping;
-import java100.app.dao.BoardDao;
-import java100.app.domain.Board;
+import java100.app.dao.ScoreDao;
+import java100.app.domain.Score;
 
-@Component("/board/add")
-public class BoardAddController {
+@Component("/score/update")
+public class ScoreUpdateController {
     
-    @Autowired BoardDao boardDao;
+    @Autowired ScoreDao scoreDao;
     
     @RequestMapping
-    public String add(
-            Board board,
+    public String update(
+            Score score,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        boardDao.insert(board);
+        scoreDao.update(score);
         return "redirect:list.do";
     }
 }
