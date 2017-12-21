@@ -41,7 +41,12 @@ dependencies {
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
  
     // Spring IoC 컨테이너 라이브러리
-    compile 'org.springframework:spring-context:5.0.2.RELEASE'
+    // => Spring WebMVC를 추가하면 이 라이브러리는 자동으로 포함된다.
+    //compile 'org.springframework:spring-context:5.0.2.RELEASE'
+ 
+    // Spring WebMVC 프레임워크
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.2.RELEASE'
+    
  
     // JavaEE의 Servlet 기술을 지원하는 라이브러리
     // "provided" 선언된 라이브러리는 컴파일할 때 사용하고 배포할 때는 제외한다.
