@@ -23,10 +23,18 @@
     </bean>
     
     <!-- 멀티파트 형식으로 전송된 데이터를 처리할 객체를 등록한다. -->
+    <!-- 방법1: Apache의 commons-fileupload 라이브러리를 사용할 때 등록할 객체 -->
+    <!-- 
     <bean id="multipartResolver" 
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="5000000"/>
     </bean>
+     -->
+    
+    <!-- 방법2: Servlet 3.0부터 제공된 파일 업로드 기능을 이용할 때 등록할 객체 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
+     
 </beans>
 
 

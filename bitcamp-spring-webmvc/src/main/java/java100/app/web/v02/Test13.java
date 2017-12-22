@@ -41,8 +41,18 @@ public class Test13 {
 //    - 멀티파트 데이터를 처리할 객체를 스프링 IoC 컨테이너에 등록한다.
 //      => app-servlet.xml 에 CommonsMultipartResolver 클래스의 객체를
 //         "multipartResolver"라는 이름으로 객체를 등록한다.
-//    - 
+//    - 요청 핸들러에 파라미터 선언
+//      => 파일을 받으려면 MultipartFile 타입의 변수를 선언한다.
 // 2) Servlet 3.0의 기능을 이용하는 방법
+//    - DD 파일에 프론트 컨트롤러(DispatcherServlet)가 멀티파트 데이터를 처리해야 
+//      한다고 설정하라!
+//      => web.xml 파일의 DispatcherServlet 선언에 "multipart-config" 태그 추가
+//    - 멀티파트 데이터를 처리할 객체를 스프링 IoC 컨테이너에 등록한다.
+//      => app-servlet.xml 에 StandardServletMultipartResolver 클래스의 객체를
+//         "multipartResolver"라는 이름으로 객체를 등록한다.
+//    - 요청 핸들러에 파라미터 선언
+//      => 파일을 받으려면 MultipartFile 타입의 변수를 선언한다.
+//      => 또는 표준 타입인 Part 변수를 선언해도 된다.
 
 
 

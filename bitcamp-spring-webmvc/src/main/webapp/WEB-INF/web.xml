@@ -36,6 +36,11 @@
             <param-value>/WEB-INF/app-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <!-- Servlet 3.0의 파일 업로드를 사용하려면 다음과 같이 
+             멀티파트 관련 정보를 설정한다. -->
+        <multipart-config>
+            <max-file-size>5000000</max-file-size>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
