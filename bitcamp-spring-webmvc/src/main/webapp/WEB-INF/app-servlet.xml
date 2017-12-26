@@ -26,7 +26,13 @@
         
         <property name="messageConverters">
 	        <list>
+	            <!-- 클라이언트가 보낸 데이터의 Content-Type이 "application/json"일 때,  
+	                 "자바 객체"로 변환해주는 컨버터  -->
 	            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+	            
+	            <!-- 클라이언트가 보낸 데이터의 Content-Type이 "text/plain"일 때,
+	                 String으로 변환해주는 컨버터 -->
+	            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
 	        </list>
 	    </property>
     </bean>

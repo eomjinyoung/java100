@@ -81,14 +81,24 @@ public class Test17 {
     // 이 예제에서는 RequestMappingHandlerAdapter에 직접 컨버터를 등록한다.
     // => app-servlet.xml 을 확인하라!
     //
-    public static class User2 {
+    
+    // 요청 핸들러의 파라미터 타입으로 nested 클래스를 사용할 때는
+    // 프런트 컨트롤러가 해당 클래스를 알 수 있도록
+    // public/(default) 이면서 static 클래스로 선언해야 한다.
+    // 또는 패키지 멤버 클래스로 선언하면 된다.
+    // 가장 좋은 방법은 패키지 멤버 클래스를 사용하는 것이다.
+    //
+    static class User2 {
         String name;
         int age;
         String tel;
         String email;
         
-        public User2() {}
-        
+        // google-gson 라이브러리와 달리 
+        // JSON 문자열을 자바 객체로 바꿀 때 Jackson 라이브러리는
+        // 셋터 메서드를 이용한다.
+        // 따라서 반드시 셋터 메서드가 있어야 한다.
+        //
         public String getName() {
             return name;
         }
@@ -126,6 +136,17 @@ public class Test17 {
         System.out.println("--------------------");
         return "/hello.jsp";
     }
+    
+    // 주의!
+    // => HttpMessageConverter를 등록하면 
+    //    클라이언트가 보낸 데이터 중에서 "application/json"에 대해 
+    //    자동 변환을 실시하기 때문에
+    //    기존에 문자열을 그대로 받으려 할 경우 오류가 발생한다.
+    //    즉 m2()를 테스트할 때 오류가 발생할 것이다.
+    // => 문자열을 그대로 받고 싶을 때도 있다. 그런 경우 어떻게 하나?
+    //    서버에 데이터를 보낼 때 Content-Type 헤더의 값을 
+    //    text/plain으로 설정하라!
+    //    또한 String을 받는 컨버터를 명시적으로 등록해야 한다.
     
 }
 
