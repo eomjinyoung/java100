@@ -65,6 +65,68 @@ public class Test17 {
         return "/hello.jsp";
     }
     
+    // 스프링에서 제공하는 Message Converter를 이용하여 
+    // JSON 문자열을 자동으로 자바 객체로 바꾸기
+    // => 설정이 필요하다.
+    // => 설정 방법
+    //    1) JSON 문자열을 자바 객체로 바꿔주는 변환기를 등록하기
+    //       - app-servlet.xml 파일에서 RequestMappingHandlerAdapter 객체 참고!
+    //    2) MVC 설정을 활성화시키는 태그나 애노테이션을 사용하여 등록하기
+    //       - 애노테이션 예:
+    //         @Configuration
+    //         @EnableWebMvc
+    //         public class WebConfig {...}
+    //       - 태그 예:
+    //         <mvc:annotation-driven/>
+    // 이 예제에서는 RequestMappingHandlerAdapter에 직접 컨버터를 등록한다.
+    // => app-servlet.xml 을 확인하라!
+    //
+    public static class User2 {
+        String name;
+        int age;
+        String tel;
+        String email;
+        
+        public User2() {}
+        
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+        public int getAge() {
+            return age;
+        }
+        public void setAge(int age) {
+            this.age = age;
+        }
+        public String getTel() {
+            return tel;
+        }
+        public void setTel(String tel) {
+            this.tel = tel;
+        }
+        public String getEmail() {
+            return email;
+        }
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    }
+    
+    @RequestMapping(value="/m3")
+    public String m3(@RequestBody User2 user) {
+        
+        System.out.printf("name=%s\n", user.name);
+        System.out.printf("age=%d\n", user.age);
+        System.out.printf("tel=%s\n", user.tel);
+        System.out.printf("email=%s\n", user.email);
+        
+        System.out.println("--------------------");
+        return "/hello.jsp";
+    }
+    
 }
 
 
