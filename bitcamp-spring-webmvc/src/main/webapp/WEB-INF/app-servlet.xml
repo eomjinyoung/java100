@@ -27,7 +27,10 @@
         <property name="messageConverters">
 	        <list>
 	            <!-- 클라이언트가 보낸 데이터의 Content-Type이 "application/json"일 때,  
-	                 "자바 객체"로 변환해주는 컨버터  -->
+	                 "자바 객체"로 변환해주는 컨버터  
+	                 또한 요청 핸들러가 리턴한 자바 객체를 
+	                 "application/json" 형식의 문자열로 변환해주는 작업도 
+	                 함께 수행한다. -->
 	            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 	            
 	            <!-- 클라이언트가 보낸 데이터의 Content-Type이 "text/plain"일 때,

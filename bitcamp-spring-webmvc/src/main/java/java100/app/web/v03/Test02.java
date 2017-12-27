@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +77,33 @@ public class Test02 {
         HttpEntity<String> entity = new HttpEntity<>("한글!", headers);
         
         return entity; 
+    }
+    
+    // 클라이언트에 출력될 데이터를 객체에 담아서 리턴하기 II
+    @RequestMapping(value="/m5")
+    public ResponseEntity<String> m5() {
+        
+        // 클라이언트에 보낼 데이터에 대한 부가 정보를 설정한다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "text/plain;charset=UTF-8");
+        
+        // 클라이언트로 보낼 콘텐츠를 담을 객체를 준비한다.
+        ResponseEntity<String> entity = new ResponseEntity<>(
+                "한글!", 
+                headers,
+                HttpStatus.OK);
+        
+        return entity; 
+    }
+    
+    // 기타 객체 리턴하기
+    @RequestMapping(value="/m6")
+    @ResponseBody
+    public Object m6() {
+        // 만약 리턴 값이 일반 자바 객체라면,
+        // message converter에 등록된 변환기가 가동되어
+        // JSON 형식의 문자열로 바뀌어 출력된다.
+        return new Member("홍길동", 20, true);
     }
     
 }
