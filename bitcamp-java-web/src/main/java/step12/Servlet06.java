@@ -19,7 +19,7 @@ public class Servlet06 extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         
-        // 세션을 무효화시키는 방법
+        // 세션을 무효화시키는 방법 
         // 1) 클라이언트 쪽에서 모든 웹브라우저를 닫기
         //    - 모든 웹브라우저가 종료되면 메모리에 보관되어 있는
         //      쿠키 값들이 모두 제거된다.
