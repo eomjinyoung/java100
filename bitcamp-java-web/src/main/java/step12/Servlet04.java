@@ -1,4 +1,4 @@
-// 세션(session) - 요청과 요청 사이에 데이터 공유하기 
+// 세션(session) - 요청과 요청 사이에 데이터 공유하기 II 
 // 
 package step12;
 
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
-@WebServlet("/step12/Servlet03")
-public class Servlet03 extends HttpServlet {
+@WebServlet("/step12/Servlet04")
+public class Servlet04 extends HttpServlet {
     
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -26,11 +26,11 @@ public class Servlet03 extends HttpServlet {
         HttpSession session = req.getSession();
         
         // 클라이언트가 보낸 파라미터 값을 세션 보관소에 저장한다.
-        String name = req.getParameter("name");
+        String age = req.getParameter("age");
         
-        session.setAttribute("name", name);
+        session.setAttribute("age", age);
         
-        RequestDispatcher rd = req.getRequestDispatcher("/step12/form2.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("/step12/form3.jsp");
         rd.forward(req, res);
         
         // 테스트 방법:
