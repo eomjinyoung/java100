@@ -1,11 +1,21 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
+compileJava {
+    options.encoding = 'UTF-8'   
+}
+
 repositories {
     jcenter()
 }
 
 dependencies {
+    // MySQL DBMS의 JDBC Driver
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+    
+    // Mybatis 라이브러리
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
+    
     compile 'com.google.guava:guava:23.0'
     testCompile 'junit:junit:4.12'
 }

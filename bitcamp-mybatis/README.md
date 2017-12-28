@@ -14,3 +14,16 @@
 - mybatis 적용 전
 - 직접 JDBC API를 사용하여 데이터 처리
 
+## step2
+- mybatis 라이브러리 준비 
+- mybatis-config.xml 설정파일 준비
+- SQL Mapper 파일 준비
+- SqlSession 객체 준비 
+
+## step3
+- mybatis를 사용하여 select를 실행한다.
+
+
+
+
+

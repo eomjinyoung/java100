@@ -1,6 +1,4 @@
 // DBMS 서버에게 SQL문을 보내기 - select
-// => 데이터 입출력 테스트를 위한 테이블 생성하라!
-//    bitcamp-docs/jdbcexam.sql 을 실행하라!
 // 
 package step1;
 
@@ -9,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Test4 {
+public class JdbcSelect {
 
     public static void main(String[] args) throws Exception {
         

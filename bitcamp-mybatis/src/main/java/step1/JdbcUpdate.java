@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class Test2 {
+public class JdbcUpdate {
 
     public static void main(String[] args) throws Exception {
         
@@ -23,7 +23,7 @@ public class Test2 {
         
         // Statement 객체의 메서드를 통해 SQL문을 서버에 보낸다.
         stmt.executeUpdate(
-            "update jdbc_test set title='xxx', conts='xxxx' where no=1");
+            "update jdbc_test set title='xxx', conts='xxxx' where no=28");
         
         System.out.println("변경 완료!");
         
