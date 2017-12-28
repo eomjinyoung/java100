@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-public class MybatisSelect {
+public class MybatisSelectList {
     public static void main(String[] args) throws Exception {
         InputStream inputStream = 
                 Resources.getResourceAsStream("step3/mybatis-config.xml");
@@ -23,11 +23,11 @@ public class MybatisSelect {
         //    <mapper namespace="네임스페이스명">
         // => SQL 아이디?
         //    <select id="SQL 아이디">
-        List<Map> records = sqlSession.selectList("JdbcTestMapper.findAll");
+        List<Map<String,Object>> records = sqlSession.selectList("JdbcTestMapper.findAll");
         
         // List에 저장된 객체의 타입은?
         // => SQL Mapper에 설정된 resultType이다.
-        for (Map record : records) {
+        for (Map<String,Object> record : records) {
             
             //Map 객체는 record 값을 갖고 있다.
             //Map 객체에서 한 개의 컬럼 값을 꺼내고 싶다면,

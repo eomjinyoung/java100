@@ -15,7 +15,7 @@
             => select 결과에서 레코드 한 개를 저장할 때 사용할 객체의 타입
     -->
     <select id="findAll" resultType="java.util.Map">
-        select * from jdbc_test
+        select no, title, regdt, vwcnt from jdbc_test
     </select>
     
     <!-- parameterType?
@@ -26,8 +26,32 @@
         insert into jdbc_test(title,conts,regdt)
         values(#{title},#{contents},now())
     </insert>
+    
+    <update id="update" parameterType="java.util.Map">
+        update jdbc_test set 
+            title=#{title}, 
+            conts=#{contents} 
+        where no=#{no}
+    </update>
 
+    <!-- parameterType에 자바 원시 타입을 지정할 때는 
+         값을 꺼낼 때 이름은 아무 이름이나 지정해도 된다.
+         #{아무이름} -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from jdbc_test where no=#{haha}
+    </delete>
+    
+    <select id="findByNo" resultType="java.util.Map" 
+            parameterType="java.lang.Integer">
+        select * 
+        from jdbc_test
+        where no=#{value}
+    </select>
 </mapper>  
+
+
+
+
 
 
 
