@@ -48,6 +48,13 @@
 
 ## step10
 - Spring IoC 컨테이너 적용
+  - 스프링 IoC 컨테이너 라이브러리 가져오기
+  - mvnrepository.com에서 spring-context 검색
+  - build.gradle 파일에 라이브러리 정보 등록
+  - "gradle eclipse" 실행하여 라이브러리 다운받고, 이클립스 설정 파일 갱신한다.
+  - 이클립스 프로젝트를 "refresh"한다.
+- SqlSessionFactoryBean 클래스를 스프링의 FactoryBean 규칙에 맞춰 작성한다.
+- 스프링 IoC 컨테이너의 설정 파일을 준비한다.
 
 
 
