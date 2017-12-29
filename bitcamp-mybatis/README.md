@@ -68,8 +68,11 @@
   - spring-jdbc 라이브러리를 가져온다.
   - 스프링 IoC 컨테이너 설정 파일에서 DataSource 객체를 준비한다.
   
-  
-
+## step12
+- DAO 객체를 자동생성하라!
+- DAO 객체를 자동 생성해주는 MapperScannerConfigurer 객체를 스프링 설정 파일에 등록한다.  
+- BoardDao를 인터페이스로 만든다.
+- SQL 맵퍼 파일의 네임스페이스는 패키지명과 + 인터페이스명 과 같게 하라! 
 
 
 
