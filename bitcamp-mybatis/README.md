@@ -55,6 +55,20 @@
   - 이클립스 프로젝트를 "refresh"한다.
 - SqlSessionFactoryBean 클래스를 스프링의 FactoryBean 규칙에 맞춰 작성한다.
 - 스프링 IoC 컨테이너의 설정 파일을 준비한다.
+  - BoardDao와 SqlSessionFactory를 스프링 IoC 컨테이너에서 관리한다.
+
+## step11
+- 우리가 만든 SqlSessionFactoryBean 대신에 mybatis가 제공해주는 
+  SqlSessionFactoryBean을 사용하기
+  - mybatis-spring 라이브러리를 가져온다.
+- 스프링 IoC 컨테이너의 설정 파일에서 SqlSessionFactoryBean 클래스를 
+  이 라이브러리에 있는 클래스로 교체하라!
+- 스프링에서 DataSource를 준비한다.
+  - apache commons dbcp2 라이브러리를 가져온다.
+  - spring-jdbc 라이브러리를 가져온다.
+  - 스프링 IoC 컨테이너 설정 파일에서 DataSource 객체를 준비한다.
+  
+  
 
 
 
