@@ -19,6 +19,37 @@ public class BoardDao {
                     "JdbcTestMapper.findAll", data);
         }    
     }
+    
+    public Board findByNo(int no) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            return sqlSession.selectOne("JdbcTestMapper.findByNo", no);
+        }    
+    }
+    
+    public int insert(Board board) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            int count = sqlSession.insert("JdbcTestMapper.insert", board);
+            sqlSession.commit();
+            return count;
+        }
+    }
+    
+    public int update(Board board) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            int count = sqlSession.update("JdbcTestMapper.update", board);
+            sqlSession.commit();
+            return count;
+        }
+    }
+    
+    public int delete(int no) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            int count = sqlSession.delete("JdbcTestMapper.delete", no);
+            sqlSession.commit();
+            return count;
+        }
+    }
+    
 }
 
 

@@ -29,11 +29,13 @@
 
         <!-- 첫번째 조건문 앞에 'or' 가 붙는데,
              이런 경우 mybatis가 자동으로 제거한다.  -->
-        <where>
-            <foreach collection="words" item="word">
-                or title like '${word}%'
-            </foreach>
-        </where>
+        <if test="words != null">
+	        <where>
+	            <foreach collection="words" item="word">
+	                or title like '${word}%'
+	            </foreach>
+	        </where>
+        </if>
         
         <!-- 정렬 조건에 따라 SQL문을 변경한다.-->
         order by 

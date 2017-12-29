@@ -14,8 +14,8 @@ public class MybatisSelectList {
         Map<String,Object> data = new HashMap<>();
         
         // order by를 위한 값
-        data.put("orderColumn", "title");
-        data.put("align", "asc");
+        data.put("orderColumn", "regdt");
+        data.put("align", "desc");
         
         // where 절을 위한 값
         List<String> words = new ArrayList<>();
@@ -23,7 +23,7 @@ public class MybatisSelectList {
         words.add("1");
         words.add("5");
         
-        data.put("words", words);
+        //data.put("words", words);
         
         List<Board> records = boardDao.findAll(data);
         
