@@ -10,7 +10,7 @@ public class MybatisUpdate {
         
         BoardDao boardDao = iocContainer.getBean(BoardDao.class);
         Board board = new Board();
-        board.setNo(30);
+        board.setNo(31);
         board.setTitle("제목 변경!");
         board.setContents("내용 변경!");
         

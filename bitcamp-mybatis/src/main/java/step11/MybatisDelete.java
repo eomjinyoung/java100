@@ -10,7 +10,7 @@ public class MybatisDelete {
         
         BoardDao boardDao = iocContainer.getBean(BoardDao.class);
 
-        int count = boardDao.delete(30);
+        int count = boardDao.delete(31);
         
         System.out.printf("%d 개가 삭제되었습니다.", count);
         
