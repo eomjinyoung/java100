@@ -23,6 +23,26 @@
 ## step3
 - mybatis를 사용하여 select를 실행한다.
 
+## step4
+- 타입에 별명을 부여하여 SQL Mapper 파일(SQL문이 들어있는 XML 파일)을 간단하게 만들자.
+- Mybatis에서 제공하는 별명 사용하기.  
+- DBMS 연결 정보를 분리하여 .properties 파일에 둔다.
+
+## step5
+- parameterType과 resultType에 사용자가 만든 클래스를 사용하기
+- 사용자가 만든 클래스에 별명을 부여한 후 SQL Mapper에서 사용하라!
+
+## step6
+
+
+
+
+
+
+
+
+
+
 
 
 
