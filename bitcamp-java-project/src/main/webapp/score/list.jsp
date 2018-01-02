@@ -7,8 +7,8 @@
 <html>
 <head>
 <title>성적관리</title>
-<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
-<link rel='stylesheet' href='../css/common.css'>
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
 </head>
 <body>
 <div class='container'>
@@ -30,7 +30,7 @@
 <c:forEach items="${list}" var="score">
     <tr>
         <td>${score.no}</td>
-        <td><a href='view.do?no=${score.no}'>${score.name}</a></td>
+        <td><a href='view?no=${score.no}'>${score.name}</a></td>
         <td>${score.sum}</td>
         <td>${score.aver}</td>
     </tr>

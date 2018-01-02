@@ -1,4 +1,4 @@
-package java100.app.control;
+package java100.app.web;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java100.app.dao.RoomDao;
-import java100.app.domain.Room;
+import java100.app.dao.BoardDao;
+import java100.app.domain.Board;
 
 //@Component 대신 @Controller를 붙여 페이지 컨트롤러임을 명시한다.
 //
@@ -27,48 +27,71 @@ import java100.app.domain.Room;
 // - 주로 DAO 클래스에 붙인다.
 //
 @Controller
-public class RoomController {
+public class BoardController {
     
-    @Autowired RoomDao roomDao;
+    @Autowired BoardDao boardDao;
     
-    @RequestMapping("/room/list")
+    @RequestMapping("/board/list")
     public String list(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        List<Room> list = roomDao.selectList();
+
+        List<Board> list = boardDao.selectList();
         
         // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
-        return "/room/list.jsp";
+        return "/board/list.jsp";
         
     }
     
-    @RequestMapping("/room/add")
+    @RequestMapping("/board/add")
     public String add(
-            Room room,
+            Board board,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        roomDao.insert(room);
+        boardDao.insert(board);
         return "redirect:list.do";
     }
     
-    @RequestMapping("/room/delete")
+    @RequestMapping("/board/delete")
     public String delete(
             @RequestParam("no") int no,
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        
-        roomDao.delete(no);
+
+        boardDao.delete(no);
         return "redirect:list.do";
     }
     
-    @RequestMapping("/room/form")
+    @RequestMapping("/board/form")
     public String form(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return "/room/form.jsp";
+        return "/board/form.jsp";
+        
+    }
+    
+    @RequestMapping("/board/update")
+    public String update(
+            Board board,
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        boardDao.update(board);
+        return "redirect:list.do";
+    }
+    
+    @RequestMapping("/board/view")
+    public String view(
+            @RequestParam("no") int no,
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
+        Board board = boardDao.selectOne(no);
+        request.setAttribute("board", board);
+        return "/board/view.jsp";
         
     }
 }

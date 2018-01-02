@@ -1,4 +1,4 @@
-package java100.app.control;
+package java100.app.web;
 
 import java.util.List;
 

@@ -27,28 +27,42 @@
         <!-- 스프링 WebMVC가 사용할 IoC 컨테이너를 설정한다.
              지정하지 않으면 XmlWebApplicationContext가 사용된다.
          -->
+        <!--  
         <init-param>
             <param-name>contextClass</param-name>
             <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
         </init-param>
-        
+        -->
         <!-- 위에서 지정한 IoC 컨테이너가 사용할 설정 정보를 지정한다.
              XmlWebAppllicationContext인 경우 *.xml 파일의 경로를 지정한다.
              AnnotaionConfigWebApplicationContext인 경우 
              @Configuration 애노테이션이 붙은 자바 클래스 이름을 지정한다. 
               -->
+        <!--  
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>java100.app.AppConfig</param-value>
+        </init-param>
+        -->      
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/dispatch-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>dispatch</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
     
+    <!-- 클라이언트에서 특정 경로의 기본 문서를 요구했을 때,
+         그 문서를 찾는 순서이다. -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
 
 
