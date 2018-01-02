@@ -8,8 +8,8 @@
 <html>
 <head>
 <title>게시판</title>
-<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
-<link rel='stylesheet' href='../css/common.css'>
+<link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
+<link rel='stylesheet' href='../../css/common.css'>
 </head>
 <body>
 <div class='container'>
@@ -31,7 +31,7 @@
 <c:forEach items="${list}" var="board">
         <tr>
         <td>${board.no}</td>
-        <td><a href='view.do?no=${board.no}'>${board.title}</a></td>
+        <td><a href='view?no=${board.no}'>${board.title}</a></td>
         <td>${board.regDate}</td>
         <td>${board.viewCount}</td>
         </tr>

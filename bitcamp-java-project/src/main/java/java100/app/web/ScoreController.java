@@ -3,6 +3,7 @@ package java100.app.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java100.app.dao.ScoreDao;
@@ -47,8 +48,8 @@ public class ScoreController {
         return "redirect:list";
     }
     
-    @RequestMapping("view")
-    public String view(int no, Model model) throws Exception {
+    @RequestMapping("{no}")
+    public String view(@PathVariable int no, Model model) throws Exception {
         
         model.addAttribute("score", scoreDao.selectOne(no));
         return "score/view";        

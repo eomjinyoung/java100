@@ -30,7 +30,7 @@
 <c:forEach items="${list}" var="score">
     <tr>
         <td>${score.no}</td>
-        <td><a href='view?no=${score.no}'>${score.name}</a></td>
+        <td><a href='${score.no}'>${score.name}</a></td>
         <td>${score.sum}</td>
         <td>${score.aver}</td>
     </tr>

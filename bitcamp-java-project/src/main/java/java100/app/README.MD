@@ -19,9 +19,14 @@
 - 문자열로 날짜값이 넘어온 경우 java.util.Date 객체로 변환시키는 작업 등을 수행한다.
 - java100.app.web.bind.DefaultControllerAdvice 클래스 추가한다.
 
-### 페이지 컨트롤러가 리턴하는 view url을 변경한다.
+### 페이지 컨트롤러를 변경한다.
 - Spring WebMVC에 기본으로 설정되어 있는 view resolver 대신에 InternalResourceViewResolver에 맞춰 요청 핸들러의 리턴 값을 변경한다.
 - view component(ex: JSP)에게 전달할 값을 직접 ServletRequest에 담는 대신에 Model 객체에 담는다.
+
+### JSP 변경한다.
+- 접미사 .do 를 제거한다.
+- url이 /app/* 으로 변경되었기 때문에 이에 따라 css, javascript 파일의 경로도 변경해준다.
+
 
 
 
