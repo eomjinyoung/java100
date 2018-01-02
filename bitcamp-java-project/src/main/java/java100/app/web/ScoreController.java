@@ -34,23 +34,23 @@ public class ScoreController {
         return "score/list";
     }
     
+    @RequestMapping("{no}")
+    public String view(@PathVariable int no, Model model) throws Exception {
+        
+        model.addAttribute("score", scoreDao.findByNo(no));
+        return "score/view";        
+    }
+
+    @RequestMapping("form")
+    public String form() throws Exception {
+        return "score/form";
+    }
+
     @RequestMapping("add")
     public String add(Score score) throws Exception {
         
         scoreDao.insert(score);
         return "redirect:list";
-    }
-    
-    @RequestMapping("delete")
-    public String delete(int no) throws Exception {
-        
-        scoreDao.delete(no);
-        return "redirect:list";
-    }
-    
-    @RequestMapping("form")
-    public String form() throws Exception {
-        return "score/form";
     }
     
     @RequestMapping("update")
@@ -59,12 +59,12 @@ public class ScoreController {
         scoreDao.update(score);
         return "redirect:list";
     }
-    
-    @RequestMapping("{no}")
-    public String view(@PathVariable int no, Model model) throws Exception {
+
+    @RequestMapping("delete")
+    public String delete(int no) throws Exception {
         
-        model.addAttribute("score", scoreDao.selectOne(no));
-        return "score/view";        
+        scoreDao.delete(no);
+        return "redirect:list";
     }
 }
 

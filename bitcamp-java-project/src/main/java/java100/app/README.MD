@@ -35,7 +35,12 @@
 - jdbc.properties 파일 추가
 - /WEB-INF/dispatch-servlet.xml 파일에 mybatis 관련 객체 등록
 - /src/main/resources/java100/app/jdbc.properties 파일 준비
-- /src/main/resources/java100/app/dao/*Mapper.xml 파일 준비
+- /src/main/resources/java100/app/dao/*Dao.xml 파일 준비
+- DAO 인터페이스의 메서드명 변경
+  - selectList() ==> findAll()
+  - selectOne() ==> findByNo()
+- 페이지 컨트롤러 변경
+- DAO 구현체 제거 
 
 
 

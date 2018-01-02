@@ -7,12 +7,16 @@
      namespace의 값이 인터페이스 이름과 같아야 한다. -->
 <mapper namespace="java100.app.dao.ScoreDao">
 
-    <select id="findAll" resultType="score" parameterType="map">
+    <sql id="select1">
         select 
             no, 
             name, 
             (kor + eng + math) as sum,
             ((kor + eng + math) / 3) as aver
+    </sql>
+
+    <select id="findAll" resultType="score" parameterType="map">
+        <include refid="select1"/>
         from ex_score
 
         <if test="names != null">
@@ -41,36 +45,34 @@
         </choose>
     </select>
     
-    <!--  
-    <insert id="insert" parameterType="score">
-        insert into jdbc_test(title,conts,regdt)
-        values(#{title},#{contents},now())
-    </insert>
+    <select id="findByNo" resultType="score" parameterType="int">
+        <include refid="select1"/>
+          ,kor 
+          ,eng
+          ,math
+        from ex_score
+        where no=#{value}
+    </select>
     
+    <insert id="insert" parameterType="score">
+        insert into ex_score(name,kor,eng,math) 
+        values(#{name},#{kor},#{eng},#{math})
+    </insert>
+
     <update id="update" parameterType="score">
-        update jdbc_test set 
-            title=#{title}, 
-            conts=#{contents} 
+        update ex_score set 
+            name=#{name},
+            kor=#{kor},
+            eng=#{eng},
+            math=#{math} 
         where no=#{no}
     </update>
 
     <delete id="delete" parameterType="int">
-        delete from jdbc_test where no=#{value}
+        delete from ex_score
+        where no=#{value}
     </delete>
     
-    <select id="findByNo" resultMap="score" parameterType="int">
-        select 
-          no,
-          name,
-          kor, 
-          eng,
-          math,
-          (kor + eng + math) as sum,
-          ((kor + eng + math) / 3) as aver
-        from jdbc_test
-        where no=#{value}
-    </select>
-    -->
 </mapper>  
 
 

@@ -15,7 +15,7 @@ public interface ScoreDao {
     int insert(Score score);
     int update(Score score);
     int delete(int no);
-    Score selectOne(int no);
+    Score findByNo(int no);
 }
 
 
