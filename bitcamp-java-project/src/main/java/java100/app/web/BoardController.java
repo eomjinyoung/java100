@@ -37,6 +37,7 @@ public class BoardController {
     @RequestMapping("{no}")
     public String view(@PathVariable int no, Model model) throws Exception {
         
+        boardDao.updateViewCount(no);
         model.addAttribute("board", boardDao.findByNo(no));
         return "board/view";
     }

@@ -78,6 +78,12 @@
         where no=#{no}
     </update>
 
+    <update id="updateViewCount" parameterType="int">
+        update ex_board set 
+            vwcnt=vwcnt + 1
+        where no=#{value}
+    </update>
+
     <delete id="delete" parameterType="int">
         delete from ex_board
         where no=#{value}
