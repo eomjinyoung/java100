@@ -34,7 +34,8 @@
 - spring-jdbc 라이브러리 추가
 - jdbc.properties 파일 추가
 - /WEB-INF/dispatch-servlet.xml 파일에 mybatis 관련 객체 등록
-
+- /src/main/resources/java100/app/jdbc.properties 파일 준비
+- /src/main/resources/java100/app/dao/*Mapper.xml 파일 준비
 
 
 

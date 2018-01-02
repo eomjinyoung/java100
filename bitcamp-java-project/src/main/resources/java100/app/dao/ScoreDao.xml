@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DAO 객체를 자동으로 생성하려면,
+     namespace의 값이 인터페이스 이름과 같아야 한다. -->
+<mapper namespace="java100.app.dao.ScoreDao">
+
+    <select id="findAll" resultType="score" parameterType="map">
+        select 
+            no, 
+            name, 
+            (kor + eng + math) as sum,
+            ((kor + eng + math) / 3) as aver
+        from ex_score
+
+        <if test="names != null">
+	        <where>
+	            <foreach collection="names" item="name">
+	                or name like '${name}%'
+	            </foreach>
+	        </where>
+        </if>
+        
+        <!-- 정렬 조건에 따라 SQL문을 변경한다.-->
+        order by 
+        <choose>
+            <when test="orderColumn == 'sum' and align == 'desc'">
+                sum desc
+            </when>
+            <when test="orderColumn == 'sum' and align == 'asc'">
+                sum asc
+            </when>
+            <when test="orderColumn == 'name' and align == 'desc'">
+                name desc
+            </when>
+            <otherwise>
+                name asc
+            </otherwise>
+        </choose>
+    </select>
+    
+    <!--  
+    <insert id="insert" parameterType="score">
+        insert into jdbc_test(title,conts,regdt)
+        values(#{title},#{contents},now())
+    </insert>
+    
+    <update id="update" parameterType="score">
+        update jdbc_test set 
+            title=#{title}, 
+            conts=#{contents} 
+        where no=#{no}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from jdbc_test where no=#{value}
+    </delete>
+    
+    <select id="findByNo" resultMap="score" parameterType="int">
+        select 
+          no,
+          name,
+          kor, 
+          eng,
+          math,
+          (kor + eng + math) as sum,
+          ((kor + eng + math) / 3) as aver
+        from jdbc_test
+        where no=#{value}
+    </select>
+    -->
+</mapper>  
+
+
+
+
+
+
+
+
+

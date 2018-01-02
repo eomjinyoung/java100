@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java100.app.dao.DaoException;
-import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.util.DataSource;
 
 //@Component  // 이 클래스의 객체를 자동 생성해야 함을 표시!
-public class ScoreDaoImpl implements ScoreDao {
+public class ScoreDaoImpl {
     
     // 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
     @Autowired
