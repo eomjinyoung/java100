@@ -69,7 +69,20 @@ dependencies {
     // => Servlet 3.0의 파일 업로드 기능을 사용한다면 이 라이브러리는 필요 없다. 
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.3'
     
+    // Mybatis 라이브러리
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
+    
+    // Mybatis 관련 객체를 스프링 IoC 컨테이너에서 관리할 수 있도록 도와주는 라이브러리
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.1'
+    
+    // DB 커넥션 풀 라이브러리
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+    
+    // 스프링 JDBC 관련 라이브러리
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE'
+    
     compile 'com.google.guava:guava:22.0'
+    
     testCompile 'junit:junit:4.12'
 }
 

@@ -27,8 +27,13 @@
 - 접미사 .do 를 제거한다.
 - url이 /app/* 으로 변경되었기 때문에 이에 따라 css, javascript 파일의 경로도 변경해준다.
 
-
-
+### mybatis 적용
+- mybatis 라이브러리 추가
+- mybatis-spring 연동 라이브러리 추가
+- apache-dbcp2 DataSource 라이브러리 추가
+- spring-jdbc 라이브러리 추가
+- jdbc.properties 파일 추가
+- /WEB-INF/dispatch-servlet.xml 파일에 mybatis 관련 객체 등록
 
 
 

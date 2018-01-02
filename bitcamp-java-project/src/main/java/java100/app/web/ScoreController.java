@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 
-@Controller
+//@Controller
 @RequestMapping("/score")
 public class ScoreController {
     

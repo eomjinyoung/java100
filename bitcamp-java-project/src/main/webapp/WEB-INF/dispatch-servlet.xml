@@ -50,12 +50,36 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     
-    <!-- DB 커넥션 풀 등록 -->
-    <bean class="java100.app.util.DataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/studydb"/>
-        <property name="username" value="study"/>
-        <property name="password" value="1111"/>
+    <!-- mybatis의 SQL 실행 객체 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>   
+        <property name="mapperLocations" value="classpath*:java100/app/dao/*Mapper.xml"/>
+        <property name="typeAliasesPackage" value="java100.app.domain"/> 
+    </bean>    
+    
+    <!-- DB 커넥션 풀 역할을 수행할 DataSource 객체 -->
+    <bean id="dataSource" 
+          class="org.apache.commons.dbcp2.BasicDataSource" 
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+    
+    <!-- 이 설정 파일에서 사용할 값이 들어 있는 
+         프로퍼티 파일을 로딩하는 객체 등록 -->
+    <context:property-placeholder location="classpath*:java100/app/jdbc.properties"/>
+    
+    <!-- DAO 객체를 자동생성해주는 공장 준비 
+         => 다음 객체는 지정된 패키지에서 인터페이스를 찾는다.
+         => 그리고 그 인터페이스와 대응하는 SQL Mapper를 찾아 
+            DAO 객체를 자동으로 생성한다.
+            이때 SQL Mapper 파일의 namespace는 
+            인터페이스의 이름(패키지명 포함)과 일치해야 한다.
+        -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+      <property name="basePackage" value="java100.app.dao" />
     </bean>
 </beans>
 

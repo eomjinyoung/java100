@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 
-@Controller
+//@Controller
 @RequestMapping("/room")
 public class RoomController {
     
