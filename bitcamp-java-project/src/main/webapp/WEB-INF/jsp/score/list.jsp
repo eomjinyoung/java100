@@ -13,16 +13,16 @@
 <body>
 <div class='container'>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="../header.jsp"/>
 
 <h1>성적 목록</h1>
 
 <div class="toolbar">
+<a href='form' class='btn btn-primary btn-sm'>추가</a>
 <form action="list" method="get" class="searchbox">
 <input type="text" name="nm">
 <button>검색</button>
 </form>
-<a href='form' class='btn btn-primary btn-sm'>추가</a>
 </div>
 
 <table class='table table-hover'>
@@ -45,7 +45,7 @@
 </tbody>
 </table>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="../footer.jsp"/>
 
 </div>
 
