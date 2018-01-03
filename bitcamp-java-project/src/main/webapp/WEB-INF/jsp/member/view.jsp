@@ -69,7 +69,7 @@
 
 </div>
 
-<%@ include file="../jslib.txt"%>
+<jsp:include page="../jslib.jsp"/>
 
 </body>
 </html>
