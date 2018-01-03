@@ -88,7 +88,24 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
       <property name="basePackage" value="java100.app.dao" />
     </bean>
+    
+    <!-- 인터셉터를 등록한다. -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/auth/**"/>
+            <bean class="java100.app.web.interceptor.AuthInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
+
+
+
+
+
+
+
+
 
 
 

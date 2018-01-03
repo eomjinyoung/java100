@@ -28,7 +28,7 @@ public class DefaultControllerAdvice {
    
     @InitBinder // 요청 핸들러가 호출되기 전에 먼저 실행된다.
     protected void initBinder(WebDataBinder binder) {
-        System.out.println("DefaultControllerAdvice.initBinder()");
+        //System.out.println("DefaultControllerAdvice.initBinder()");
         
         // 문자열을 날짜 객체로 만들어줄 도구를 준비한다.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

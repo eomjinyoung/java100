@@ -8,14 +8,13 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 // "/app/*"으로 들어온 요청(페이지 컨트롤러를 실행하는 요청)에 대해서 
 // 로그인 여부를 검사한다.
-@WebFilter("/app/*")
+//@WebFilter("/app/*")
 public class AuthFilter implements Filter {
 
     @Override

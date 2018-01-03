@@ -10,6 +10,10 @@
 - AuthFilter를 만든다.
 - 로그인 하지 않은 경우 /app/auth/* 요청을 제외한 모든 요청에 대해 로그인 폼으로 보낸다. 
 
+### 인증 인터셉터를 추가한다.
+- 기존의 AuthFilter는 비활성으로 만든다.
+- AuthInterceptor를 만든다.
+- 스프링 설정 파일(dispatch-servlet.xml)에 인터셉터 정보를 등록한다.
 
 
 
