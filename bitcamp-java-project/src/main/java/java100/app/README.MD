@@ -19,7 +19,9 @@
 ### 페이지 컨트롤러를 만들기
 - java100.app.web.LoginController 클래스 작성
 
-
+### MemberDao에 사용자 인증 기능 추가
+- findByEmailAndPassword() 메서드 추가(MemberDao)
+- 이 메서드가 사용할 SQL 문을 추가(MemberDao.xml)
 
 
 

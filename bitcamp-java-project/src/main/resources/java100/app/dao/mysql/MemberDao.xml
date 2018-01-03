@@ -75,6 +75,13 @@
         where no=#{value}
     </select>
     
+    <select id="findByEmailAndPassword" 
+            resultMap="memberMap" parameterType="map">
+        <include refid="select1"/>
+        from ex_memb
+        where email=#{email} and pwd=password(#{password})
+    </select>
+    
     <insert id="insert" parameterType="member">
         insert into ex_memb(name,email,pwd,regdt)
         values(#{name},#{email},password(#{password}),now())
