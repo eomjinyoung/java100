@@ -14,7 +14,7 @@
 <body>
 <div class='container'>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="../header.jsp"/>
 
 <h1>강의실 목록</h1>
 
@@ -41,7 +41,7 @@
 </tbody>
 </table>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="../footer.jsp"/>
 
 </div>
 
