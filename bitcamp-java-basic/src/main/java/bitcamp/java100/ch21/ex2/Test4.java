@@ -4,13 +4,13 @@ package bitcamp.java100.ch21.ex2;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Test1 {
+public class Test4 {
 
     public static void main(String[] args) {
         
         ClassPathXmlApplicationContext appCtx = 
                 new ClassPathXmlApplicationContext(
-                        "bitcamp/java100/ch21/ex2/application-context1.xml");
+                        "bitcamp/java100/ch21/ex2/application-context4.xml");
         
         String[] names = appCtx.getBeanDefinitionNames();
         for (String name : names) {
