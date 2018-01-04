@@ -10,6 +10,7 @@ public class CalculatorSkel {
         CalculatorObject remoteObj = new CalculatorObject();
         
         ServerSocket ss = new ServerSocket(9999);
+        System.out.println("서버 시작됨...");
         
         while (true) {
             Socket s = ss.accept();
@@ -23,11 +24,11 @@ public class CalculatorSkel {
             switch (methodName) {
             case "plus":
                 out.writeInt(200);
-                out.writeInt(a + b);
+                out.writeInt(remoteObj.plus(a, b));
                 break;
             case "minus":
                 out.writeInt(200);
-                out.writeInt(a - b);
+                out.writeInt(remoteObj.minus(a, b));
                 break;
             default:
                 out.writeInt(400);
