@@ -1,4 +1,4 @@
-package bitcamp.java100.ch21.ex1;
+package bitcamp.java100.ch21.ex2;
 
 import org.springframework.stereotype.Component;
 

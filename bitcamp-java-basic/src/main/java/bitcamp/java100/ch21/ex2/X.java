@@ -1,11 +1,11 @@
-package bitcamp.java100.ch21.ex1;
+package bitcamp.java100.ch21.ex2;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class Y {
+public class X {
     
     public void m1() {
-        System.out.println("Y.m1()");
+        System.out.println("X.m1()");
     }
 }
