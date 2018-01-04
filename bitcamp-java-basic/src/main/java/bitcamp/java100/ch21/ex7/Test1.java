@@ -1,16 +1,15 @@
-// AOP(Aspect-Oriented Programming) - advice 적용 위치 
+// AOP - 자바 클래스로 스프링 설정하기 
 // 
-package bitcamp.java100.ch21.ex4;
+package bitcamp.java100.ch21.ex7;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Test1 {
 
     public static void main(String[] args) {
         
-        ClassPathXmlApplicationContext appCtx = 
-                new ClassPathXmlApplicationContext(
-                        "bitcamp/java100/ch21/ex4/application-context1.xml");
+        AnnotationConfigApplicationContext appCtx = 
+                new AnnotationConfigApplicationContext(AppConfig.class);
         
         String[] names = appCtx.getBeanDefinitionNames();
         for (String name : names) {

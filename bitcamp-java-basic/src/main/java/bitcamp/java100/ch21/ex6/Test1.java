@@ -1,6 +1,6 @@
-// AOP(Aspect-Oriented Programming) - advice 적용 위치 
+// AOP - 애노테이션을 이용하여 advice 지정하기 
 // 
-package bitcamp.java100.ch21.ex4;
+package bitcamp.java100.ch21.ex6;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -10,7 +10,7 @@ public class Test1 {
         
         ClassPathXmlApplicationContext appCtx = 
                 new ClassPathXmlApplicationContext(
-                        "bitcamp/java100/ch21/ex4/application-context1.xml");
+                        "bitcamp/java100/ch21/ex6/application-context1.xml");
         
         String[] names = appCtx.getBeanDefinitionNames();
         for (String name : names) {

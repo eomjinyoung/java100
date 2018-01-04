@@ -1,4 +1,4 @@
-// AOP(Aspect-Oriented Programming) - advice 적용 위치 
+// AOP의 구동 원리 
 // 
 package bitcamp.java100.ch21.ex5;
 
@@ -6,10 +6,11 @@ public class Test1 {
 
     public static void main(String[] args) {
         
+        XProxy xproxy = new XProxy();
         
+        Front obj = new Front();
+        obj.x = xproxy;
         
-        Front obj;
-
         obj.test("홍길동");
         
         System.out.println("------------------------------------------");

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class Front {
 
     @Autowired X x;
-    
+
     public void test(String name) {
         System.out.println("Font.test() 호출시작-----");
         try {

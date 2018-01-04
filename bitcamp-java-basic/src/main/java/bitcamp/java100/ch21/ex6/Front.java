@@ -1,4 +1,4 @@
-package bitcamp.java100.ch21.ex4;
+package bitcamp.java100.ch21.ex6;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
