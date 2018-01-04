@@ -1,6 +1,6 @@
-// Spring IoC 컨테이너 - @Bean 애노테이션 
+// Spring IoC 컨테이너 - @ComponentScan  
 // 
-package bitcamp.java100.ch20.ex17;
+package bitcamp.java100.ch20.ex18;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,8 +10,6 @@ public class Test1 {
         
         AnnotationConfigApplicationContext appCtx = 
                 new AnnotationConfigApplicationContext(AppConfig.class);
-        
-        //@Bean 애노테이션을 이용하여 객체 준비하기 
         
         System.out.println("------------------------------------------");
         String[] names = appCtx.getBeanDefinitionNames();
