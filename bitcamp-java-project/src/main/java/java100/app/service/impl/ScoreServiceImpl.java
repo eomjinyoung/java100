@@ -35,6 +35,11 @@ public class ScoreServiceImpl implements ScoreService {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    @Override
+    public int getTotalCount() {
+        return scoreDao.countAll();
+    }
 
     @Override
     public int add(Score score) {

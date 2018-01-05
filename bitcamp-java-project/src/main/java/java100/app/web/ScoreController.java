@@ -44,7 +44,17 @@ public class ScoreController {
         options.put("orderColumn", orderColumn);
         options.put("align", align);
         
+        int totalCount = scoreService.getTotalCount();
+        int lastPageNo = totalCount / pageSize;
+        if ((totalCount % pageSize) > 0) {
+            lastPageNo++;
+        }
+        
+        // view 컴포넌트가 사용할 값을 Model에 담는다.
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("lastPageNo", lastPageNo);
         model.addAttribute("list", scoreService.list(pageNo, pageSize, options));
+        
         return "score/list";
     }
     

@@ -57,6 +57,10 @@
         where no=#{value}
     </select>
     
+    <select id="countAll" resultType="int">
+        select count(*) from ex_score
+    </select>
+    
     <insert id="insert" parameterType="score">
         insert into ex_score(name,kor,eng,math) 
         values(#{name},#{kor},#{eng},#{math})
