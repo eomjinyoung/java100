@@ -9,42 +9,64 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
+import java100.app.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
     
-    @Autowired MemberDao memberDao;
+    @Autowired MemberService memberService;
     
     @RequestMapping("list")
     public String list(
+            @RequestParam(value="pn", defaultValue="1") int pageNo,
+            @RequestParam(value="ps", defaultValue="5") int pageSize,
             @RequestParam(value="word", required=false) String[] words,
             @RequestParam(value="oc", required=false) String orderColumn,
             @RequestParam(value="al", required=false) String align,
             Model model) throws Exception {
+        
+        // UI 제어와 관련된 코드는 이렇게 페이지 컨트롤러에 두어야 한다.
+        //
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
+        
+        if (pageSize < 5 || pageSize > 15) {
+            pageSize = 5;
+        }
         
         HashMap<String,Object> params = new HashMap<>();
         params.put("words", words);
         params.put("orderColumn", orderColumn);
         params.put("align", align);
         
-        model.addAttribute("list", memberDao.findAll(params));
+        int totalCount = memberService.getTotalCount();
+        int lastPageNo = totalCount / pageSize;
+        if ((totalCount % pageSize) > 0) {
+            lastPageNo++;
+        }
+        
+        // view 컴포넌트가 사용할 값을 Model에 담는다.
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("lastPageNo", lastPageNo);
+        
+        model.addAttribute("list", memberService.list(pageNo, pageSize, params));
         return "member/list";
     }
     
     @RequestMapping("{no}")
     public String view(@PathVariable int no, Model model) throws Exception {
         
-        model.addAttribute("member", memberDao.findByNo(no));
+        model.addAttribute("member", memberService.get(no));
         return "member/view";
     }
     
     @RequestMapping("add")
     public String add(Member member) throws Exception {
         
-        memberDao.insert(member);
+        memberService.add(member);
         return "redirect:list";
     }
     
@@ -57,14 +79,14 @@ public class MemberController {
     @RequestMapping("update")
     public String update(Member member) throws Exception {
         
-        memberDao.update(member);
+        memberService.update(member);
         return "redirect:list";
     }
 
     @RequestMapping("delete")
     public String delete(int no) throws Exception {
 
-        memberDao.delete(no);
+        memberService.delete(no);
         return "redirect:list";
     }
 }

@@ -67,6 +67,9 @@
                 name asc
             </otherwise>
         </choose>
+        
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
     </select>
     
     <select id="findByNo" resultMap="memberMap" parameterType="int">
@@ -80,6 +83,10 @@
         <include refid="select1"/>
         from ex_memb
         where email=#{email} and pwd=password(#{password})
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from ex_memb
     </select>
     
     <insert id="insert" parameterType="member">

@@ -54,6 +54,13 @@
                 name asc
             </otherwise>
         </choose>
+        
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from ex_room
     </select>
     
     <insert id="insert" parameterType="member">

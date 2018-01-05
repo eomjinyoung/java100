@@ -8,28 +8,49 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
+import java100.app.service.RoomService;
 
 @Controller
 @RequestMapping("/room")
 public class RoomController {
     
-    @Autowired RoomDao roomDao;
+    @Autowired RoomService roomService;
     
     @RequestMapping("list")
     public String list(
+            @RequestParam(value="pn", defaultValue="1") int pageNo,
+            @RequestParam(value="ps", defaultValue="5") int pageSize,
             @RequestParam(value="word", required=false) String[] words,
             @RequestParam(value="oc", required=false) String orderColumn,
             @RequestParam(value="al", required=false) String align,
             Model model) throws Exception {
+        
+        // UI 제어와 관련된 코드는 이렇게 페이지 컨트롤러에 두어야 한다.
+        //
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
+        
+        if (pageSize < 5 || pageSize > 15) {
+            pageSize = 5;
+        }
         
         HashMap<String,Object> params = new HashMap<>();
         params.put("words", words);
         params.put("orderColumn", orderColumn);
         params.put("align", align);
         
-        model.addAttribute("list", roomDao.findAll(params));
+        int totalCount = roomService.getTotalCount();
+        int lastPageNo = totalCount / pageSize;
+        if ((totalCount % pageSize) > 0) {
+            lastPageNo++;
+        }
+        
+        // view 컴포넌트가 사용할 값을 Model에 담는다.
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("lastPageNo", lastPageNo);
+        model.addAttribute("list", roomService.list(pageNo, pageSize, params));
         return "room/list";
     }
     
@@ -41,14 +62,14 @@ public class RoomController {
     @RequestMapping("add")
     public String add(Room room) throws Exception {
         
-        roomDao.insert(room);
+        roomService.add(room);
         return "redirect:list";
     }
     
     @RequestMapping("delete")
     public String delete(int no) throws Exception {
         
-        roomDao.delete(no);
+        roomService.delete(no);
         return "redirect:list";
     }
 }

@@ -57,6 +57,9 @@
                 no desc
             </otherwise>
         </choose>
+        
+        <!-- 페이지징 처리 -->
+        limit #{startIndex}, #{size}
     </select>
     
     <select id="findByNo" resultMap="boardMap" parameterType="int">
@@ -64,6 +67,10 @@
           ,conts
         from ex_board
         where no=#{value}
+    </select>
+    
+    <select id="countAll" resultType="int">
+        select count(*) from ex_board
     </select>
     
     <insert id="insert" parameterType="board">

@@ -3,7 +3,8 @@
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,8 @@
 <c:forEach items="${list}" var="board">
         <tr>
         <td>${board.no}</td>
-        <td><a href='${board.no}'>${board.title}</a></td>
+        <td><a href='${board.no}'>${fn:substring(board.title, 0, 20)}
+        ${(fn:length(board.title) > 20) ? '...' : ''}</a></td>
         <td>${board.regDate}</td>
         <td>${board.viewCount}</td>
         </tr>
@@ -39,6 +41,8 @@
 
 </tbody>
 </table>
+
+<jsp:include page="../paging.jsp"/>
 
 <jsp:include page="../footer.jsp"/>
 

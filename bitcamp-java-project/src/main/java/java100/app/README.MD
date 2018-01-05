@@ -17,6 +17,8 @@
 ### service 인터페이스를 구현한 클래스를 만든다.
 - ScoreServiceImpl, BoardServiceImpl, MemberServiceImpl, RoomServiceImpl 클래스를 만든다.
 
+### JSP 파일에 페이지 기능을 추가한다.
+
 
 
 
