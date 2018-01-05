@@ -1,21 +1,21 @@
-## ver 69
-- 로그인 하지 않은 경우 애플리케이션을 이용하지 못하게 막아라!
+## ver 70
+- Business Layer를 추가하라!
+- 페이징 처리를 추가하라!
 - 학습목표
-  - 필터를 이용하여 요청 처리를 제어하는 방법을 익힌다.
-  - 필터 대신에 인터셉터를 사용하는 방법을 익힌다.
-
+  - Business Layer에 소속된 service 컴포넌트의 역할을 이해한다.
+  - 인터페이스와 구현체의 용도를 이해한다.
+  - 페이징 처리 방법을 익힌다.
+  
 ## 작업 목록 
 
-### 인증 필터를 추가한다.
-- AuthFilter를 만든다.
-- 로그인 하지 않은 경우 /app/auth/* 요청을 제외한 모든 요청에 대해 로그인 폼으로 보낸다. 
+### service 컴포넌트를 둘 패키지를 생성한다.
+- java100.app.service 패키지 생성 
 
-### 인증 인터셉터를 추가한다.
-- 기존의 AuthFilter는 비활성으로 만든다.
-- AuthInterceptor를 만든다.
-- 스프링 설정 파일(dispatch-servlet.xml)에 인터셉터 정보를 등록한다.
+### service 관련 인터페이스를 정의한다.
+- ScoreService, BoardService, MemberService, RoomService 정의
 
-
+### service 인터페이스를 구현한 클래스를 만든다.
+- ScoreServiceImpl, BoardServiceImpl, MemberServiceImpl, RoomServiceImpl 클래스를 만든다.
 
 
 
