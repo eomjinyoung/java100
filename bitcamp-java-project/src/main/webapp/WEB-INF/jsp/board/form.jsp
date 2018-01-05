@@ -33,32 +33,23 @@
 </div>
 
 <div class='form-group row'>
-<div class='col-sm-2 col-form-label'></div>
+<label for='file1' class='col-sm-2 col-form-label'>파일1</label>
 <div class='col-sm-10'>
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="file" name="files">
-        <label class="custom-file-label" for="file">첨부파일을 선택하세요.</label>
-    </div>
+<input type="file" class="form-control-file" id="file1" name="files">
 </div>
 </div>
 
 <div class='form-group row'>
-<div class='col-sm-2 col-form-label'></div>
+<label for='file2' class='col-sm-2 col-form-label'>파일2</label>
 <div class='col-sm-10'>
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="file" name="files">
-        <label class="custom-file-label" for="file">첨부파일을 선택하세요.</label>
-    </div>
+<input type="file" class="form-control-file" id="file2" name="files">
 </div>
 </div>
 
 <div class='form-group row'>
-<div class='col-sm-2 col-form-label'></div>
+<label for='file3' class='col-sm-2 col-form-label'>파일3</label>
 <div class='col-sm-10'>
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="file" name="files">
-        <label class="custom-file-label" for="file">첨부파일을 선택하세요.</label>
-    </div>
+<input type="file" class="form-control-file" id="file3" name="files">
 </div>
 </div>
 
