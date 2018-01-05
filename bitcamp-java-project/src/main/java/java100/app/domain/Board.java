@@ -8,6 +8,7 @@ public class Board {
     protected String content;
     protected Date regDate;
     protected int viewCount;
+    protected Member writer;
     
     @Override
     public String toString() {
@@ -54,6 +55,15 @@ public class Board {
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
+
+    public Member getWriter() {
+        return writer;
+    }
+
+    public void setWriter(Member writer) {
+        this.writer = writer;
+    }
+    
     
 }
 

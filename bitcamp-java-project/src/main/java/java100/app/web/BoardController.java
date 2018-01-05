@@ -5,15 +5,19 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java100.app.domain.Board;
+import java100.app.domain.Member;
 import java100.app.service.BoardService;
 
 @Controller
 @RequestMapping("/board")
+@SessionAttributes("loginUser")
 public class BoardController {
     
     @Autowired BoardService boardService;
@@ -71,8 +75,10 @@ public class BoardController {
     }
     
     @RequestMapping("add")
-    public String add(Board board) throws Exception {
+    public String add(Board board, 
+            @ModelAttribute("loginUser") Member loginUser) throws Exception {
         
+        board.setWriter(loginUser);
         boardService.add(board);
         return "redirect:list";
     }

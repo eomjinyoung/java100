@@ -74,8 +74,8 @@
     </select>
     
     <insert id="insert" parameterType="board">
-        insert into ex_board(title,conts,regdt)
-        values(#{title},#{content},now())
+        insert into ex_board(title,conts,regdt,mno)
+        values(#{title},#{content},now(),#{writer.no})
     </insert>
 
     <update id="update" parameterType="board">

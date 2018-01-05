@@ -11,6 +11,10 @@ footer {
     color: white;
 }
 
+table {
+    height: 300px;
+}
+
 .toolbar {
 	margin: 3px 0px;
 }
