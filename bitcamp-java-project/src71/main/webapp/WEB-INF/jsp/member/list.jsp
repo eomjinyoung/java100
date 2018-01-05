@@ -1,14 +1,13 @@
-<%@page import="java100.app.domain.Board"%>
+<%@page import="java100.app.domain.Member"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
 <head>
-<title>게시판</title>
+<title>회원관리</title>
 <link rel='stylesheet' href='../../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../../css/common.css'>
 </head>
@@ -17,26 +16,25 @@
 
 <jsp:include page="../header.jsp"/>
 
-<h1>게시물 목록</h1>
+<h1>회원 목록</h1>
 
 <jsp:include page="../listToolbar.jsp"/>
 
 <table class='table table-hover'>
 <thead>
 <tr>
-<th>번호</th><th>제목</th><th>등록일</th><th>조회수</th><th>작성자</th>
+<th>번호</th><th>이름</th><th>이메일</th><th>가입일</th>
 </tr>
 </thead>
 <tbody>
 
-<c:forEach items="${list}" var="board">
+<c:forEach items="${list}" var="member">
+
         <tr>
-        <td>${board.no}</td>
-        <td><a href='${board.no}'>${fn:substring(board.title, 0, 20)}
-        ${(fn:length(board.title) > 20) ? '...' : ''}</a></td>
-        <td>${board.regDate}</td>
-        <td>${board.viewCount}</td>
-        <td>${board.writer.name}</td>
+        <td>${member.no}</td>
+        <td><a href='${member.no}'>${member.name}</a></td>
+        <td>${member.email}</td>
+        <td>${member.createdDate}</td>
         </tr>
 </c:forEach>
 
