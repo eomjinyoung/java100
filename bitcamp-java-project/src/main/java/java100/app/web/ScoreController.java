@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.service.ScoreService;
 
@@ -18,7 +17,6 @@ import java100.app.service.ScoreService;
 public class ScoreController {
     
     @Autowired ScoreService scoreService;
-    @Autowired ScoreDao scoreDao;
     
     @RequestMapping("list")
     public String list(
@@ -61,7 +59,7 @@ public class ScoreController {
     @RequestMapping("{no}")
     public String view(@PathVariable int no, Model model) throws Exception {
         
-        model.addAttribute("score", scoreDao.findByNo(no));
+        model.addAttribute("score", scoreService.get(no));
         return "score/view";        
     }
 
@@ -73,21 +71,21 @@ public class ScoreController {
     @RequestMapping("add")
     public String add(Score score) throws Exception {
         
-        scoreDao.insert(score);
+        scoreService.add(score);
         return "redirect:list";
     }
     
     @RequestMapping("update")
     public String update(Score score) throws Exception {
         
-        scoreDao.update(score);
+        scoreService.update(score);
         return "redirect:list";
     }
 
     @RequestMapping("delete")
     public String delete(int no) throws Exception {
         
-        scoreDao.delete(no);
+        scoreService.delete(no);
         return "redirect:list";
     }
 }

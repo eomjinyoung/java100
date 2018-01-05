@@ -32,8 +32,7 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Score get(int no) {
-        // TODO Auto-generated method stub
-        return null;
+        return scoreDao.findByNo(no);
     }
     
     @Override
@@ -43,20 +42,17 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public int add(Score score) {
-        // TODO Auto-generated method stub
-        return 0;
+        return scoreDao.insert(score);
     }
 
     @Override
     public int update(Score score) {
-        // TODO Auto-generated method stub
-        return 0;
+        return scoreDao.update(score);
     }
 
     @Override
     public int delete(int no) {
-        // TODO Auto-generated method stub
-        return 0;
+        return scoreDao.delete(no);
     }
 
 }
