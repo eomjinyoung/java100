@@ -81,6 +81,9 @@ dependencies {
     // 스프링 JDBC 관련 라이브러리
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE'
     
+    // Spring AOP 관련 라이브러리
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
+    
     compile 'com.google.guava:guava:22.0'
     
     testCompile 'junit:junit:4.12'

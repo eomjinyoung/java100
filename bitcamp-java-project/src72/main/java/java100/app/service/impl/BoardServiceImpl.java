@@ -57,7 +57,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int add(Board board) {
-        
         // insert를 하기 전에는 board의 no 프로퍼티 값은 0이다.
         // insert를 한 후에는 no 프로퍼티에 DB에서 생성한 값이 저장된다.
         int count = boardDao.insert(board);
