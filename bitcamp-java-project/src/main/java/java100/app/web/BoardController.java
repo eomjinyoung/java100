@@ -2,6 +2,7 @@ package java100.app.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java100.app.domain.Board;
 import java100.app.domain.Member;
+import java100.app.domain.UploadFile;
 import java100.app.service.BoardService;
 
 @Controller
@@ -88,14 +90,22 @@ public class BoardController {
         // 업로드 파일을 저장할 폴더 위치를 가져온다.
         String uploadDir = servletContext.getRealPath("/download");
 
-        // 
+        // 업로드 파일 정보를 저장할 List 객체 준비
+        ArrayList<UploadFile> uploadFiles = new ArrayList<>();
+        
+        // 클라이언트가 보낸 파일을 저장하고, 
+        // 그 파일명(저장할 때 사용한 파일명)을 목록에 추가한다.
         for (MultipartFile part : file) {
             if (part.isEmpty())
                 continue;
             
             String filename = this.writeUploadFile(part, uploadDir);
-            System.out.println(filename);
+            
+            uploadFiles.add(new UploadFile(filename));
         }
+        
+        // Board 객체에 저장한 파일명을 등록한다. 
+        board.setFiles(uploadFiles);
 
         Member writer = new Member();
         writer.setNo(12);
@@ -104,7 +114,6 @@ public class BoardController {
         board.setWriter(writer);
         
         boardService.add(board);
-
         
         return "redirect:list";
     }
