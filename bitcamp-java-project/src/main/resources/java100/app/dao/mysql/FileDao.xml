@@ -18,6 +18,10 @@
         values(#{filename}, #{boardNo})
     </insert>
 
+    <delete id="deleteAllByBoardNo" parameterType="int">
+        delete from ex_file
+        where bno=#{value}
+    </delete>
 
 </mapper>  
 

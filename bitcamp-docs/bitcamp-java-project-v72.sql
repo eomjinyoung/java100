@@ -68,6 +68,11 @@ from
     left join ex_file as f on b.no=f.bno
 where b.no=32;  
   
+/* ex_file 테이블에 Cascade 기능을 적용하기 */
+/* => 먼저 forein key에 대한 constraint 이름을 알아낸다.*/
+show create table ex_file;
+
+alter table ex_file
   
   
   

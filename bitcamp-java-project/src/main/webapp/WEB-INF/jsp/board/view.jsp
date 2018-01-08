@@ -18,7 +18,8 @@
 <h1>게시물 상세정보</h1>
 
 <c:if test="${not empty board}">
-        <form action='update' method='post'>
+        <form action='update' method='post' enctype="multipart/form-data">
+        
         <div class='form-group row'>
         <label for='no' class='col-sm-2 col-form-label'>번호</label>
         <div class='col-sm-10'>
@@ -64,6 +65,27 @@
         </c:forEach>
         </div>
         </div>
+        
+        <div class='form-group row'>
+		<label for='file1' class='col-sm-2 col-form-label'>파일1</label>
+		<div class='col-sm-10'>
+		<input type="file" class="form-control-file" id="file1" name="file">
+		</div>
+		</div>
+		
+		<div class='form-group row'>
+		<label for='file2' class='col-sm-2 col-form-label'>파일2</label>
+		<div class='col-sm-10'>
+		<input type="file" class="form-control-file" id="file2" name="file">
+		</div>
+		</div>
+		
+		<div class='form-group row'>
+		<label for='file3' class='col-sm-2 col-form-label'>파일3</label>
+		<div class='col-sm-10'>
+		<input type="file" class="form-control-file" id="file3" name="file">
+		</div>
+		</div>
         
         <div class='form-group row'>
         <div class='col-sm-10'>
