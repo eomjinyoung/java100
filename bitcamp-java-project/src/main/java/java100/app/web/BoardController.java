@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,8 +85,8 @@ public class BoardController {
     @RequestMapping("add")
     public String add(
             Board board,
-            MultipartFile[] file/*,
-            @ModelAttribute(value="loginUser") Member loginUser*/) throws Exception {
+            MultipartFile[] file,
+            @ModelAttribute(value="loginUser") Member loginUser) throws Exception {
         
         // 업로드 파일을 저장할 폴더 위치를 가져온다.
         String uploadDir = servletContext.getRealPath("/download");
@@ -107,11 +108,8 @@ public class BoardController {
         // Board 객체에 저장한 파일명을 등록한다. 
         board.setFiles(uploadFiles);
 
-        Member writer = new Member();
-        writer.setNo(12);
-        writer.setName("임꺽정");
-        
-        board.setWriter(writer);
+        // 게시글 작성자는 로그인 사용자이다. 
+        board.setWriter(loginUser);
         
         boardService.add(board);
         
@@ -143,10 +141,6 @@ public class BoardController {
         // Board 객체에 저장한 파일명을 등록한다. 
         board.setFiles(uploadFiles);
 
-        Member writer = new Member();
-        writer.setNo(12);
-        writer.setName("임꺽정");
-        
         boardService.update(board);
         
         return "redirect:list";

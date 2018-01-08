@@ -69,12 +69,16 @@ from
 where b.no=32;  
   
 /* ex_file 테이블에 Cascade 기능을 적용하기 */
-/* => 먼저 forein key에 대한 constraint 이름을 알아낸다.*/
+/* => 먼저 foreign key에 대한 constraint 이름을 알아낸다.*/
 show create table ex_file;
 
+/* => 기존의 등록된 외부키 constraint를 제거한다. */
 alter table ex_file
-  
-  
+  drop foreign key ex_file_ibfk_1;
+
+/* => cascade 기능이 추가된 외부키 constaint를 등록한다.*/
+alter table ex_file
+  add constraint foreign key (bno) references ex_board(no) on delete cascade;
   
   
   
