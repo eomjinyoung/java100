@@ -11,6 +11,22 @@
 - 이 테이블에 게시글 번호를 저장할 외부키 컬럼을 선언한다.
 - "bitcamp-java-docs/bitcamp-java-project-v72.sql" 참조하라.
 
+### 입력폼에 파일 항목을 추가한다.
+- <input type="file"> 추가
+- <form>의 enctype 속성 값을 "multipart/form-data"로 변경
+
+### 파일 업로드 관련 객체를 스프링 설정 파일에 등록한다.
+- dispatch-servlet.xml 에 multipartResolver 객체를 추가한다.
+
+### 파일 업로드 관련 의존 라이브러리를 설정한다.
+- build.gradle 파일에 의존 라이브러리 정보를 등록한다.
+- mvnrepository.com에서 "commons-fileupload"을 검색한다.
+- build.gradle 파일에 추가한 후 "gradle eclipse"를 실행한다.
+- 프로젝트를 "refresh" 한다.
+
+### 페이지 컨트롤러에서 업로드 파일을 받는다.
+- 
+
 ### 업로드 파일 정보를 저장할 도메인 클래스를 만든다.
 - java100.app.domain.UploadFile 클래스 작성
 

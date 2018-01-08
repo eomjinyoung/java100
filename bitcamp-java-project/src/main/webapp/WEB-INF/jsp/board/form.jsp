@@ -16,7 +16,7 @@
 
 <h1>새 게시물</h1>
 
-<form action="add" method='post'>
+<form action="add" method='post' enctype="multipart/form-data">
 
 <div class='form-group row'>
 <label for='title' class='col-sm-2 col-form-label'>제목</label>
