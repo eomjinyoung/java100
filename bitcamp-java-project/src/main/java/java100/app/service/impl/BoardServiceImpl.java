@@ -36,7 +36,18 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board get(int no) {
         boardDao.updateViewCount(no);
-        return boardDao.findByNo(no);
+        
+        // 게시물의 첨부 파일 정보를 가져올 때 
+        // 방법1: 
+        // => 따로 따로 가져오기 
+        //Board board = boardDao.findByNo(no);
+        //board.setFiles(fileDao.findByBoardNo(no));
+        
+        // 방법2:
+        // => board 객체에 묶어서 가져오기
+        Board board = boardDao.findByNo2(no);
+        
+        return board;
     }
     
     @Override
@@ -46,11 +57,15 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int add(Board board) {
+        // insert를 하기 전에는 board의 no 프로퍼티 값은 0이다.
+        // insert를 한 후에는 no 프로퍼티에 DB에서 생성한 값이 저장된다.
         int count = boardDao.insert(board);
         
         List<UploadFile> files = board.getFiles();
         
         for (UploadFile file : files) {
+            // 파일 정보를 insert 하기 전에 게실물 no를 설정한다.
+            file.setBoardNo(board.getNo());
             fileDao.insert(file);
         }
         

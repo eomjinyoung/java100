@@ -19,6 +19,60 @@ alter table ex_file
 alter table ex_file
   add constraint foreign key (bno) references ex_board(no);
 
+
+/* ex_board 와 ex_file 테이블의 데이터를 조인하여 가져오기 */
+
+/* => 게시물 데이터만 가져오기 */ 
+select no, title, conts, regdt, vwcnt, mno
+from ex_board
+where no=32;
+
+/* => 게시물 작성자의 데이터만 가져오기 */
+select no, name, email
+from ex_memb
+where no=12;
+  
+/* => 게시물 첨부파일 데이터만 가져오기 */
+select no, filename
+from ex_file
+where bno=32;
+  
+/* => 게시물 데이터와 작성자 데이터 조인하기 */
+select 
+    b.no, 
+    b.title, 
+    b.conts, 
+    b.regdt, 
+    b.vwcnt, 
+    m.no, 
+    m.name, 
+    m.email
+from ex_board as b join ex_memb as m on b.mno=m.no
+where b.no=32;  
+  
+/* => 게시물 데이터와 작성자 데이터와 파일 데이터 조인하기 */
+select 
+    b.no, 
+    b.title, 
+    b.conts, 
+    b.regdt, 
+    b.vwcnt, 
+    m.no, 
+    m.name, 
+    m.email,
+    f.no,
+    f.filename
+from 
+    ex_board as b 
+    join ex_memb as m on b.mno=m.no
+    left join ex_file as f on b.no=f.bno
+where b.no=32;  
+  
+  
+  
+  
+  
+  
   
   
   

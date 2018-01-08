@@ -47,6 +47,7 @@
                 value='${board.regDate}'>
         </div>
         </div>
+        
         <div class='form-group row'>
         <label for='viewcnt' class='col-sm-2 col-form-label'>조회수</label>
         <div class='col-sm-10'>
@@ -54,6 +55,16 @@
                 value='${board.viewCount}'>
         </div>
         </div>
+        
+        <div class='form-group row'>
+        <label class='col-sm-2 col-form-label'>첨부파일</label>
+        <div class='col-sm-10'>
+        <c:forEach items="${board.files}" var="file">
+          <a href="${contextPath}/download/${file.filename}">${file.filename}</a><br>
+        </c:forEach>
+        </div>
+        </div>
+        
         <div class='form-group row'>
         <div class='col-sm-10'>
         <button class='btn btn-primary btn-sm'>변경</button>
