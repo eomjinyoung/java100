@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java100.app.dao.BoardDao;
 import java100.app.dao.FileDao;
@@ -56,19 +58,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
     public int add(Board board) {
         
         // insert를 하기 전에는 board의 no 프로퍼티 값은 0이다.
         // insert를 한 후에는 no 프로퍼티에 DB에서 생성한 값이 저장된다.
         int count = boardDao.insert(board);
-        
-        List<UploadFile> files = board.getFiles();
-        
-        for (UploadFile file : files) {
-            // 파일 정보를 insert 하기 전에 게실물 no를 설정한다.
-            file.setBoardNo(board.getNo());
-            fileDao.insert(file);
-        }
         
         return count;
     }
@@ -82,13 +77,8 @@ public class BoardServiceImpl implements BoardService {
         fileDao.deleteAllByBoardNo(board.getNo());
         
         // 다시 게시물 첨부파일을 저장한다.
-        List<UploadFile> files = board.getFiles();
+        addFiles(board.getFiles(), board.getNo());
         
-        for (UploadFile file : files) {
-            // 파일 정보를 insert 하기 전에 게실물 no를 설정한다.
-            file.setBoardNo(board.getNo());
-            fileDao.insert(file);
-        }
         return count;
     }
 
@@ -103,6 +93,16 @@ public class BoardServiceImpl implements BoardService {
         //fileDao.deleteAllByBoardNo(no);
         
         return boardDao.delete(no);
+    }
+    
+    @Override
+    @Transactional
+    public void addFiles(List<UploadFile> files, int boardNo) {
+        for (UploadFile file : files) {
+            // 파일 정보를 insert 하기 전에 게실물 no를 설정한다.
+            //file.setBoardNo(boardNo);
+            fileDao.insert(file);
+        }
     }
 
 }

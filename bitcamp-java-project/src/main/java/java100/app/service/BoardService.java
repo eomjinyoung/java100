@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import java100.app.domain.Board;
+import java100.app.domain.UploadFile;
 
 //=> "역할"을 강조할 때는 "객체(object)"라는 말보다는 
 //"컴포넌트(component)"라는 말을 사용한다.
@@ -21,6 +22,7 @@ public interface BoardService {
     int add(Board score);
     int update(Board score);
     int delete(int no);
+    void addFiles(List<UploadFile> files, int boardNo);
 }
 
 

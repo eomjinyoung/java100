@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,6 +83,7 @@ public class BoardController {
         
     }
     
+    @Transactional
     @RequestMapping("add")
     public String add(
             Board board,
@@ -111,7 +113,11 @@ public class BoardController {
         // 게시글 작성자는 로그인 사용자이다. 
         board.setWriter(loginUser);
         
+        // 게시글 등록
         boardService.add(board);
+        
+        // 첨부파일 등록
+        boardService.addFiles(board.getFiles(), board.getNo());
         
         return "redirect:list";
     }
