@@ -11,3 +11,18 @@
 - 도서 정보 변경
   - 도서명, 출판사, 출판일, 가격, 설명, 사진 
 - 도서 정보 삭제
+
+## 작업 순서
+
+### 도서관리에 사용할 테이블 작성
+- book.sql
+
+### 프로젝트 폴더 준비
+- "gradle init --type java-application" 실행
+- src/main/resources 폴더 생성
+- src/main/webapp 폴더 생성
+- src/test/resources 폴더 생성
+- 기존 build.gradle 파일을 가져오기 
+
+
+
