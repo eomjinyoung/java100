@@ -14,5 +14,6 @@
 *.project
 *.DS_Store
 **/ch2/
+**/html/
 package-lock.json
 !build.gradle
