@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class SelectStudent {
+    static String[] names = {"오세현", "김이든", "윤효진"};
     /*
     static String[] names = {
         "김석희", "황지은", "정소현", "오세현", "강성현", "김이든",
@@ -22,7 +23,7 @@ public class SelectStudent {
             "조인성", "서정혁"};
     */
     
-    static String[] names = {"김다솔", "강성현", "송우정"};
+    //static String[] names = {"김다솔", "강성현", "송우정"};
     
     public static void main(String[] args) throws Exception {
         ArrayList<String> list = new ArrayList<>();
@@ -36,7 +37,7 @@ public class SelectStudent {
         }
         
         
-        while (list.size() > 0) {
+        //while (list.size() > 0) {
             
             for (int i = 0; i < 10; i++) {
                 Thread.sleep(1000);
@@ -46,6 +47,7 @@ public class SelectStudent {
             int no = (int)(Math.random() * list.size());
             System.out.print(list.remove(no));
             
+            /*
             for (int i = 0; i < 10; i++) {
                 Thread.sleep(1000);
                 System.out.print("=");
@@ -55,6 +57,7 @@ public class SelectStudent {
             no = (int)(Math.random() * teamNoList.size());
             System.out.print(teamNoList.remove(no));
             System.out.println();
-        }
+            */
+        //}
     }
 }
