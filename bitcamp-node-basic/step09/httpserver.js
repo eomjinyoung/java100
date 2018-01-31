@@ -13,7 +13,10 @@ const server = http.createServer(function(req, resp) {
             'Access-Control-Allow-Origin': '*'
         });
     resp.write('hello!');
-    resp.end();
+    
+    setTimeout(function() {
+        resp.end();
+    }, 3000);
 });
 
 // 3) 서버 실행
