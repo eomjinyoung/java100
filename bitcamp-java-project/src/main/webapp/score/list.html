@@ -131,7 +131,7 @@ function load(pageNo, options) {
             var tr = document.createElement('tr');
             tr.innerHTML =  
                 "<td>" + data.no + "</td>" + 
-                "<td><a href='" + data.no + "'>" + data.name + "</a></td>" + 
+                "<td><a href='form.html?no=" + data.no + "'>" + data.name + "</a></td>" + 
                 "<td>" + data.sum + "</td>" +
                 "<td>" + data.aver + "</td>";
             tbody.appendChild(tr);

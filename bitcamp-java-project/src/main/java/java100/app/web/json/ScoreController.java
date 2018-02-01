@@ -3,7 +3,6 @@ package java100.app.web.json;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,10 +58,12 @@ public class ScoreController {
     }
     
     @RequestMapping("{no}")
-    public String view(@PathVariable int no, Model model) throws Exception {
+    public Object view(@PathVariable int no) throws Exception {
         
-        model.addAttribute("score", scoreService.get(no));
-        return "score/view";        
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("data", scoreService.get(no));
+        
+        return result;        
     }
 
     @RequestMapping("add")
