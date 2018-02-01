@@ -65,16 +65,15 @@ public class ScoreController {
         return "score/view";        
     }
 
-    @RequestMapping("form")
-    public String form() throws Exception {
-        return "score/form";
-    }
-
     @RequestMapping("add")
-    public String add(Score score) throws Exception {
+    public Object add(Score score) throws Exception {
         
         scoreService.add(score);
-        return "redirect:list";
+        
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("status", "success");
+        
+        return result;
     }
     
     @RequestMapping("update")

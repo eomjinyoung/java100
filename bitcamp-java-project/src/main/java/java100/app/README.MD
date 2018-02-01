@@ -30,6 +30,7 @@
 
 #### 데이터를 받아서 출력할 HTML 페이지를 만든다.
 - /webapp/score/list.html
+- /webapp/score/form.html
 
 
 
