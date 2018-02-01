@@ -66,15 +66,14 @@
 
 <nav aria-label="Page navigation">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled"><a class="page-link" 
-        href="list?pn=0"
-        tabindex="-1">이전</a></li>
+    <li class="page-item">
+        <a id="prevBtn" class="page-link" tabindex="-1">이전</a></li>
         
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item">
+        <a class="page-link" href="#">1</a></li>
     
-    <li class="page-item "><a class="page-link" 
-        href="list?pn=2"
-        tabindex="0">다음</a></li>
+    <li class="page-item ">
+        <a id="nextBtn" class="page-link" tabindex="0">다음</a></li>
   </ul>
 </nav>
 
@@ -88,12 +87,24 @@
 <script src='/bitcamp-java-project/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
 
 <script type="text/javascript">
+var prevBtn = document.querySelector('#prevBtn');
+var nextBtn = document.querySelector('#nextBtn');
+var currPageNo = 1;
 
 // 서버에서 목록 데이터를 가져온다.
-load();
+load(1);
 
 
-function load() {
+prevBtn.onclick = function() {
+    load(currPageNo - 1)
+};
+
+nextBtn.onclick = function() {
+    load(currPageNo + 1)
+};
+
+
+function load(pageNo) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState < 4) return;
@@ -105,6 +116,8 @@ function load() {
         var tbody = document.querySelector('#list > tbody');
         var result = JSON.parse(xhr.responseText);
         
+        tbody.innerHTML = ""; // <tbody> 콘텐츠를 지운다.
+        
         for (var data of result.list) {
             var tr = document.createElement('tr');
             tr.innerHTML =  
@@ -114,9 +127,25 @@ function load() {
                 "<td>" + data.aver + "</td>";
             tbody.appendChild(tr);
         }
+        
+        currPageNo = result.pageNo;
+        
+        if (result.pageNo == 1) {
+            prevBtn.parentNode.className += " disabled";
+        } else {
+            prevBtn.parentNode.className = 
+                prevBtn.parentNode.className.replace(/disabled/i, "");
+        }
+        
+        if (result.lastPageNo == result.pageNo) {
+            nextBtn.parentNode.className += " disabled"
+        } else {
+            nextBtn.parentNode.className = 
+                nextBtn.parentNode.className.replace(/disabled/i, "");
+        }
     };
     
-    xhr.open('GET', '../json/score/list', true);
+    xhr.open('GET', '../json/score/list?pn=' + pageNo, true);
     xhr.send(); 
 }
 </script>
