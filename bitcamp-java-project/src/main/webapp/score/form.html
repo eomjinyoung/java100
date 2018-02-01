@@ -109,6 +109,8 @@
 
 <script type="text/javascript">
 var addBtn = document.querySelector('#addBtn'),
+    updateBtn = document.querySelector('#updateBtn'),
+    deleteBtn = document.querySelector('#deleteBtn'),
     noItem = document.querySelector('#no'),
     nameItem = document.querySelector('#name'),
     korItem = document.querySelector('#kor'),
@@ -155,6 +157,45 @@ addBtn.onclick = function() {
         eng: engItem.value,
         math: mathItem.value
     }));
+}
+
+updateBtn.onclick = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status != 200) {
+            window.alert('서버 실행 오류!');
+            return;
+        }
+        
+        location.href = "list.html";
+    };
+    
+    xhr.open('POST', '../json/score/update', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(toQueryString({
+        no: noItem.value,
+        name: nameItem.value,
+        kor: korItem.value,
+        eng: engItem.value,
+        math: mathItem.value
+    }));
+}
+
+deleteBtn.onclick = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status != 200) {
+            window.alert('서버 실행 오류!');
+            return;
+        }
+        
+        location.href = "list.html";
+    };
+    
+    xhr.open('GET', '../json/score/delete?no=' + noItem.value, true);
+    xhr.send();
 }
 
 function toQueryString(obj) {

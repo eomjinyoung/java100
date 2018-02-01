@@ -70,7 +70,7 @@
         <a id="prevBtn" class="page-link" tabindex="-1">이전</a></li>
         
     <li class="page-item">
-        <a class="page-link" href="#">1</a></li>
+        <a id="currBtn" class="page-link" href="#">1</a></li>
     
     <li class="page-item ">
         <a id="nextBtn" class="page-link" tabindex="0">다음</a></li>
@@ -90,6 +90,7 @@
 var words = document.querySelector('#words'),
     searchBtn = document.querySelector('#searchBtn'),
     prevBtn = document.querySelector('#prevBtn'),
+    currBtn = document.querySelector('#currBtn'),
     nextBtn = document.querySelector('#nextBtn'),
     currPageNo = 1;
 
@@ -138,6 +139,7 @@ function load(pageNo, options) {
         }
         
         currPageNo = result.pageNo;
+        currBtn.innerHTML = currPageNo;
         
         if (result.pageNo == 1) {
             prevBtn.parentNode.className += " disabled";

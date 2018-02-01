@@ -78,17 +78,25 @@ public class ScoreController {
     }
     
     @RequestMapping("update")
-    public String update(Score score) throws Exception {
+    public Object update(Score score) throws Exception {
         
         scoreService.update(score);
-        return "redirect:list";
+        
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("status", "success");
+        
+        return result;
     }
 
     @RequestMapping("delete")
-    public String delete(int no) throws Exception {
+    public Object delete(int no) throws Exception {
         
         scoreService.delete(no);
-        return "redirect:list";
+        
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("status", "success");
+        
+        return result;
     }
 }
 
