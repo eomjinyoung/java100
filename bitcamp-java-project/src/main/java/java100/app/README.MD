@@ -11,6 +11,27 @@
 ### 작업 목록
 
 #### JSON 결과를 리턴할 페이지 컨트롤러를 분리한다.
+- web.xml 에 프론트 컨트롤러를 추가한다.
+- 프론트 컨트롤러가 사용할 스프링 설정 파일을 추가한다.
+  - app-servlet.xml (기존의 dispatch-servlet.xml의 이름을 바꾼 것이다.)
+  - json-servlet.xml
+- app-servlet.xml에서 JSON 관련 페이지 컨트롤러 생성을 제외한다.
+- json-servlet.xml에서는 app관련 페이지 컨트롤러 생성을 제외한다.
+
+#### 여러 프론트 컨트롤러들이 공유할 객체는 별도의 컨테이너로 분리한다.
+- web.xml에 ContextLoaderListener를 추가한다.
+- ContextLoaderListener가 사용할 스프링 설정 파일을 만든다.
+  - application-servlet.xml 파일을 추가한다.
+  - Service, DAO 등 웹 이외의 공통 객체를 이 컨테이너에서 관리한다.
+
+
+
+
+
+
+
+
+
 
 
 
