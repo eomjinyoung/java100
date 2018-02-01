@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<button id="btn">비동기 요청</button><br>
+<button id="btn">비동기 POST 요청</button><br>
 
 <script type="text/javascript">
 
@@ -28,8 +28,14 @@ btn.onclick = function() {
 	    console.log(xhr.responseText);	    
 	};
 	
-	xhr.open('GET', 'http://localhost:8888/okok?name=aaa&age=20&working=true', true);
-	xhr.send();   
+	xhr.open('POST', 'http://localhost:8888/okok', true);
+	
+	// POST 요청일 때 서버에 보내는 콘텐츠 타입을 헤더에 추가해야 한다.
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	
+	// GET 요청은 URL 뒤에 데이터를 붙여 보내지만,
+	// POST 요청은 send() 메서드의 파라미터로 보낸다.
+	xhr.send("name=aaa&age=20&working=true");   
 }
 
 </script>
