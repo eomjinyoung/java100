@@ -24,9 +24,12 @@
   - application-servlet.xml 파일을 추가한다.
   - Service, DAO 등 웹 이외의 공통 객체를 이 컨테이너에서 관리한다.
 
+#### JSON 결과를 리턴하는 페이지 컨트롤러를 만든다.
+- 기존의 컨트롤러를 복사하여 @RestController로 만든다.
+- 요청 핸들러는 jsp url을 리턴하는 대신 DBMS에서 가져온 데이터 객체를 리턴한다.
 
-
-
+#### 데이터를 받아서 출력할 HTML 페이지를 만든다.
+- /webapp/score/list.html
 
 
 
