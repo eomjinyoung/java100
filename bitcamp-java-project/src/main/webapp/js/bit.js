@@ -37,12 +37,16 @@ bit.ajax = (url, settings) => {
         }
     };
     
-    xhr.open(settings.method, url, true);
     if (settings.method.toUpperCase() == 'POST') {
+        xhr.open(settings.method, url, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send(bit.toQueryString(settings.data));
         
     } else { // GET, HEAD 요청
+        xhr.open(
+            settings.method, 
+            url + '?' + bit.toQueryString(settings.data), 
+            true);
         xhr.send();
     }
 };

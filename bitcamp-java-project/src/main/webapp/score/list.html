@@ -118,8 +118,12 @@ nextBtn.onclick = function() {
 
 function load(pageNo, options) {
     
-    bit.ajax('../json/score/list?' + bit.toQueryString(options), {
+    if (options == undefined) options = {};
+    options.pn = pageNo;
+    
+    bit.ajax('../json/score/list', {
         /*method: 'GET',*/
+        data: options,
         dataType: 'json',
         success: (result) => {
             tbody.innerHTML = ""; // <tbody> 콘텐츠를 지운다.
