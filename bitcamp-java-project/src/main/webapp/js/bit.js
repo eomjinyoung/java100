@@ -1,5 +1,86 @@
 //bit.js
-var bit = {};
+var bit = (selector) => {
+    var el;
+    
+    if (typeof(selector) == 'function') {
+        return selector();
+    } else if (selector instanceof HTMLElement) {
+        el = [selector];
+    } else if (selector.indexOf('<') != -1) {
+        el = [document.createElement(selector.substr(1, selector.length - 2))];
+    } else {
+        el = document.querySelectorAll(selector);
+    }
+    
+    // 준비한 엘리먼트에 도우미 함수를 추가한다.
+    el.html = (value) => {
+        for (var i = 0; i < el.length; i++) {
+            el[i].innerHTML = value;
+        }
+        return el;
+    };
+    
+    el.click = (cb) => {
+        for (var i = 0; i < el.length; i++) {
+            el[i].onclick = cb;
+        }
+        return el;
+    };
+    
+    el.append = (childs) => {
+        for (var i = 0; i < childs.length; i++) {
+            el[el.length - 1].appendChild(childs[i]);
+        }
+        return el;
+    };
+    
+    el.appendTo = (parents) => {
+        for (var i = 0; i < el.length; i++) {
+            parents[parents.length - 1].appendChild(el[i]);
+        }
+        return el;
+    };
+    
+    el.addClass = (classname) => {
+        for (var i = 0; i < el.length; i++) {
+            var arr = el[i].className.split(" ");
+            arr.push(classname);
+            el[i].className = arr.join(' ');
+        }
+        return el;
+    };
+    
+    el.removeClass = (classname) => {
+        for (var i = 0; i < el.length; i++) {
+            el[i].className = el[i].className.split(classname).join(' ');
+        }
+        return el;
+    };
+    
+    el.css = (name, value) => {
+        for (var i = 0; i < el.length; i++) {
+            el[i].style[name] = value;
+        }
+        return el;
+    };
+    
+    el.parent = () => {
+        return el[0].parentNode;
+    };
+    
+    el.val = (value) => {
+        if (value == undefined) {
+            return el[0].value;
+        }
+        
+        for (var i = 0; i < el.length; i++) {
+            el[i].value = value;
+        }
+        return el;
+    };
+    
+    return el;
+};
 
 bit.toQueryString = (obj) => {
     var qs = '';
@@ -52,9 +133,7 @@ bit.ajax = (url, settings) => {
 };
 
 
-
-
-
+var $ = bit;
 
 
 

@@ -88,32 +88,31 @@
 <script src='../js/bit.js'></script>
 
 <script type="text/javascript">
-var words = document.querySelector('#words'),
-    searchBtn = document.querySelector('#searchBtn'),
-    prevBtn = document.querySelector('#prevBtn'),
-    currBtn = document.querySelector('#currBtn'),
-    nextBtn = document.querySelector('#nextBtn'),
-    tbody = document.querySelector('#list > tbody'),
+var words = $('#words'),
+    searchBtn = $('#searchBtn'),
+    prevBtn = $('#prevBtn'),
+    currBtn = $('#currBtn'),
+    nextBtn = $('#nextBtn'),
+    tbody = $('#list > tbody'),
     currPageNo = 1;
 
 // 서버에서 목록 데이터를 가져온다.
 load(1);
 
-searchBtn.onclick = function(event) {
+searchBtn.click(() => {
     //event.preventDefault();
-    
     load(1, {
         "words": words.value
     })
-};
+});
 
-prevBtn.onclick = function() {
+prevBtn.click(() => {
     load(currPageNo - 1)
-};
+});
 
-nextBtn.onclick = function() {
+nextBtn.click(() => {
     load(currPageNo + 1)
-};
+});
 
 
 function load(pageNo, options) {
@@ -121,38 +120,37 @@ function load(pageNo, options) {
     if (options == undefined) options = {};
     options.pn = pageNo;
     
-    bit.ajax('../json/score/list', {
+    $.ajax('../json/score/list', {
         /*method: 'GET',*/
         data: options,
         dataType: 'json',
         success: (result) => {
-            tbody.innerHTML = ""; // <tbody> 콘텐츠를 지운다.
+            
+            tbody.html(""); // <tbody> 콘텐츠를 지운다.
             
             for (var data of result.list) {
-                var tr = document.createElement('tr');
-                tr.innerHTML =  
-                    "<td>" + data.no + "</td>" + 
-                    "<td><a href='form.html?no=" + data.no + "'>" + data.name + "</a></td>" + 
-                    "<td>" + data.sum + "</td>" +
-                    "<td>" + data.aver + "</td>";
-                tbody.appendChild(tr);
+                $('<tr>')
+                    .html(  
+	                    "<td>" + data.no + "</td>" + 
+	                    "<td><a href='form.html?no=" + data.no + "'>" + data.name + "</a></td>" + 
+	                    "<td>" + data.sum + "</td>" +
+	                    "<td>" + data.aver + "</td>")
+                    .appendTo(tbody);
             }
             
             currPageNo = result.pageNo;
-            currBtn.innerHTML = currPageNo;
+            currBtn.html(currPageNo);
             
             if (result.pageNo == 1) {
-                prevBtn.parentNode.className += " disabled";
+                $(prevBtn.parent()).addClass("disabled");
             } else {
-                prevBtn.parentNode.className = 
-                    prevBtn.parentNode.className.replace(/disabled/i, "");
+                $(prevBtn.parent()).removeClass("disabled");
             }
             
             if (result.lastPageNo == result.pageNo) {
-                nextBtn.parentNode.className += " disabled"
+                $(nextBtn.parent()).addClass("disabled");
             } else {
-                nextBtn.parentNode.className = 
-                    nextBtn.parentNode.className.replace(/disabled/i, "");
+                $(nextBtn.parent()).removeClass("disabled");
             }
         },
         error: () => {
