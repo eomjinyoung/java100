@@ -12,7 +12,7 @@
 <header>
 <nav class='navbar navbar-expand-lg navbar-light bg-light'>
 <a class='navbar-brand' href='../index.html'>
-  <img src='/bitcamp-java-project/images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
+  <img src='../images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
   비트캠프
 </a>
 
@@ -35,7 +35,7 @@
   </li>
 </ul>
 
-홍길동<a href="/bitcamp-java-project/app/auth/logout" 
+홍길동<a href="../app/auth/logout" 
            class='btn btn-light btn-sm'>로그아웃</a>
     </div>
 </nav>
@@ -103,9 +103,10 @@
 </footer>
 </div>
 
-<script src='/bitcamp-java-project/node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='/bitcamp-java-project/node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='/bitcamp-java-project/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../node_modules/jquery/dist/jquery.slim.min.js'></script>
+<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
+<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='../js/bit.js'></script>
 
 <script type="text/javascript">
 var addBtn = document.querySelector('#addBtn'),
@@ -173,7 +174,7 @@ updateBtn.onclick = function() {
     
     xhr.open('POST', '../json/score/update', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toQueryString({
+    xhr.send(bit.toQueryString({
         no: noItem.value,
         name: nameItem.value,
         kor: korItem.value,
@@ -196,16 +197,6 @@ deleteBtn.onclick = function() {
     
     xhr.open('GET', '../json/score/delete?no=' + noItem.value, true);
     xhr.send();
-}
-
-function toQueryString(obj) {
-    var qs = '';
-    for (var propName in obj) {
-        if (qs.length > 0) qs += '&';
-        
-        qs += propName + '=' + obj[propName]
-    }
-    return qs;
 }
 
 function load(no) {
