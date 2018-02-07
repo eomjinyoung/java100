@@ -13,8 +13,8 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:component-scan base-package="java100.app.web">
-        <context:exclude-filter type="aspectj" 
-            expression="java100.app.web.*Controller"/>
+        <context:exclude-filter type="annotation" 
+            expression="org.springframework.web.bind.annotation.RestController"/>
     </context:component-scan>
 
 
@@ -55,9 +55,10 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/auth/**"/>
-            <bean class="java100.app.web.interceptor.JsonAuthInterceptor"/>
+            <bean class="java100.app.web.interceptor.AuthInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+    
 </beans>
 
 
