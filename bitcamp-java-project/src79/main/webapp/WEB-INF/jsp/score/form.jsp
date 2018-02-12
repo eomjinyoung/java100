@@ -60,12 +60,10 @@ var korItem = $('#kor'),
     mathItem = $('#math');
 
 $('#submitBtn').click((event) => {
-    /*
     if (korItem.val() == "" || engItem.val() == "" || mathItem.val() == "") {
         alert("국어, 영어, 수학 점수는 필수 입력 항목입니다!");
         event.preventDefault();
     }
-    */
 });
 
 </script>

@@ -8,8 +8,6 @@
 #### ScoreController.java 변경
 - add() 요청 핸들러에 BindingResult 변수 추가
 
-#### /WEB-INF/jsp/score/form.jsp 변경
-- BindingResult 테스트를 위해 입력 폼에서 국,영,수 값을 검증하는 코드를 주석 처리함.
 
 
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,19 +72,7 @@ public class ScoreController {
     }
 
     @RequestMapping("add")
-    public String add(Score score, BindingResult bindingResult) throws Exception {
-        
-        // 파라미터 값을 모델 객체의 프로퍼티 값으로 변환하는 중에  
-        // 오류가 발생했을 때, 
-        // 그 오류 내용을 받고 싶다면, 
-        // 요청 핸들러가 정상적으로 호출되게 하고 싶다면,
-        // 파라미터 값을 받는 모델 객체의 선언 다음에 BindingResult 변수를 선언하라!
-        // 그리고 다음 코드와 같이 오류 여부를 검사하라!
-        if (bindingResult.hasErrors()) {
-            // 파라미터 값을 변수의 타입으로 변환하는데 오류가 있을 때,
-            // 여기에 작업 코드를 작성하라!
-            System.out.println("파라미터 값을 변환하는 중에 오류 발생!");
-        }
+    public String add(Score score) throws Exception {
         
         scoreService.add(score);
         return "redirect:list";
