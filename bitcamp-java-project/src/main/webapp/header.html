@@ -37,6 +37,8 @@ $.getJSON('../json/auth/loginUser', function(result) {
     }
     
     $('#username').html(result.member.name);
+    
+    $(document.body).trigger('login', {'status': 'success'});
 });
 
 $('#logoutBtn').click(() => {

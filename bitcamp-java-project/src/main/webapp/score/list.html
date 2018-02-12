@@ -79,10 +79,12 @@ var words = $('#words'),
     template1Engine = Handlebars.compile(template1Src);
 
 
-
-$('header').load('../header.html', () => {
-    load(1);
+$(document.body).on('login', (event, obj) => {
+    console.log('로그인 정보 가져오기:', obj.status);
+    load();
 });
+
+$('header').load('../header.html');
 
 $('footer').load('../footer.html');
 
