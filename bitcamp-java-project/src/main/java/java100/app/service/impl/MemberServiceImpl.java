@@ -48,11 +48,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member get(String email) {
         
-        HashMap<String,Object> params = new HashMap<>();
-        params.put("email", email);
-        
-        return memberDao.findByEmail(params);
+        return memberDao.findByEmail(email);
     }
+    
     
     @Override
     public int getTotalCount() {

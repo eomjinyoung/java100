@@ -86,7 +86,7 @@
     </select>
     
     <select id="findByEmail" 
-            resultMap="memberMap" parameterType="map">
+            resultMap="memberMap" parameterType="string">
         <include refid="select1"/>
         from ex_memb
         where email=#{email}

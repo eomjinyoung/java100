@@ -24,7 +24,7 @@ import java100.app.service.MemberService;
 public class LoginController {
     
     @Autowired MemberService memberService;
-    @Autowired FacebookService facebookService; 
+    @Autowired FacebookService facebookService;
     
     @RequestMapping(value="login", method=RequestMethod.GET)
     public String form(Model model) {
@@ -38,7 +38,6 @@ public class LoginController {
             String password,
             String saveEmail,
             HttpServletResponse response,
-            HttpSession session,
             Model model) {
         
         Member member = memberService.get(email, password);
@@ -64,6 +63,39 @@ public class LoginController {
         return "redirect:../score/list";
     }
     
+    @RequestMapping(value="facebookLogin")
+    public String facebookLogin(
+            String accessToken, 
+            HttpServletResponse response,
+            HttpSession session,
+            Model model) {
+        
+        try {
+            @SuppressWarnings("rawtypes")
+            Map result = facebookService.me(accessToken, Map.class);
+            
+            Member member = memberService.get((String)result.get("email"));
+            
+            if (member == null) { // 등록된 회원이 아니면,
+                // 페이스북에서 받은 정보로 회원을 자동 등록한다.
+                member = new Member();
+                member.setName((String)result.get("name"));
+                member.setEmail((String)result.get("email"));
+                member.setPassword("1111");
+                memberService.add(member);
+            }
+            
+            // 회원 정보를 세션에 저장하여 자동 로그인 처리를 한다.
+            model.addAttribute("loginUser", member);
+            
+            return "redirect:../score/list";
+            
+        } catch (Exception e) {
+            // 액세스 토큰이 무효하다면 예외 발생!
+            return "auth/loginfail";
+        }
+    }
+    
     @RequestMapping("logout")
     public String logout(HttpSession session, SessionStatus status) {
         
@@ -76,39 +108,7 @@ public class LoginController {
         return "redirect:login";
     }
     
-    @RequestMapping(value="facebookLogin")
-    public String facebookLogin(
-            String accessToken, 
-            HttpSession session,
-            Model model) {
-        
-        // Facebook에서 사용자 정보를 가져온다.
-        @SuppressWarnings("rawtypes")
-        Map result = facebookService.me(accessToken, Map.class);
-        
-        if (result.get("error") != null) {
-            model.addAttribute("loginUser", null);
-            model.addAttribute("menuVisible", false);
-            return "auth/loginfail";
-        }
-        
-        // 이메일로 회원 정보를 찾는다.
-        Member member = memberService.get((String)result.get("email"));
-        
-        
-        if (member == null) {
-            // 회원 정보가 없으면 페이스북 회원 정보를 등록한다.
-            member = new Member();
-            member.setName((String)result.get("name"));
-            member.setEmail((String)result.get("email"));
-            member.setPassword("1111");
-            memberService.add(member);
-        }
-        
-        model.addAttribute("loginUser", member);
-        
-        return "redirect:../score/list";
-    }    
+    
 }
 
 

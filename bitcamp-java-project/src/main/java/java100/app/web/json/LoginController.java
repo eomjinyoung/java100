@@ -60,6 +60,43 @@ public class LoginController {
         return result;
     }
     
+    @RequestMapping(value="facebookLogin")
+    public Object facebookLogin(
+            String accessToken, 
+            HttpSession session,
+            Model model) {
+        
+    
+        try {
+            @SuppressWarnings("rawtypes")
+            Map userInfo = facebookService.me(accessToken, Map.class);
+            
+            Member member = memberService.get(
+                                (String)userInfo.get("email"));
+            
+            if (member == null) { // 등록된 회원이 아니면,
+                // 페이스북에서 받은 정보로 회원을 자동 등록한다.
+                member = new Member();
+                member.setName((String)userInfo.get("name"));
+                member.setEmail((String)userInfo.get("email"));
+                member.setPassword("1111");
+                memberService.add(member);
+            }
+            
+            // 회원 정보를 세션에 저장하여 자동 로그인 처리를 한다.
+            model.addAttribute("loginUser", member);
+            
+            HashMap<String,Object> result = new HashMap<>();
+            result.put("status", "success");
+            return result;
+            
+        } catch (Exception e) {
+            HashMap<String,Object> result = new HashMap<>();
+            result.put("status", "fail");
+            return result;
+        }
+    }
+    
     @RequestMapping("logout")
     public Object logout(HttpSession session, SessionStatus status) {
         
@@ -91,11 +128,11 @@ public class LoginController {
         return result;
     }
     
-    
+    /*
     @RequestMapping(value="facebookLogin")
     public Object facebookLogin(
             String accessToken, 
-            HttpSession session, /* 세션 객체가 없을 경우 미리 생성할 필요가 있다.*/
+            HttpSession session,
             Model model) {
         
         
@@ -127,7 +164,8 @@ public class LoginController {
         HashMap<String,Object> result = new HashMap<>();
         result.put("status", "success");
         return result;
-    }      
+    }  
+    */    
 }
 
 
