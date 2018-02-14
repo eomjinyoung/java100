@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.client.RestTemplate;
 
 import java100.app.domain.Member;
+import java100.app.service.FacebookService;
 import java100.app.service.MemberService;
 
-@Controller
+//@Controller
 @RequestMapping("/auth")
 @SessionAttributes("loginUser")
-public class LoginController {
+public class LoginController2 {
     
     @Autowired MemberService memberService;
+    @Autowired FacebookService facebookService; 
     
     @RequestMapping(value="login", method=RequestMethod.GET)
     public String form(Model model) {
@@ -37,6 +38,7 @@ public class LoginController {
             String password,
             String saveEmail,
             HttpServletResponse response,
+            HttpSession session,
             Model model) {
         
         Member member = memberService.get(email, password);
@@ -62,47 +64,6 @@ public class LoginController {
         return "redirect:../score/list";
     }
     
-    @RequestMapping(value="facebookLogin")
-    public String facebookLogin(
-            String accessToken, 
-            HttpServletResponse response,
-            HttpSession session,
-            Model model) {
-        
-        System.out.println(accessToken);
-        
-        // 클라이언트가 보낸 액세스 토큰을 가지고 
-        // 페이스북 서버에 로그인 사용자 정보를 요청한다.
-        RestTemplate restTemplate = new RestTemplate();
-        
-        try {
-            @SuppressWarnings("rawtypes")
-            Map result = restTemplate.getForObject(
-                    // 요청할 URL 
-                    // => URL에 들어갈 값이 있다면 중괄호{} 를 사용하여 지정하라.
-                    // => {변수명} 
-                    "https://graph.facebook.com/v2.12/me?access_token={v1}&fields={v2}",
-                    
-                    // 서버에서 받은 값을 어떤 타입의 값으로 리턴할 지 지정하라.
-                    Map.class,
-                    
-                    // URL에 들어갈 값 
-                    // => 객체에 값을 담아서 전달하거나, 값을 순서대로 나열한다.
-                    // => 객체를 전달한다면 프로퍼티명으로 값을 찾아 삽입한다.
-                    // => 값을 나열한다면, 값이 나온 순서대로 삽입한다.
-                    accessToken, "id,name,email");
-            
-            System.out.println(result.get("id"));
-            System.out.println(result.get("name"));
-            System.out.println(result.get("email"));
-            return "redirect:../score/list";
-            
-        } catch (Exception e) {
-            // 액세스 토큰이 무효하다면 예외 발생!
-            return "auth/loginfail";
-        }
-    }
-    
     @RequestMapping("logout")
     public String logout(HttpSession session, SessionStatus status) {
         
@@ -115,7 +76,39 @@ public class LoginController {
         return "redirect:login";
     }
     
-    
+    @RequestMapping(value="facebookLogin")
+    public String facebookLogin(
+            String accessToken, 
+            HttpSession session,
+            Model model) {
+        
+        // Facebook에서 사용자 정보를 가져온다.
+        @SuppressWarnings("rawtypes")
+        Map result = facebookService.me(accessToken, Map.class);
+        
+        if (result.get("error") != null) {
+            model.addAttribute("loginUser", null);
+            model.addAttribute("menuVisible", false);
+            return "auth/loginfail";
+        }
+        
+        // 이메일로 회원 정보를 찾는다.
+        Member member = memberService.get((String)result.get("email"));
+        
+        
+        if (member == null) {
+            // 회원 정보가 없으면 페이스북 회원 정보를 등록한다.
+            member = new Member();
+            member.setName((String)result.get("name"));
+            member.setEmail((String)result.get("email"));
+            member.setPassword("1111");
+            memberService.add(member);
+        }
+        
+        model.addAttribute("loginUser", member);
+        
+        return "redirect:../score/list";
+    }    
 }
 
 
