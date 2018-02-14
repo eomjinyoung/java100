@@ -128,44 +128,6 @@ public class LoginController {
         return result;
     }
     
-    /*
-    @RequestMapping(value="facebookLogin")
-    public Object facebookLogin(
-            String accessToken, 
-            HttpSession session,
-            Model model) {
-        
-        
-        // Facebook에서 사용자 정보를 가져온다.
-        @SuppressWarnings("rawtypes")
-        Map fbResponse = facebookService.me(accessToken, Map.class);
-        
-        if (fbResponse.get("error") != null) {
-            model.addAttribute("loginUser", null);
-            HashMap<String,Object> result = new HashMap<>();
-            result.put("status", "fail"); 
-            return result;
-        }
-        
-        // 이메일로 회원 정보를 찾는다.
-        Member member = memberService.get((String)fbResponse.get("email"));
-        
-        if (member == null) {
-            // 회원 정보가 없으면 페이스북 회원 정보를 등록한다.
-            member = new Member();
-            member.setName((String)fbResponse.get("name"));
-            member.setEmail((String)fbResponse.get("email"));
-            member.setPassword("1111");
-            memberService.add(member);
-        }
-        
-        model.addAttribute("loginUser", member);
-        
-        HashMap<String,Object> result = new HashMap<>();
-        result.put("status", "success");
-        return result;
-    }  
-    */    
 }
 
 
