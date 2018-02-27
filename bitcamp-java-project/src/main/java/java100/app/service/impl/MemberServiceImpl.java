@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired MemberDao memberDao;
     
+    static Logger logger = Logger.getLogger(MemberServiceImpl.class); 
+    
     @Override
     public List<Member> list(int pageNo, int pageSize, Map<String, Object> options) {
+        
+        logger.debug("MemberService.list()..... 호출됨!");
         
         HashMap<String,Object> params = new HashMap<>();
         params.put("startIndex", (pageNo - 1) * pageSize);
